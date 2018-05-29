@@ -5,4 +5,5 @@ This project implements a data logger for instruments.
 
 ## Development
 The following screenshot shows the application in development:
+
 ![Development Screenshot](docs/ScreenShot.png)
