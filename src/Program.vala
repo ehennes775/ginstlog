@@ -95,6 +95,15 @@ namespace ginstlog
 
             try
             {
+                var provider = new Gtk.CssProvider();
+            
+                provider.load_from_resource("/com/github/ehennes775/ginstlog/ginstlog.css");
+            
+                Gtk.StyleContext.add_provider_for_screen(
+                    Gdk.Screen.get_default(),
+                    provider,
+                    600
+                    );
             }
             catch (Error error)
             {
