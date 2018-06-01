@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<interface>
+	<template class="ginstlogMainWindow" parent="GtkApplicationWindow">
+		<child>
+			<object class="GtkBox" id="content_box">
+				<property name="orientation">vertical</property>
+				<property name="visible">TRUE</property>
+				<child>
+					<object class="GtkHeaderBar" id="header">
+						<property name="visible">TRUE</property>
+						<child type="title">
+							<object class="GtkStackSwitcher" id="tabs">
+								<property name="margin">3</property>
+								<property name="visible">TRUE</property>
+								<property name="stack">stack</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkMenuButton" id="gears">
+								<property name="visible">True</property>
+								<property name="direction">none</property>
+								<property name="use-popover">True</property>
+								<style>
+									<class name="image-button"/>
+								</style>
+							</object>
+							<packing>
+								<property name="pack-type">end</property>
+							</packing>
+						</child>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStack" id="stack">
+						<property name="visible">True</property>
+						<child>
+							<object class="GtkGrid" id="instrument-rack-grid">
+								<property name="column-homogeneous">TRUE</property>
+								<property name="column-spacing">1</property>
+								<style>
+									<class name="instrument-rack"/>
+								</style>
+							</object>
+							<packing>
+								<property name="name">instruments</property>
+								<property name="title">Instruments</property>
+							</packing>
+						</child>
+						<child>
+							<object class="GtkGrid" id="chart-recorder-grid">
+								<property name="column-homogeneous">TRUE</property>
+								<property name="column-spacing">1</property>
+								<style>
+									<class name="instrument-rack"/>
+								</style>
+								<child>
+									<object class="GtkLabel" id="chart-recorder-label">
+										<property name="label">Chart recorder not implemented.</property>
+									</object>
+								</child>
+							</object>
+							<packing>
+								<property name="name">chart-recorder</property>
+								<property name="title">Chart Recorder</property>
+							</packing>
+						</child>
+						<child>
+							<object class="GtkGrid" id="data-logger-grid">
+								<property name="column-homogeneous">TRUE</property>
+								<property name="column-spacing">1</property>
+								<style>
+									<class name="instrument-rack"/>
+								</style>
+								<child>
+									<object class="GtkLabel" id="data-logger-label">
+										<property name="label">Data logger not implemented.</property>
+									</object>
+								</child>
+							</object>
+							<packing>
+								<property name="name">data-logger</property>
+								<property name="title">Data Logger</property>
+							</packing>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>
+

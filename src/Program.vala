@@ -43,6 +43,13 @@ namespace ginstlog
         {
             try
             {
+                var window = new MainWindow();
+
+                return_if_fail(window != null);
+
+                this.add_window(window);
+
+                window.show_all();
             }
             catch (Error error)
             {
@@ -63,6 +70,13 @@ namespace ginstlog
             {
                 try
                 {
+                    var window = new MainWindow(/*file*/);
+
+                    return_if_fail(window != null);
+
+                    this.add_window(window);
+
+                    window.show_all();
                 }
                 catch (Error error)
                 {

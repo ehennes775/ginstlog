@@ -14,6 +14,7 @@ bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
 	Instrument.vala \
+	MainWindow.vala \
 	Measurement.vala \
 	Program.vala \
 	Temperature.vala \
