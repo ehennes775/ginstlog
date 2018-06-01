@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <interface>
-	<template class="ginstlogThermometerWidget" parent="GtkBin">
+	<template class="ginstlogThermometerWidget" parent="GtkGrid">
 		<style>
 			<class name="instrument-case"/>
 		</style>
