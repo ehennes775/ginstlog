@@ -14,11 +14,13 @@ bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
 	Instrument.vala \
+	InstrumentError.vala \
 	MainWindow.vala \
 	Measurement.vala \
 	Program.vala \
 	Temperature.vala \
 	TemperatureUnits.vala \
+	Thermometer.vala \
 	ThermometerWidget.vala \
 	$(BUILT_SOURCES)
 

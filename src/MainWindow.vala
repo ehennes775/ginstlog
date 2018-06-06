@@ -27,8 +27,13 @@ namespace ginstlog
         construct
         {
             delete_event.connect(on_delete_event);
-            
-            m_instrument_rack.add(new ThermometerWidget());
+
+            var t = new Thermometer();
+
+            var t1 = new ThermometerWidget();
+            t1.instrument = t;
+
+            m_instrument_rack.add(t1);
             m_instrument_rack.add(new ThermometerWidget());
             m_instrument_rack.add(new ThermometerWidget());
         }

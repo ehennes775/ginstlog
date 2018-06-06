@@ -8,5 +8,24 @@ namespace ginstlog
      */
     public abstract class Measurement : Object
     {
+        /**
+         * The index of the channel on the instrument
+         */
+        public int channel_index
+        {
+            get;
+            construct;
+            default = 0;
+        }
+
+
+        /**
+         * The index of the channel on the instrument
+         */
+        public string readout_value
+        {
+           get;
+           construct;
+        }
     }
 }
