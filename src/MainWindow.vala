@@ -55,6 +55,7 @@ namespace ginstlog
          */
         public MainWindow.with_configuration(Configuration configuration)
         {
+            configuration.create_instruments();
         }
 
 
