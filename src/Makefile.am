@@ -13,6 +13,7 @@ $(BUILT_SOURCES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --generat
 bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
+	Configuration.vala \
 	Instrument.vala \
 	InstrumentError.vala \
 	MainWindow.vala \

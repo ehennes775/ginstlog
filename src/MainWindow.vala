@@ -48,6 +48,17 @@ namespace ginstlog
 
 
         /**
+         * Construct the main window using a configuration
+         *
+         * @param configuration The configuration to use for constructing the
+         * MainWindow.
+         */
+        public MainWindow.with_configuration(Configuration configuration)
+        {
+        }
+
+
+        /**
          * The grid widget containing the instruments
          */
         [GtkChild(name="instrument-rack-grid")]
