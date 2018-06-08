@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <InstrumentTable>
+        <Instrument id="0">
+            <Name>Dual Thermometer</Name>
+            <PollInterval>4000 ms</PollInterval>
+            <Measurement>
+                <Channel index="0">
+                    <Name>T1</Name>
+                </Channel>
+                <Channel index="1">
+                    <Name>T2</Name>
+                </Channel>
+            </Measurement>
+            <Communication activeId="0">
+                <SerialDevice id="0">
+                    <DeviceFile>/dev/ttyUSB0</DeviceFile>
+                    <Timeout>2000 ms</Timeout>
+                </SerialDevice>
+                <SerialServer id="1">
+                    <Address>127.0.0.1</Address>
+                    <Timeout>2000 ms</Timeout>
+                </SerialServer>
+            </Communication>
+        </Instrument>
+    </InstrumentTable>
+</Configuration>
