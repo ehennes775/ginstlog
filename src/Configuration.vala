@@ -109,9 +109,7 @@ namespace ginstlog
             requires(node != null)
 
         {
-            stdout.printf(@"$(node->name)\n");
-
-            return new Thermometer();
+            return InstrumentFactoryLookup.create_instrument(node);
         }
     }
 }
