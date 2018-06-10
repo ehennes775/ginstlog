@@ -11,9 +11,9 @@ namespace ginstlog
         /**
          *
          *
-         * @param node
+         * @param path_context
          * @return
          */
-        public abstract Instrument create_instrument(Xml.Node* node) throws Error;
+        public abstract Instrument create_instrument(Xml.XPath.Context path_context) throws Error;
     }
 }

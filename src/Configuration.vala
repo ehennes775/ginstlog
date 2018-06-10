@@ -109,7 +109,18 @@ namespace ginstlog
             requires(node != null)
 
         {
-            return InstrumentFactoryLookup.create_instrument(node);
+            var path_context = new Xml.XPath.Context(m_document);
+
+            path_context.node = node;
+
+            try
+            {
+                return InstrumentFactoryLookup.create_instrument(path_context);
+            }
+            finally
+            {
+
+            }
         }
     }
 }

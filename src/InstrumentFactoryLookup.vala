@@ -39,13 +39,20 @@ namespace ginstlog
          * @param node
          * @return
          */
-        public Instrument create_instrument(Xml.Node* node) throws Error
+        public static Instrument create_instrument(Xml.XPath.Context path_context) throws Error
 
-            requires(m_lookup != null)
-            requires(node != null)
+            //requires(m_lookup != null)
+            requires(path_context.node != null)
 
         {
-            var name = node->name;
+            if (m_lookup == null)
+            {
+                m_lookup = create_lookup();
+
+                return_if_fail(m_lookup != null);
+            }
+
+            var name = path_context.node->name;
 
             var factory = m_lookup[name];
 
@@ -54,7 +61,7 @@ namespace ginstlog
                 throw new ConfigurationError.GENERIC(@"");
             }
 
-            var instrument = factory.create_instrument(node);
+            var instrument = factory.create_instrument(path_context);
 
             if (instrument == null)
             {

@@ -10,120 +10,184 @@ namespace ginstlog
     {
         /**
          *
+         */
+        public string channel_prefix
+        {
+            get;
+            construct;
+            default = "T";
+        }
+
+
+        /**
          *
-         * @param node
+         *
+         * @param path_context
          * @return
          */
-        public override Instrument create_instrument(Xml.Node* node) throws Error
+        public override Instrument create_instrument(Xml.XPath.Context path_context) throws Error
 
-            requires(node != null)
+            requires(path_context.node != null)
 
         {
-            var activeId = 0;
+            var serial_device = create_active_device(path_context);
+            var channels = create_channels(path_context);
 
-            var path_context = new Xml.XPath.Context(node);
+            return new Thermometer(serial_device);
+        }
 
-            var path_result = path_context.eval_expression(
-                @"./DeviceTable/*/@activeId"
+
+
+
+        /**
+         *
+         */
+        private Channel create_channel(Xml.Node* node) throws Error
+
+            requires(node != null)
+            requires(node->doc != null)
+
+        {
+            var path_context = new Xml.XPath.Context(node->doc);
+
+            path_context.node = node;
+
+            var index = XmlUtility.get_path_int(
+                path_context,
+                "./@index"
                 );
 
+            var default_name = make_default_channel_name(index);
+
+            var name = XmlUtility.get_optional_string(
+                path_context,
+                "./Name",
+                default_name
+                );
+
+            return new Channel(index, default_name, name);
+        }
+
+
+        /**
+         *
+         */
+        private Channel[] create_channels(Xml.XPath.Context path_context) throws Error
+        {
             var path_result = path_context.eval_expression(
-                @"./DeviceTable/*[@id='$(activeId)']"
+                @"./ChannelTable/Channel"
                 );
 
             try
             {
-                return new Thermometer();
+                return_val_if_fail(
+                    path_result != null,
+                    null
+                    );
+
+                return_val_if_fail(
+                    path_result->type == Xml.XPath.ObjectType.NODESET,
+                    null
+                    );
+
+                return_val_if_fail(
+                    path_result->nodesetval != null,
+                    null
+                    );
+
+                var count = path_result->nodesetval->length();
+
+                var channel_table = new Channel[count];
+
+                for (int node_index = 0; node_index < count; node_index++)
+                {
+                    var node = path_result->nodesetval->item(node_index);
+
+                    var channel = create_channel(node);
+
+                    if ((channel.index < 0) || (channel.index >= count))
+                    {
+                        throw new ConfigurationError.GENERIC(
+                            @"Channel index $(channel.index) out of range [0,$(count))"
+                            );
+                    }
+
+                    if (channel_table[channel.index] != null)
+                    {
+                        throw new ConfigurationError.GENERIC(
+                            @"Duplicate channel index $(channel.index)"
+                            );
+                    }
+
+                    channel_table[channel.index] = channel;
+                }
+
+                return channel_table;
             }
             finally
             {
                 delete path_result;
             }
         }
-    }
 
 
+        /**
+         *
+         */
+        private SerialDevice create_device(Xml.XPath.Context path_context) throws Error
 
-    private Channel create_channel(Xml.Node* node) throws Error
+            requires(path_context.node != null)
+            requires(path_context.node->name == "SerialDevice")
 
-        requires(node != null)
-
-    {
-       var index = 0;
-       var default_name = make_default_channel_name(index);
-       var name = "T1";
-
-       return new Channel(index, default_name, name);
-    }
-
-
-    private Channel[] create_channels(Xml.XPath.Context path_context) throws Error
-    {
-        var path_result = path_context.eval_expression(
-            @"./ChannelTable/Channel"
-            );
-
-        try
         {
-            return_val_if_fail(
-                path_result != null,
-                null
+            var device_file = XmlUtility.get_required_string(
+                path_context,
+                "./DeviceFile"
                 );
 
-            return_val_if_fail(
-                path_result->type == Xml.XPath.ObjectType.NODESET,
-                null
+            var timeout = XmlUtility.get_required_string(
+                path_context,
+                "./Timeout"
                 );
 
-            return_val_if_fail(
-                path_result->nodesetval != null,
-                null
-                );
-
-            var count = path_result->nodesetval->length();
-
-            var channel_table = new Channel[count];
-
-            for (int node_index = 0; node_index < count; node_index++)
-            {
-                var node = path_result->nodesetval->item(node_index);
-
-                var channel = create_channel(node);
-
-                if ((channel.index < 0) || (channel.index >= count))
-                {
-                    throw new ConfigurationError.GENERIC(
-                        @"Channel index $(channel.index) out of range [0,$(count))"
-                        );
-                }
-
-                if (channel_table[channel.index] != null)
-                {
-                    throw new ConfigurationError.GENERIC(
-                        @"Duplicate channel index $(channel.index)"
-                        );
-                }
-
-                channel_table[channel.index] = channel;
-            }
-
-            return channel_table;
+            return new SerialDevice(device_file, timeout);
         }
-        finally
+
+
+        /**
+         *
+         */
+        private SerialDevice create_active_device(Xml.XPath.Context path_context) throws Error
         {
-            delete path_result;
+            var activeId = XmlUtility.get_required_string(
+                path_context,
+                "./DeviceTable/@activeId"
+                );
+
+            var device_node = XmlUtility.get_required_node(
+                path_context,
+                @"./DeviceTable/*[@id=$(activeId)]"
+                );
+
+            var device_path_context = new Xml.XPath.Context(device_node->doc);
+            device_path_context.node = device_node;
+
+            return create_device(device_path_context);
         }
-    }
 
 
-    /**
-     *
-     */
-    private string make_default_channel_name(int index)
+        /**
+         * Create a default name for a thermometer channel
+         *
+         * @param node The zero based channel index
+         * @return A default name for the channel
+         */
+        private string make_default_channel_name(int index)
 
-        requires(index >= 0)
+            requires(index >= 0)
 
-    {
-        return @"$(channel_prefix)$(index + 1)";
+        {
+            return @"T$(index + 1)";
+        }
     }
 }

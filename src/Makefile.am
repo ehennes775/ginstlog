@@ -13,16 +13,23 @@ $(BUILT_SOURCES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --generat
 bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
+	Channel.vala \
 	Configuration.vala \
+	ConfigurationError.vala \
 	Instrument.vala \
 	InstrumentError.vala \
+	InstrumentFactory.vala \
+	InstrumentFactoryLookup.vala \
 	MainWindow.vala \
 	Measurement.vala \
 	Program.vala \
+	SerialDevice.vala \
 	Temperature.vala \
 	TemperatureUnits.vala \
 	Thermometer.vala \
+	ThermometerFactory.vala \
 	ThermometerWidget.vala \
+	XmlUtility.vala \
 	$(BUILT_SOURCES)
 
 ginstlog_LDADD = -lm $(DEPS_LIBS)

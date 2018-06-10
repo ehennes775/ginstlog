@@ -25,6 +25,16 @@ namespace ginstlog
         /**
          *
          */
+        public SerialDevice serial_device
+        {
+            get;
+            construct;
+        }
+
+
+        /**
+         *
+         */
         public double t1
         {
             get;
@@ -47,102 +57,14 @@ namespace ginstlog
         /**
          * Construct the thermometer
          */
-        public Thermometer() throws Error
+        public Thermometer(SerialDevice serial_device) throws Error
         {
             Object(
-                channel_count : 2
+                channel_count : 2,
+                serial_device : serial_device
                 );
 
-            m_fd = Posix.open("/dev/ttyUSB0", Posix.O_RDWR | Posix.O_NOCTTY);
-
-            if (m_fd == -1)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Unable to open serial device: $(inner)\n");
-            }
-
-            if (!Posix.isatty(m_fd))
-            {
-                // throw
-                stdout.printf("Error setting the serial device configuraion\n");
-            }
-
-            Posix.termios config;
-
-            var status = Posix.tcgetattr(m_fd, out config);
-
-            if (status < 0)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Error getting the serial device configuraion: $(inner)\n");
-            }
-
-            config.c_iflag &= ~Posix.IGNBRK;
-            config.c_iflag &= ~Posix.BRKINT;
-            config.c_iflag &= ~Posix.ICRNL;
-            config.c_iflag &= ~Posix.INLCR;
-            config.c_iflag &= ~Posix.PARMRK;
-            config.c_iflag &= ~Posix.INPCK;
-            config.c_iflag &= ~Posix.ISTRIP;
-            config.c_iflag &= ~Posix.IXON;
-
-
-            config.c_lflag &= ~Posix.OCRNL;
-            config.c_lflag &= ~Posix.ONLCR;
-            config.c_lflag &= ~Posix.ONLRET;
-            config.c_lflag &= ~Posix.ONOCR;
-            //config.c_lflag &= ~Posix.ONOEOT;
-            config.c_lflag &= ~Posix.OFILL;
-            //config.c_lflag &= ~Posix.OLCUC;
-            config.c_lflag &= ~Posix.OPOST;
-
-
-
-            config.c_lflag &= ~Posix.ECHO;
-            config.c_lflag &= ~Posix.ECHONL;
-            config.c_lflag &= ~Posix.ICANON;
-            config.c_lflag &= ~Posix.IEXTEN;
-            config.c_lflag &= ~Posix.ISIG;
-
-
-            status = Posix.cfsetispeed(ref config, SERIAL_SPEED);
-
-            if (status < 0)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Error setting the input baud rate: $(inner)\n");
-            }
-
-            status = Posix.cfsetospeed(ref config, SERIAL_SPEED);
-
-            if (status < 0)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Error setting the output baud rate: $(inner)\n");
-            }
-
-            config.c_cflag &= ~Posix.CSIZE;
-            config.c_cflag |= SERIAL_SIZE;
-
-            config.c_cflag &= ~ Posix.PARENB;
-
-
-            config.c_cc[Posix.VMIN] = 0;
-            config.c_cc[Posix.VTIME] = SERIAL_TIMEOUT;
-
-
-            status = Posix.tcsetattr(m_fd, Posix.TCSAFLUSH, config);
-
-            if (status < 0)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Error setting the serial device configuraion: $(inner)\n");
-            }
+            serial_device.connect();
 
             Idle.add(
                 () => { update(); return true; }
@@ -157,7 +79,6 @@ namespace ginstlog
          */
         ~Thermometer()
         {
-            Posix.close(m_fd);
         }
 
 
@@ -169,19 +90,19 @@ namespace ginstlog
 
 		public void toggle_hold() throws Error
 		{
-            send_command(TOGGLE_HOLD_COMMAND);
+            serial_device.send_command(TOGGLE_HOLD_COMMAND);
 		}
 
 
 		public void toggle_time() throws Error
 		{
-            send_command(TOGGLE_TIME_COMMAND);
+            serial_device.send_command(TOGGLE_TIME_COMMAND);
 		}
 
 
 		public void change_units() throws Error
 		{
-            send_command(CHANGE_UNITS_COMMAND);
+            serial_device.send_command(CHANGE_UNITS_COMMAND);
 		}
 
 
@@ -194,9 +115,9 @@ namespace ginstlog
         {
             try
             {
-                send_command(READ_COMMAND);
+                serial_device.send_command(READ_COMMAND);
 
-                var response = receive_response(10);
+                var response = serial_device.receive_response(10);
 
                 if ((response[0] != 0x02) || (response[9] != 0x03))
                 {
@@ -321,30 +242,6 @@ namespace ginstlog
 
 
         /**
-         * The baud rate for this thermometer is fixed at 9600.
-         */
-        private static const Posix.speed_t SERIAL_SPEED = Posix.B9600;
-
-
-        /**
-         * The character size for this thermometer is fixed at 8 bits.
-         */
-        private static const Posix.tcflag_t SERIAL_SIZE = Posix.CS8;
-
-
-        /**
-         * The timeout waiting for a response in tenths of seconds.
-         */
-        private static const Posix.cc_t SERIAL_TIMEOUT = 20;
-
-
-        /**
-         * The file descriptor for the serial device
-         */
-        private int m_fd;
-
-
-        /**
          * Decode both BCD digits in a byte
          *
          * The value 0x0B decodes to a "blank."
@@ -439,65 +336,6 @@ namespace ginstlog
             }
 
             return binary;
-        }
-
-
-        /**
-         * Receive a response from the thermometer
-         *
-         * @param size The size of the expected response in characters
-         */
-        private uint8[] receive_response(int length) throws Error
-
-            ensures(result.length == length)
-
-        {
-            var buffer = new uint8[length];
-            size_t count = 0;
-
-            while (count < length)
-            {
-                var status = Posix.read(m_fd, &buffer[count], length - count);
-
-                if (status < 0)
-                {
-                    var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                    throw new InstrumentError.GENERIC(@"Error reading from serial device: $(inner)\n");
-                }
-
-                if (status == 0)
-                {
-                    throw new InstrumentError.COMMUNICATION_TIMEOUT(@"Communication timeout");
-                }
-
-                count += status;
-            }
-
-            return buffer;
-        }
-
-
-        /**
-         * Send a command to the thermometer
-         *
-         * @param command The command to send to the thermometer
-         */
-        private void send_command(uint8[] command) throws Error
-        {
-            //for (int code=-1; code >-100; code--)
-           // {
-           //   stdout.printf("%4d: %s\n", code, strerror(code));
-            //}
-
-            var status = Posix.write(m_fd, command, command.length);
-
-            if (status < 0)
-            {
-                var inner = Posix.strerror(Posix.errno) ?? "$(Posix.errno)";
-
-                throw new InstrumentError.GENERIC(@"Error writing to serial device: $(inner)\n");
-            }
         }
     }
 }

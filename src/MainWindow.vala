@@ -28,7 +28,8 @@ namespace ginstlog
         {
             delete_event.connect(on_delete_event);
 
-            var t = new Thermometer();
+            var sd = new SerialDevice("/dev/ttyUSB0", "2000 ms");
+            var t = new Thermometer(sd);
 
             var t1 = new ThermometerWidget();
             t1.instrument = t;

@@ -21,7 +21,7 @@ namespace ginstlog
         /**
          * The zero based index of the channel
          */
-        public string index
+        public int index
         {
             get;
             construct;
@@ -47,7 +47,7 @@ namespace ginstlog
          */
         public Channel(int index, string default_name, string? name = null)
 
-            requires(default_name.len() > 0)
+            requires(default_name.length > 0)
             requires(index >= 0)
 
         {
