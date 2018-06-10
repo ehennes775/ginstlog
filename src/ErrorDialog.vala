@@ -11,10 +11,10 @@ namespace ginstlog
         /**
          *
          */
-        public static void run(Error error)
+        public static void run(Error error, Gtk.Window? parent = null)
         {
             var dialog = new Gtk.MessageDialog(
-                null,
+                parent,
                 Gtk.DialogFlags.MODAL,
                 Gtk.MessageType.ERROR,
                 Gtk.ButtonsType.OK,
