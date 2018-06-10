@@ -12,6 +12,12 @@ namespace ginstlog
     public class Thermometer : Instrument
     {
         /**
+         * A default name for this thermometer
+         */
+        public const string DEFAULT_NAME = "Dual Thermometer";
+
+
+        /**
          * The interval to wait between polls, in microseconds
          */
         public ulong interval
@@ -33,7 +39,7 @@ namespace ginstlog
             Object(
                 channel_count : 2,
                 interval : 500000,
-                name : "B&K Precision 715"
+                name : DEFAULT_NAME
                 );
 
             m_channel = channels;
@@ -83,82 +89,6 @@ namespace ginstlog
 		{
             m_serial_device.send_command(CHANGE_UNITS_COMMAND);
 		}
-
-
-        /**
-         *
-         *
-         *
-         */
-        public void update() throws Error
-        {
-            try
-            {
-                m_serial_device.send_command(READ_COMMAND);
-
-                var response = m_serial_device.receive_response(10);
-
-                if ((response[0] != 0x02) || (response[9] != 0x03))
-                {
-                    throw new InstrumentError.FRAMING_ERROR("Framing error\n");
-                }
-
-                var time_mode = ((response[1] & 0x08) == 0x08);
-
-                if (!time_mode)
-                {
-                    var units = 0;
-
-                    if ((response[2] & 0x01) == 0x01)
-                    {
-                        stdout.printf("Open loop T1 error\n");
-                    }
-                    else
-                    {
-                        var temp_t1 = (double) decode_bcd_string(response[3:5]);
-
-                        if ((response[2] & 0x02) == 0x02)
-                        {
-                            temp_t1 = -temp_t1;
-                        }
-
-                        if ((response[2] & 0x04) == 0x00)
-                        {
-                            temp_t1 *= 0.1;
-                        }
-
-                        var to1 = new Temperature(m_channel[0], temp_t1);
-                        m_queue.push(to1);
-                    }
-
-                    if ((response[2] & 0x08) == 0x08)
-                    {
-                        stdout.printf("Open loop T2 error\n");
-                    }
-                    else
-                    {
-                        var temp_t2 = (double) decode_bcd_string(response[7:9]);
-
-                        if ((response[2] & 0x10) == 0x10)
-                        {
-                            temp_t2 = -temp_t2;
-                        }
-
-                        if ((response[2] & 0x20) == 0x00)
-                        {
-                            temp_t2 *= 0.1;
-                        }
-
-                        var to2 = new Temperature(m_channel[1], temp_t2);
-                        m_queue.push(to2);
-                    }
-                }
-            }
-            catch (Error error)
-            {
-                stderr.printf("%s\n", error.message);
-            }
-        }
 
 
         /**
@@ -343,9 +273,64 @@ namespace ginstlog
         }
 
 
+        private string tempf(bool negative, uint8[] bytes, int places) throws Error
+        {
+            var builder = new StringBuilder();
+
+            if (negative)
+            {
+                builder.append_c('-');
+            }
+
+            var allow = true;
+            var remaining_digits = 2 * bytes.length;
+
+            foreach (var @byte in bytes)
+            {
+                var upper_nibble = (@byte >> 4) & 0x0F;
+                var upper_decoded = decode_bcd_nibble(upper_nibble, allow);
+
+                if (upper_nibble != BLANK_NIBBLE)
+                {
+                    builder.append_c((char)('0' + upper_decoded));
+
+                    allow = false;
+                }
+
+                remaining_digits--;
+
+                if (remaining_digits == places)
+                {
+                    builder.append_c('.');
+                }
+
+                var lower_nibble = @byte & 0x0F;
+                var lower_decoded = decode_bcd_nibble(lower_nibble, allow);
+
+                if (lower_nibble != BLANK_NIBBLE)
+                {
+                    builder.append_c((char)('0' + lower_decoded));
+
+                    allow = false;
+                }
+
+                remaining_digits--;
+            }
+
+            return builder.str;
+        }
+
 
         /**
+         * Poll for recent measurements
          *
+         * Called by the GUI thread to check if another measurement is
+         * available.
+         *
+         * TODO: Needs a weak reference back to the main class to dispose of
+         * properly.
+         *
+         * @return
          */
         private bool poll_measurement()
         {
@@ -361,7 +346,12 @@ namespace ginstlog
 
 
         /**
+         * Read measurements from the instrument
          *
+         * TODO: Needs a weak reference back to the main class to dispose of
+         * properly.
+         *
+         * @return A dummy value
          */
         private int read_measurements()
         {
@@ -373,6 +363,80 @@ namespace ginstlog
             }
 
             return 0;
+        }
+
+
+        /**
+         *
+         *
+         *
+         */
+        private void update()
+        {
+            try
+            {
+                m_serial_device.send_command(READ_COMMAND);
+
+                var response = m_serial_device.receive_response(10);
+
+                if ((response[0] != 0x02) || (response[9] != 0x03))
+                {
+                    throw new InstrumentError.FRAMING_ERROR("Framing error\n");
+                }
+
+                var time_mode = ((response[1] & 0x08) == 0x08);
+
+                if (!time_mode)
+                {
+                    var units = ((response[1] & 0x80) == 0x80) ?
+                        TemperatureUnits.CELSIUS : TemperatureUnits.FAHRENHEIT;
+
+                    if ((response[2] & 0x01) == 0x01)
+                    {
+                        stdout.printf("Open loop T1 error\n");
+                    }
+                    else
+                    {
+                        var negative = ((response[2] & 0x02) == 0x02);
+                        var tenths = ((response[2] & 0x04) == 0x00);
+
+                        var t1_readout = tempf(
+                            negative,
+                            response[3:5],
+                            tenths ? 1 : 0
+                            );
+
+
+                        var t1 = new Temperature(m_channel[0], t1_readout, units);
+
+                        m_queue.push(t1);
+                    }
+
+                    if ((response[2] & 0x08) == 0x08)
+                    {
+                        stdout.printf("Open loop T2 error\n");
+                    }
+                    else
+                    {
+                        var negative = ((response[2] & 0x10) == 0x10);
+                        var tenths = ((response[2] & 0x20) == 0x00);
+
+                        var t2_readout = tempf(
+                            negative,
+                            response[7:9],
+                            tenths ? 1 : 0
+                            );
+
+                        var t2 = new Temperature(m_channel[1], t2_readout, units);
+
+                        m_queue.push(t2);
+                    }
+                }
+            }
+            catch (Error error)
+            {
+                stderr.printf("%s\n", error.message);
+            }
         }
     }
 }
