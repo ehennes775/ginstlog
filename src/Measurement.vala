@@ -19,6 +19,13 @@ namespace ginstlog
         }
 
 
+        public string channel_name
+        {
+            get;
+            construct;
+        }
+
+
         /**
          * The index of the channel on the instrument
          */

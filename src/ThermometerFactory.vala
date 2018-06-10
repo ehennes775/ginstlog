@@ -33,7 +33,7 @@ namespace ginstlog
             var serial_device = create_active_device(path_context);
             var channels = create_channels(path_context);
 
-            return new Thermometer(serial_device);
+            return new Thermometer(channels, serial_device);
         }
 
 

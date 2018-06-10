@@ -4,12 +4,12 @@
 namespace ginstlog
 {
     /**
-     * Provides serial communications with an instument
+     * Provides serial communications with an instrument
      */
     public class SerialDevice : Object
     {
         /**
-         *
+         * The absolute path to the device file (e.g. /dev/ttyUSB0)
          */
         public string device_file
         {
@@ -31,14 +31,10 @@ namespace ginstlog
         /**
          * Initialize a new serial device
          *
-         * @param device_file
+         * @param device_file The absolute path to the device file
          * @param timeout
          */
         public SerialDevice(string device_file, string timeout)
-
-            requires(device_file.length > 0)
-            requires(timeout.length > 0)
-
         {
             Object(
                 device_file : device_file,
@@ -48,7 +44,7 @@ namespace ginstlog
 
 
         /**
-         *
+         * Disconnects, if needed.
          */
         ~SerialDevice()
         {
@@ -246,7 +242,9 @@ namespace ginstlog
 
 
         /**
+         * The file descriptor for the serial device
          *
+         * If the value is negative, then the device is not open.
          */
         private int m_fd = -1;
     }

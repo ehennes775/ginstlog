@@ -27,16 +27,6 @@ namespace ginstlog
         construct
         {
             delete_event.connect(on_delete_event);
-
-            var sd = new SerialDevice("/dev/ttyUSB0", "2000 ms");
-            var t = new Thermometer(sd);
-
-            var t1 = new ThermometerWidget();
-            t1.instrument = t;
-
-            m_instrument_rack.add(t1);
-            m_instrument_rack.add(new ThermometerWidget());
-            m_instrument_rack.add(new ThermometerWidget());
         }
 
 
@@ -45,6 +35,15 @@ namespace ginstlog
          */
         public MainWindow()
         {
+            //var sd = new SerialDevice("/dev/ttyUSB0", "2000 ms");
+            //var t = new Thermometer(sd);
+
+            var t1 = new ThermometerWidget();
+            //t1.instrument = t;
+
+            m_instrument_rack.add(t1);
+            m_instrument_rack.add(new ThermometerWidget());
+            m_instrument_rack.add(new ThermometerWidget());
         }
 
 
@@ -56,7 +55,16 @@ namespace ginstlog
          */
         public MainWindow.with_configuration(Configuration configuration)
         {
-            configuration.create_instruments();
+            var instruments = configuration.create_instruments();
+
+            foreach (var instrument in instruments)
+            {
+                var widget = new ThermometerWidget();
+
+                widget.instrument = instruments[0];
+
+                m_instrument_rack.add(widget);
+            }
         }
 
 

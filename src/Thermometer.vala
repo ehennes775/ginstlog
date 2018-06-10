@@ -12,62 +12,40 @@ namespace ginstlog
     public class Thermometer : Instrument
     {
         /**
-         *
+         * The interval to wait between polls, in microseconds
          */
-        public string name
-        {
-            get;
-            private set;
-            default = "B&K Precision 715";
-        }
-
-
-        /**
-         *
-         */
-        public SerialDevice serial_device
+        public ulong interval
         {
             get;
             construct;
-        }
-
-
-        /**
-         *
-         */
-        public double t1
-        {
-            get;
-            private set;
-            default = 0.0;
-        }
-
-
-        /**
-         *
-         */
-        public double t2
-        {
-            get;
-            private set;
-            default = 0.0;
+            default = 500000;
         }
 
 
         /**
          * Construct the thermometer
          */
-        public Thermometer(SerialDevice serial_device) throws Error
+        public Thermometer(
+            Channel[] channels,
+            SerialDevice serial_device
+            ) throws Error
         {
             Object(
                 channel_count : 2,
-                serial_device : serial_device
+                interval : 500000,
+                name : "B&K Precision 715"
                 );
 
-            serial_device.connect();
+            m_channel = channels;
+            m_serial_device = serial_device;
 
-            Idle.add(
-                () => { update(); return true; }
+            m_serial_device.connect();
+
+            Idle.add(poll_measurement);
+
+            m_thread = new Thread<int>(
+                @"Thread.$(name)",
+                read_measurements
                 );
         }
 
@@ -79,6 +57,7 @@ namespace ginstlog
          */
         ~Thermometer()
         {
+            Idle.remove_by_data(this);
         }
 
 
@@ -90,19 +69,19 @@ namespace ginstlog
 
 		public void toggle_hold() throws Error
 		{
-            serial_device.send_command(TOGGLE_HOLD_COMMAND);
+            m_serial_device.send_command(TOGGLE_HOLD_COMMAND);
 		}
 
 
 		public void toggle_time() throws Error
 		{
-            serial_device.send_command(TOGGLE_TIME_COMMAND);
+            m_serial_device.send_command(TOGGLE_TIME_COMMAND);
 		}
 
 
 		public void change_units() throws Error
 		{
-            serial_device.send_command(CHANGE_UNITS_COMMAND);
+            m_serial_device.send_command(CHANGE_UNITS_COMMAND);
 		}
 
 
@@ -115,9 +94,9 @@ namespace ginstlog
         {
             try
             {
-                serial_device.send_command(READ_COMMAND);
+                m_serial_device.send_command(READ_COMMAND);
 
-                var response = serial_device.receive_response(10);
+                var response = m_serial_device.receive_response(10);
 
                 if ((response[0] != 0x02) || (response[9] != 0x03))
                 {
@@ -148,10 +127,8 @@ namespace ginstlog
                             temp_t1 *= 0.1;
                         }
 
-                        t1 = temp_t1;
-
-                        var to1 = new Temperature(0, temp_t1);
-                        update_readout(to1);
+                        var to1 = new Temperature(m_channel[0], temp_t1);
+                        m_queue.push(to1);
                     }
 
                     if ((response[2] & 0x08) == 0x08)
@@ -172,10 +149,8 @@ namespace ginstlog
                             temp_t2 *= 0.1;
                         }
 
-                        t2 = temp_t2;
-
-                        var to2 = new Temperature(1, temp_t2);
-                        update_readout(to2);
+                        var to2 = new Temperature(m_channel[1], temp_t2);
+                        m_queue.push(to2);
                     }
                 }
             }
@@ -185,7 +160,12 @@ namespace ginstlog
             }
         }
 
+
+        /**
+         *
+         */
         private static uint8 BLANK_NIBBLE = 0x0B;
+
 
         /**
          *
@@ -239,6 +219,30 @@ namespace ginstlog
          *
          */
         private static const uint8[] TOGGLE_TIME_COMMAND = { 'T' };
+
+
+        /**
+         *
+         */
+        private Channel[] m_channel;
+
+
+        /**
+         *
+         */
+        private AsyncQueue<Measurement> m_queue = new AsyncQueue<Measurement>();
+
+
+        /**
+         * The serial device to communicate with the instrument
+         */
+        private SerialDevice m_serial_device;
+
+
+        /**
+         *
+         */
+        private Thread<int> m_thread;
 
 
         /**
@@ -336,6 +340,39 @@ namespace ginstlog
             }
 
             return binary;
+        }
+
+
+
+        /**
+         *
+         */
+        private bool poll_measurement()
+        {
+            var measurement = m_queue.try_pop();
+
+            if (measurement != null)
+            {
+                update_readout(measurement);
+            }
+
+            return Source.CONTINUE;
+        }
+
+
+        /**
+         *
+         */
+        private int read_measurements()
+        {
+            while (true)
+            {
+                Thread.usleep(interval);
+
+                update();
+            }
+
+            return 0;
         }
     }
 }

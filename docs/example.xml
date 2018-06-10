@@ -6,10 +6,10 @@
             <PollInterval>4000 ms</PollInterval>
             <ChannelTable>
                 <Channel index="0">
-                    <Name>T1</Name>
+                    <Name>T1: Ambient</Name>
                 </Channel>
                 <Channel index="1">
-                    <Name>T2</Name>
+                    <Name>T2: Enclosure</Name>
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">

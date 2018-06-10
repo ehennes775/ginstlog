@@ -31,7 +31,15 @@ namespace ginstlog
                 {
                     instrument.update_readout.connect(on_update_readout);
 
-                    /* Show/hide readouts */
+                    b_name_label.label = instrument.name;
+
+                    for (var index = 0; index < READOUT_COUNT; index++)
+                    {
+                        var visible = index < b_instrument.channel_count;
+
+                        b_label[index].set_visible(visible);
+                        b_readout[index].set_visible(visible);
+                    }
                 }
                 else
                 {
@@ -54,14 +62,19 @@ namespace ginstlog
          */
         public void parser_finished (Gtk.Builder builder)
         {
+            b_label = new Gtk.Label[READOUT_COUNT];
             b_readout = new Gtk.Label[READOUT_COUNT];
 
             for (var index = 0; index < READOUT_COUNT; index++)
             {
-                var name = @"t$(index+1)-readout";
+                var label_name = @"t$(index+1)-label";
 
-                b_readout[index] = builder.get_object(name) as Gtk.Label;
+                b_label[index] = builder.get_object(label_name) as Gtk.Label;
+                return_if_fail(b_label[index] != null);
 
+                var readout_name = @"t$(index+1)-readout";
+
+                b_readout[index] = builder.get_object(readout_name) as Gtk.Label;
                 return_if_fail(b_readout[index] != null);
             }
         }
@@ -87,7 +100,19 @@ namespace ginstlog
         /**
          *
          */
+        [GtkChild(name="name-label")]
+        private Gtk.Label b_name_label;
+
+
+        /**
+         *
+         */
         private Gtk.Label[] b_readout;
+
+        /**
+         *
+         */
+        private Gtk.Label[] b_label;
 
 
         /**
@@ -106,8 +131,12 @@ namespace ginstlog
         {
             if (measurement.channel_index < b_readout.length)
             {
-                var readout = b_readout[measurement.channel_index];
+                var label = b_label[measurement.channel_index];
+                return_if_fail(label != null);
 
+                label.label = measurement.channel_name;
+
+                var readout = b_readout[measurement.channel_index];
                 return_if_fail(readout != null);
 
                 readout.label = measurement.readout_value;

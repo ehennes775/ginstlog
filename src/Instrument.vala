@@ -11,7 +11,7 @@ namespace ginstlog
         /**
          * Update UI readouts with a new measurement
          *
-         * @param measurement The measurement
+         * @param measurement The recent measurement
          */
         public signal void update_readout(Measurement measurement);
 
@@ -24,6 +24,17 @@ namespace ginstlog
             get;
             construct;
             default = 0;
+        }
+
+
+        /**
+         * Provides a user friendly name for the instrument
+         */
+        public string name
+        {
+            get;
+            construct;
+            default = "Instrument";
         }
     }
 }
