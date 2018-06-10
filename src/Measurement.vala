@@ -19,6 +19,9 @@ namespace ginstlog
         }
 
 
+        /**
+         * The name to display for the measurment
+         */
         public string channel_name
         {
             get;
@@ -27,7 +30,7 @@ namespace ginstlog
 
 
         /**
-         * The index of the channel on the instrument
+         *
          */
         public string readout_value
         {

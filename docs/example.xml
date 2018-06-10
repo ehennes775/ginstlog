@@ -45,6 +45,7 @@
                 </SerialServer>
             </DeviceTable>
         </Thermometer>
+        <!--
         <Thermometer id="2">
             <Name>Dual Thermometer</Name>
             <PollInterval>4000 ms</PollInterval>
@@ -89,5 +90,6 @@
                 </SerialServer>
             </DeviceTable>
         </Thermometer>
+        -->
     </InstrumentTable>
 </Configuration>

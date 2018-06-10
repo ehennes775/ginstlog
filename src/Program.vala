@@ -43,17 +43,13 @@ namespace ginstlog
         {
             try
             {
-                var window = new MainWindow();
-
-                return_if_fail(window != null);
-
-                this.add_window(window);
-
-                window.show_all();
+                throw new ConfigurationError.GENERIC(
+                    "The applcation requires a configuration file."
+                    );
             }
             catch (Error error)
             {
-                stderr.printf("%s\n", error.message);
+                ErrorDialog.run(error);
             }
         }
 
@@ -82,7 +78,7 @@ namespace ginstlog
                 }
                 catch (Error error)
                 {
-                    stderr.printf("%s\n", error.message);
+                    ErrorDialog.run(error);
                 }
             }
         }
@@ -109,7 +105,7 @@ namespace ginstlog
             }
             catch (Error error)
             {
-                stderr.printf("%s\n", error.message);
+                ErrorDialog.run(error);
             }
         }
     }

@@ -16,12 +16,14 @@ ginstlog_SOURCES = \
 	Channel.vala \
 	Configuration.vala \
 	ConfigurationError.vala \
+	ErrorDialog.vala \
 	Instrument.vala \
 	InstrumentError.vala \
 	InstrumentFactory.vala \
 	InstrumentFactoryLookup.vala \
 	MainWindow.vala \
 	Measurement.vala \
+	MeasurementFailure.vala \
 	Program.vala \
 	SerialDevice.vala \
 	Temperature.vala \
