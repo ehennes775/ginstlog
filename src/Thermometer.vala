@@ -12,7 +12,7 @@ namespace ginstlog
     public class Thermometer : Instrument
     {
         /**
-         * A default name for this thermometer
+         * The default name for this class of thermometer
          */
         public const string DEFAULT_NAME = "Dual Thermometer";
 
@@ -33,13 +33,14 @@ namespace ginstlog
          */
         public Thermometer(
             Channel[] channels,
+            string name,
             SerialDevice serial_device
             ) throws Error
         {
             Object(
                 channel_count : 2,
                 interval : 500000,
-                name : DEFAULT_NAME
+                name : name
                 );
 
             m_inner = new Inner(
@@ -63,39 +64,37 @@ namespace ginstlog
             if (m_inner != null)
             {
                 m_inner.update_readout.disconnect(on_update_readout);
-
                 m_inner.stop();
-
                 m_inner = null;
             }
         }
 
 
-		//public void change_units() throws Error
-		//{
-        //    send_command(CHANGE_UNITS_COMMAND);
-		//}
-
-
-		public void toggle_hold() throws Error
-		{
+        /**
+         *
+         */
+        public void toggle_hold() throws Error
+        {
             //m_serial_device.send_command(TOGGLE_HOLD_COMMAND);
-		}
+        }
 
 
-		public void toggle_time() throws Error
-		{
+        /**
+         *
+         */
+        public void toggle_time() throws Error
+        {
             //m_serial_device.send_command(TOGGLE_TIME_COMMAND);
-		}
+        }
 
 
-		public void change_units() throws Error
-		{
+        /**
+         *
+         */
+        public void change_units() throws Error
+        {
             //m_serial_device.send_command(CHANGE_UNITS_COMMAND);
-		}
-
-
-        private Inner? m_inner;
+        }
 
 
         /**
@@ -137,6 +136,7 @@ namespace ginstlog
                 m_queue = new AsyncQueue<Measurement>();
                 m_name = name;
                 m_serial_device = serial_device;
+                AtomicInt.set(ref m_stop, 0);
             }
 
 
@@ -165,6 +165,7 @@ namespace ginstlog
              */
             public void stop()
             {
+                AtomicInt.set(ref m_stop, 1);
                 Idle.remove_by_data(this);
             }
 
@@ -234,9 +235,18 @@ namespace ginstlog
              */
             private Channel[] m_channel;
 
+
+            /**
+             * The interval to wait between polls, in microseconds
+             */
             private ulong m_interval;
 
+
+            /**
+             * The name of the instrument
+             */
             private string m_name;
+
 
             /**
              * The serial device to communicate with the instrument
@@ -248,6 +258,9 @@ namespace ginstlog
              *
              */
             private AsyncQueue<Measurement> m_queue;
+
+
+            private int m_stop;
 
 
             /**
@@ -263,7 +276,7 @@ namespace ginstlog
              */
             private int read_measurements()
             {
-                while (true)
+                while (AtomicInt.get(ref m_stop) == 0)
                 {
                     Thread.usleep(m_interval);
 
@@ -480,8 +493,11 @@ namespace ginstlog
                                 tenths ? 1 : 0
                                 );
 
-
-                            var t1 = new Temperature(m_channel[0], t1_readout, units);
+                            var t1 = new Temperature(
+                                m_channel[0],
+                                t1_readout,
+                                units
+                                );
 
                             m_queue.push(t1);
                         }
@@ -501,7 +517,11 @@ namespace ginstlog
                                 tenths ? 1 : 0
                                 );
 
-                            var t2 = new Temperature(m_channel[1], t2_readout, units);
+                            var t2 = new Temperature(
+                                m_channel[1],
+                                t2_readout,
+                                units
+                                );
 
                             m_queue.push(t2);
                         }
@@ -517,7 +537,11 @@ namespace ginstlog
 
         /**
          *
-         *
+         */
+        private Inner? m_inner;
+
+
+        /**
          *
          */
         private void on_update_readout(Measurement measurement)

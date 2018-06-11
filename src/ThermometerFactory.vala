@@ -30,10 +30,23 @@ namespace ginstlog
             requires(path_context.node != null)
 
         {
-            var serial_device = create_active_device(path_context);
             var channels = create_channels(path_context);
 
-            return new Thermometer(channels, serial_device);
+            var name = XmlUtility.get_optional_string(
+                path_context,
+                "./Name",
+                Thermometer.DEFAULT_NAME
+                );
+
+            stdout.printf(@"$(name)\n");
+
+            var serial_device = create_active_device(path_context);
+
+            return new Thermometer(
+                channels,
+                name,
+                serial_device
+                );
         }
 
 
@@ -52,7 +65,7 @@ namespace ginstlog
 
             path_context.node = node;
 
-            var index = XmlUtility.get_path_int(
+            var index = XmlUtility.get_required_int(
                 path_context,
                 "./@index"
                 );

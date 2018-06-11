@@ -9,11 +9,45 @@ namespace ginstlog
     namespace XmlUtility
     {
         /**
+         *
+         *
          * @param path_context
          * @param relative_path
          * @return
          */
-        private int get_path_int(Xml.XPath.Context path_context, string relative_path) throws ConfigurationError
+        private ulong get_optional_ulong(Xml.XPath.Context path_context, string relative_path, ulong default_value) throws ConfigurationError
+        {
+            var content = get_optional_string(path_context, relative_path);
+
+            if (content != null)
+            {
+                uint64 @value = 0;
+
+                var success = uint64.try_parse(content, out @value);
+
+                if (!success)
+                {
+                    //throw new ConfigurationError.
+                }
+
+                if (@value > ulong.MAX)
+                {
+                    //throw new ConfigurationError.
+                }
+
+                return (int) @value;
+            }
+
+            return default_value;
+        }
+
+
+        /**
+         * @param path_context
+         * @param relative_path
+         * @return
+         */
+        private int get_required_int(Xml.XPath.Context path_context, string relative_path) throws ConfigurationError
         {
             var content = get_required_string(path_context, relative_path);
             int64 @value = 0;
