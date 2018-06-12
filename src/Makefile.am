@@ -17,6 +17,7 @@ ginstlog_SOURCES = \
 	Configuration.vala \
 	ConfigurationError.vala \
 	ErrorDialog.vala \
+	HumidityTempMeter314BWorker.vala \
 	Instrument.vala \
 	InstrumentError.vala \
 	InstrumentFactory.vala \
@@ -32,6 +33,8 @@ ginstlog_SOURCES = \
 	Temperature.vala \
 	TemperatureUnits.vala \
 	Thermometer.vala \
+	Thermometer306Worker.vala \
+	Thermometer3xxWorker.vala \
 	ThermometerFactory.vala \
 	ThermometerWidget.vala \
 	TtySerialDevice.vala \

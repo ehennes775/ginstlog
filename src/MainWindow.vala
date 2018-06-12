@@ -61,7 +61,7 @@ namespace ginstlog
             {
                 var widget = new ThermometerWidget();
 
-                widget.instrument = instruments[0];
+                widget.instrument = instrument;
 
                 m_instrument_rack.add(widget);
             }

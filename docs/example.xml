@@ -2,7 +2,7 @@
 <Configuration>
     <InstrumentTable>
         <Thermometer id="0">
-            <Name>Dual Thermometer #1</Name>
+            <Name>Dual Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
                 <Channel index="0">
@@ -24,7 +24,7 @@
             </DeviceTable>
         </Thermometer>
         <Thermometer id="1">
-            <Name>Dual Thermometer #2</Name>
+            <Name>Humidity Temperature Meter</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
                 <Channel index="0">
@@ -46,7 +46,7 @@
             </DeviceTable>
         </Thermometer>
         <Thermometer id="2">
-            <Name>Dual Thermometer #3</Name>
+            <Name>Four Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
                 <Channel index="0">
