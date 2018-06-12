@@ -26,11 +26,16 @@ ginstlog_SOURCES = \
 	MeasurementFailure.vala \
 	Program.vala \
 	SerialDevice.vala \
+	SerialDeviceFactory.vala \
+	SerialDeviceFactoryLookup.vala \
+	TcpSerialServer.vala \
 	Temperature.vala \
 	TemperatureUnits.vala \
 	Thermometer.vala \
 	ThermometerFactory.vala \
 	ThermometerWidget.vala \
+	TtySerialDevice.vala \
+	TtySerialDeviceFactory.vala \
 	XmlUtility.vala \
 	$(BUILT_SOURCES)
 

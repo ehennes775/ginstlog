@@ -14,7 +14,7 @@
             </ChannelTable>
             <DeviceTable activeId="0">
                 <SerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB4</DeviceFile>
+                    <DeviceFile>/dev/ttyUSB0</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </SerialDevice>
                 <SerialServer id="1">
@@ -36,7 +36,7 @@
             </ChannelTable>
             <DeviceTable activeId="0">
                 <SerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB5</DeviceFile>
+                    <DeviceFile>/dev/ttyUSB1</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </SerialDevice>
                 <SerialServer id="1">
@@ -58,7 +58,7 @@
             </ChannelTable>
             <DeviceTable activeId="0">
                 <SerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB6</DeviceFile>
+                    <DeviceFile>/dev/ttyUSB2</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </SerialDevice>
                 <SerialServer id="1">
@@ -80,7 +80,7 @@
             </ChannelTable>
             <DeviceTable activeId="0">
                 <SerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB7</DeviceFile>
+                    <DeviceFile>/dev/ttyUSB3</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </SerialDevice>
                 <SerialServer id="1">

@@ -18,6 +18,15 @@ namespace ginstlog
             default = "T";
         }
 
+        construct
+        {
+            m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
+
+            m_serial_device_factory_lookup.add(
+                new TtySerialDeviceFactory()
+                );
+        }
+
 
         /**
          *
@@ -37,8 +46,6 @@ namespace ginstlog
                 "./Name",
                 Thermometer.DEFAULT_NAME
                 );
-
-            stdout.printf(@"$(name)\n");
 
             var serial_device = create_active_device(path_context);
 
@@ -144,26 +151,19 @@ namespace ginstlog
         }
 
 
+        private SerialDeviceFactoryLookup m_serial_device_factory_lookup;
+
+
         /**
          *
          */
         private SerialDevice create_device(Xml.XPath.Context path_context) throws Error
 
+            requires(m_serial_device_factory_lookup != null)
             requires(path_context.node != null)
-            requires(path_context.node->name == "SerialDevice")
 
         {
-            var device_file = XmlUtility.get_required_string(
-                path_context,
-                "./DeviceFile"
-                );
-
-            var timeout = XmlUtility.get_required_string(
-                path_context,
-                "./Timeout"
-                );
-
-            return new SerialDevice(device_file, timeout);
+            return m_serial_device_factory_lookup.create(path_context);
         }
 
 
@@ -172,14 +172,14 @@ namespace ginstlog
          */
         private SerialDevice create_active_device(Xml.XPath.Context path_context) throws Error
         {
-            var activeId = XmlUtility.get_required_string(
+            var active_id = XmlUtility.get_required_string(
                 path_context,
                 "./DeviceTable/@activeId"
                 );
 
             var device_node = XmlUtility.get_required_node(
                 path_context,
-                @"./DeviceTable/*[@id=$(activeId)]"
+                @"./DeviceTable/*[@id=$(active_id)]"
                 );
 
             var device_path_context = new Xml.XPath.Context(device_node->doc);
