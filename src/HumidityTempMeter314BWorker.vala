@@ -22,9 +22,33 @@ namespace ginstlog
 
 
         /**
+         * When a name is not provided in the configuration file
+         */
+        public const string DEFAULT_NAME = "Humidity Temp Meter";
+
+
+        /**
          * Initialize a new instance
          */
         public HumidityTempMeter314BWorker()
+        {
+
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override void start()
+        {
+
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override void stop()
         {
 
         }
