@@ -15,7 +15,7 @@ namespace ginstlog
     public class Thermometer306Worker : Thermometer3xxWorker
     {
         /**
-         * Two temperature channels
+         * This instrument has two temperature channels
          */
         public const int CHANNEL_COUNT = 2;
 

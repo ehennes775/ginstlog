@@ -4,33 +4,32 @@
 namespace ginstlog
 {
     /**
-     * Background and thread for an unknown OEM humidity temp meter
+     * Background and thread for an unknown OEM thermometer
      *
      * Multple manufacturers provide a variant of this instrument. When queried
-     * over RS-232 for the model number, this instrument returns 315B.
+     * over RS-232 for the model number, this instrument returns 301.
      *
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
-     * || B&amp;K Precision || Model 720 || Not tested ||
-     * || B&amp;K Precision || Model 725 || Used for development ||
+     * || B&amp;K Precision || Model 710 || Used for development ||
      */
-    public class HumidityTempMeter314BWorker : Thermometer3xxWorker
+    public class Thermometer301Worker : Thermometer3xxWorker
     {
         /**
-         * This instrument has one humidity and two temperature channels
+         * This instrument has two temperature channels
          */
-        public const int CHANNEL_COUNT = 3;
+        public const int CHANNEL_COUNT = 2;
 
 
         /**
          * When a name is not provided in the configuration file
          */
-        public const string DEFAULT_NAME = "Humidity Temp Meter";
+        public const string DEFAULT_NAME = "Dual Thermometer";
 
 
         /**
          * Initialize a new instance
          */
-        public HumidityTempMeter314BWorker()
+        public Thermometer301Worker()
         {
 
         }

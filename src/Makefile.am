@@ -33,6 +33,8 @@ ginstlog_SOURCES = \
 	Temperature.vala \
 	TemperatureUnits.vala \
 	Thermometer.vala \
+	Thermometer301Worker.vala \
+	Thermometer304Worker.vala \
 	Thermometer306Worker.vala \
 	Thermometer3xxWorker.vala \
 	ThermometerFactory.vala \
