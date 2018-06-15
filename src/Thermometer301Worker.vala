@@ -62,7 +62,7 @@ namespace ginstlog
         /**
          * Lookup table for decoding temperature units
          */
-        private const TemperatureUnits[] temperatureUnitsLookup =
+        private static const TemperatureUnits[] TEMPERATURE_UNITS_LOOKUP =
         {
             /* 0 */ TemperatureUnits.FAHRENHEIT,
             /* 1 */ TemperatureUnits.CELSIUS
@@ -72,7 +72,7 @@ namespace ginstlog
         /**
          * Lookup table for decoding thermocouple type
          */
-        private const ThermocoupleType[] thermocoupleTypeLookup =
+        private static const ThermocoupleType[] THERMOCOUPLE_TYPE_LOOKUP =
         {
             /* 0 */ ThermocoupleType.K,
             /* 1 */ ThermocoupleType.J
@@ -188,11 +188,11 @@ namespace ginstlog
                 );
 
             return_val_if_fail(
-                index > thermocoupleTypeLookup.length,
+                index > THERMOCOUPLE_TYPE_LOOKUP.length,
                 ThermocoupleType.UNKNOWN
                 );
 
-            return thermocoupleTypeLookup[index];
+            return THERMOCOUPLE_TYPE_LOOKUP[index];
         }
 
 
@@ -219,11 +219,11 @@ namespace ginstlog
                 );
 
             return_val_if_fail(
-                index > temperatureUnitsLookup.length,
+                index > TEMPERATURE_UNITS_LOOKUP.length,
                 TemperatureUnits.UNKNOWN
                 );
 
-            return temperatureUnitsLookup[index];
+            return TEMPERATURE_UNITS_LOOKUP[index];
         }
     }
 }
