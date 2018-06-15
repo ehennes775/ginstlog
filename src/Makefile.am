@@ -26,6 +26,7 @@ ginstlog_SOURCES = \
 	Measurement.vala \
 	MeasurementFailure.vala \
 	Program.vala \
+	RelativeHumidity.vala \
 	SerialDevice.vala \
 	SerialDeviceFactory.vala \
 	SerialDeviceFactoryLookup.vala \

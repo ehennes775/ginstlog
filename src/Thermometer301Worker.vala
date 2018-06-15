@@ -67,7 +67,7 @@ namespace ginstlog
 
 
         /**
-         * Lookup table for decoding temperature units
+         * A lookup table for decoding the temperature units
          */
         private static const TemperatureUnits[] TEMPERATURE_UNITS_LOOKUP =
         {
@@ -77,7 +77,7 @@ namespace ginstlog
 
 
         /**
-         * Lookup table for decoding thermocouple type
+         * A lookup table for decoding the thermocouple type
          */
         private static const ThermocoupleType[] THERMOCOUPLE_TYPE_LOOKUP =
         {
@@ -133,12 +133,31 @@ namespace ginstlog
 
 
         /**
+         * Decode measurements from a response to the 'A' command
+         *
+         * @param bytes The response to the 'A' command
+         * @return An array of measurements
+         */
+        private Measurement[] decode_measurements(uint8[] bytes) throws Error
+        {
+            var measurement = new Measurement[]
+            {
+                decode_t1(m_channel[0], bytes),
+                decode_t2(m_channel[1], bytes)
+            };
+
+            return measurement;
+        }
+
+
+        /**
          * Decode the first channel temperature from a response
          *
+         * @param channel The channel to present the measurement on
          * @param bytes The response to the 'A' command
          * @return The measurement from the first channel
          */
-        private Measurement decode_t1(uint8[] bytes) throws Error
+        private Measurement decode_t1(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
                 bytes.length != MESSAGE_LENGTH,
@@ -150,7 +169,7 @@ namespace ginstlog
             if (open_loop)
             {
                 return new MeasurementFailure(
-                    m_channel[0],
+                    channel,
                     "OL"
                     );
             }
@@ -168,7 +187,7 @@ namespace ginstlog
                 var units = decode_units(bytes);
 
                 return new Temperature(
-                    m_channel[0],
+                    channel,
                     readout_value,
                     units
                     );
@@ -179,10 +198,11 @@ namespace ginstlog
         /**
          * Decode the second channel temperature from a response
          *
+         * @param channel The channel to present the measurement on
          * @param bytes The response to the 'A' command
          * @return The measurement from the first channel
          */
-        private Measurement decode_t2(uint8[] bytes) throws Error
+        private Measurement decode_t2(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
                 bytes.length != MESSAGE_LENGTH,
@@ -194,7 +214,7 @@ namespace ginstlog
             if (open_loop)
             {
                 return new MeasurementFailure(
-                    m_channel[1],
+                    channel,
                     "OL"
                     );
             }
@@ -212,7 +232,7 @@ namespace ginstlog
                 var units = decode_units(bytes);
 
                 return new Temperature(
-                    m_channel[1],
+                    channel,
                     readout_value,
                     units
                     );
