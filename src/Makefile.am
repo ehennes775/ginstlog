@@ -32,6 +32,7 @@ ginstlog_SOURCES = \
 	TcpSerialServer.vala \
 	Temperature.vala \
 	TemperatureUnits.vala \
+	ThermocoupleType.vala \
 	Thermometer.vala \
 	Thermometer301Worker.vala \
 	Thermometer304Worker.vala \

@@ -70,6 +70,133 @@ namespace ginstlog
 
 
         /**
+         * Lookup table for decoding thermocouple type
+         */
+        private const ThermocoupleType[] thermocoupleTypeLookup =
+        {
+            /* 0 */ ThermocoupleType.K,
+            /* 1 */ ThermocoupleType.J
+        };
+
+
+        /**
+         *
+         */
+        private Channel[] m_channel;
+
+
+        /**
+         * Decode the first channel temperature from a response
+         *
+         * @param bytes The response to the 'A' command
+         * @return The measurement from the first channel
+         */
+        private Measurement decode_t1(uint8[] bytes) throws Error
+        {
+            return_val_if_fail(
+                bytes.length != MESSAGE_LENGTH,
+                null
+                );
+
+            var open_loop = (bytes[2] & 0x01) == 0x01;
+
+            if (open_loop)
+            {
+                return new MeasurementFailure(
+                    m_channel[0],
+                    "OL"
+                    );
+            }
+            else
+            {
+                var negative = (bytes[2] & 0x02) == 0x02;
+                var tenths = (bytes[2] & 0x04) != 0x04;
+
+                var readout_value = "0000";
+
+                var units = decode_units(bytes);
+
+                return new Temperature(
+                    m_channel[0],
+                    readout_value,
+                    units
+                    );
+            }
+        }
+
+
+        /**
+         * Decode the second channel temperature from a response
+         *
+         * @param bytes The response to the 'A' command
+         * @return The measurement from the first channel
+         */
+        private Measurement decode_t2(uint8[] bytes) throws Error
+        {
+            return_val_if_fail(
+                bytes.length != MESSAGE_LENGTH,
+                null
+                );
+
+            var open_loop = (bytes[2] & 0x08) == 0x08;
+
+            if (open_loop)
+            {
+                return new MeasurementFailure(
+                    m_channel[1],
+                    "OL"
+                    );
+            }
+            else
+            {
+                var negative = (bytes[2] & 0x10) == 0x10;
+                var tenths = (bytes[2] & 0x20) != 0x20;
+
+                var readout_value = "0000";
+
+                var units = decode_units(bytes);
+
+                return new Temperature(
+                    m_channel[1],
+                    readout_value,
+                    units
+                    );
+            }
+        }
+
+
+        /**
+         * Decode the thermocouple type in the response to the 'A' command
+
+         * The thermocouple type for both channels are the same.
+         *
+         * @param bytes The response to the 'A' command
+         * @return The thermocouple type for both channels
+         */
+        private ThermocoupleType decode_thermocouple_type(uint8[] bytes)
+        {
+            return_val_if_fail(
+                bytes.length != MESSAGE_LENGTH,
+                ThermocoupleType.UNKNOWN
+                );
+
+            var index = (bytes[1] >> 3) & 0x01;
+
+            return_val_if_fail(
+                index < 0,
+                ThermocoupleType.UNKNOWN
+                );
+
+            return_val_if_fail(
+                index > thermocoupleTypeLookup.length,
+                ThermocoupleType.UNKNOWN
+                );
+
+            return thermocoupleTypeLookup[index];
+        }
+
+
+        /**
          * Decode the temperature units from the response to the 'A' command
 
          * The units for both channels are the same.
