@@ -28,10 +28,17 @@ namespace ginstlog
 
         /**
          * Initialize a new instance
+         *
+         * @param channel Metadata for the measurement channels
          */
-        public Thermometer301Worker()
+        public Thermometer301Worker(Channel[] channel) throws Error
         {
+            if (channel.length != CHANNEL_COUNT)
+            {
+                // TODO throw an error
+            }
 
+            m_channel = channel;
         }
 
 
@@ -80,9 +87,49 @@ namespace ginstlog
 
 
         /**
-         *
+         * Metadata for the measurement channels
          */
         private Channel[] m_channel;
+
+
+        /**
+         * Decode the measurement readout
+         *
+         * @param negative Indicates the measurement is neagtive
+         * @param bytes The string of BCD bytes
+         * @param tenths Indicates a tenths places is present on the readout
+         * @return A string containing the measurement readout
+         */
+        private string decode_readout(bool negative, uint8[] bytes, bool tenths) throws Error
+        {
+            var builder = new StringBuilder();
+            var index = bytes.length - 1;
+
+            while (index >= 0)
+            {
+                var nibble = bytes[index] & 0x0F;
+
+                // TODO: prepend nibble
+
+                if (tenths)
+                {
+                    builder.prepend_c('.');
+                }
+
+                nibble = (bytes[index] >> 4) & 0x0F;
+
+                // TODO: prepend nibble
+
+                index--;
+            }
+
+            if (negative)
+            {
+                builder.prepend_c('-');
+            }
+
+            return builder.str;
+        }
 
 
         /**
@@ -112,7 +159,11 @@ namespace ginstlog
                 var negative = (bytes[2] & 0x02) == 0x02;
                 var tenths = (bytes[2] & 0x04) != 0x04;
 
-                var readout_value = "0000";
+                var readout_value = decode_readout(
+                    negative,
+                    bytes[3:5],
+                    tenths
+                    );
 
                 var units = decode_units(bytes);
 
@@ -152,7 +203,11 @@ namespace ginstlog
                 var negative = (bytes[2] & 0x10) == 0x10;
                 var tenths = (bytes[2] & 0x20) != 0x20;
 
-                var readout_value = "0000";
+                var readout_value = decode_readout(
+                    negative,
+                    bytes[5:7],
+                    tenths
+                    );
 
                 var units = decode_units(bytes);
 
