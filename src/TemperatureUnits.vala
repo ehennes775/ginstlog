@@ -9,6 +9,12 @@ namespace ginstlog
     public enum TemperatureUnits
     {
         /**
+         * Indicates the temperature units are not known
+         */
+        UNKNOWN,
+
+
+        /**
          * Indicates measurements made in Celsius
          */
         CELSIUS,
