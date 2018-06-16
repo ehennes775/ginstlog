@@ -17,25 +17,25 @@ namespace ginstlog
          * This entry is the first item in the table so the error code will
          * be zero.
          */
-        UNKNOWN,
+        UNKNOWN = 0,
 
 
         /**
          * The number of channels specified in the configuration file does not
          * match the number of channels on the instrument.
          */
-        CHANNEL_COUNT,
+        CHANNEL_COUNT = 1,
 
 
         /**
          *
          */
-        GENERIC,
+        GENERIC = 2,
 
 
         /**
          *
          */
-        FILE_NOT_FOUND
+        FILE_NOT_FOUND = 3
     }
 }

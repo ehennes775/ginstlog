@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ErrorTable>
+    <ErrorDomain>
+        <Error code="1">
+            <Identifier>CHANNEL_COUNT</Identifier>
+            <Description>The number of channels specified in the configuration file does not match the number of channels on the instrument.</Description>
+        </Error>
+    </ErrorDomain>
+</ErrorTable>
