@@ -16,6 +16,7 @@ ginstlog_SOURCES = \
 	Channel.vala \
 	Configuration.vala \
 	ConfigurationError.vala \
+	CommunicationError.vala \
 	ErrorDialog.vala \
 	ExtechSdl200Worker.vala \
 	FourChannelInstrumentWidget.vala \

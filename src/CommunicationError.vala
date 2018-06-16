@@ -9,7 +9,7 @@ namespace ginstlog
      * Keep entries in this table in alphabetical order, with UNKNOWN as the
      * first entry.
      */
-    public errordomain ConfigurationError
+    public errordomain CommunicationError
     {
         /**
          * An unknown error
@@ -21,28 +21,28 @@ namespace ginstlog
 
 
         /**
-         * The number of channels specified in the configuration file does not
-         * match the number of channels on the instrument.
+         * A response from an instrument has a framing error.
          */
-        CHANNEL_COUNT = 1,
+        FRAMING_ERROR,
 
 
         /**
-         * The instrument requires at least one channel specified in the
-         * configuration file.
+         * A response from the instrument could not be processed because of
+         * the message length.
          */
-        CHANNEL_REQUIRED = 2,
+        MESSAGE_LENGTH,
 
 
         /**
-         *
+         * Communication timed out waiting for a response.
          */
-        GENERIC = 3,
+        RESPONSE_TIMEOUT,
 
 
         /**
-         *
+         * The instrument sent a unit of measurement that the application does
+         * not recognize.
          */
-        FILE_NOT_FOUND = 4
+        UNKNOWN_UNITS
     }
 }

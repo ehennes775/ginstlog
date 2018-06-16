@@ -185,12 +185,16 @@ namespace ginstlog
                 {
                     var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                    throw new InstrumentError.GENERIC(@"Error reading from $(device_file): $(inner)\n");
+                    throw new InstrumentError.GENERIC(
+                        @"Error reading from $(device_file): $(inner)\n"
+                        );
                 }
 
                 if (status == 0)
                 {
-                    throw new InstrumentError.COMMUNICATION_TIMEOUT(@"Communication timeout $(device_file)");
+                    throw new CommunicationError.RESPONSE_TIMEOUT(
+                        @"Communication timeout on $(device_file)"
+                        );
                 }
 
                 count += status;
