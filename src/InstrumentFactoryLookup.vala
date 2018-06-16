@@ -88,7 +88,8 @@ namespace ginstlog
         {
             var lookup = new Gee.HashMap<string,InstrumentFactory>();
 
-            lookup["Thermometer"] = new ThermometerFactory();
+            lookup["BkPrecision715"] = new ThermometerFactory();
+            lookup["BkPrecision725"] = new ThermometerFactory();
 
             return lookup;
         }

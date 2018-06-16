@@ -18,8 +18,13 @@ namespace ginstlog
         /**
          * This instrument has one humidity and two temperature channels
          */
-        public const int CHANNEL_COUNT = 3;
-
+        public enum CHANNEL
+        {
+            HUMIDITY,
+            TEMPERATURE1,
+            TEMPERATURE2,
+            COUNT
+        }
 
         /**
          * When a name is not provided in the configuration file
@@ -30,14 +35,30 @@ namespace ginstlog
         /**
          * Initialize a new instance
          */
-        public HumidityTempMeter314BWorker(Channel[] channel) throws Error
+        public HumidityTempMeter314BWorker(
+            Channel[] channel,
+            ulong interval,
+            string? name,
+            SerialDevice serial_device
+            ) throws Error
         {
-            if (channel.length != CHANNEL_COUNT)
+            Object(
+                channel_count : CHANNEL.COUNT,
+                name : name ?? DEFAULT_NAME
+                );
+
+            if (channel.length != CHANNEL.COUNT)
             {
-                // TODO throw an error
+                throw new ConfigurationError.CHANNEL_COUNT(
+                    @"$(this.name) should have $(CHANNEL.COUNT) channel(s), but $(channel.length) are specified in the configuration file"
+                    );
             }
 
             m_channel = channel;
+            m_interval = interval;
+            m_queue = new AsyncQueue<Measurement>();
+            m_serial_device = serial_device;
+            AtomicInt.set(ref m_stop, 0);
         }
 
 
@@ -46,7 +67,14 @@ namespace ginstlog
          */
         public override void start()
         {
+            Idle.add(poll_measurement);
 
+            m_thread = new Thread<int>(
+                @"Thread.$(name)",
+                read_measurements
+                );
+
+            m_serial_device.connect();
         }
 
 
@@ -55,14 +83,27 @@ namespace ginstlog
          */
         public override void stop()
         {
-
+            AtomicInt.set(ref m_stop, 1);
+            Idle.remove_by_data(this);
         }
+
+
+        /**
+         *
+         */
+        private static uint8 BLANK_NIBBLE = 0x0B;
 
 
         /**
          * The length of the response to the 'A' command in bytes
          */
         private const int MESSAGE_LENGTH = 10;
+
+
+        /**
+         *
+         */
+        private static const uint8[] READ_COMMAND = { 'A' };
 
 
         /**
@@ -82,6 +123,37 @@ namespace ginstlog
 
 
         /**
+         * The interval to wait between polls, in microseconds
+         */
+        private ulong m_interval;
+
+
+        /**
+         * A queue to send measurements from the communications thread to the
+         * GUI thread
+         */
+        private AsyncQueue<Measurement> m_queue;
+
+
+        /**
+         * The serial device to communicate with the instrument
+         */
+        private SerialDevice m_serial_device;
+
+
+        /**
+         * Signals the communications thread to terminate
+         */
+        private int m_stop;
+
+
+        /**
+         * A thread for blocking communications with the instrument
+         */
+        private Thread<int> m_thread;
+
+
+        /**
          * Decode the humidity from a response
          *
          * @param channel The channel to present the measurement on
@@ -91,7 +163,7 @@ namespace ginstlog
         private Measurement decode_humidity(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
+                bytes.length == MESSAGE_LENGTH,
                 null
                 );
 
@@ -107,12 +179,12 @@ namespace ginstlog
             else
             {
                 var negative = (bytes[2] & 0x80) == 0x80;
-                var tenths = true;
+                var places = 1;
 
                 var readout_value = decode_readout(
                     negative,
                     bytes[3:5],
-                    tenths
+                    places
                     );
 
                 return new RelativeHumidity(
@@ -133,9 +205,9 @@ namespace ginstlog
         {
             var measurement = new Measurement[]
             {
-                decode_humidity(m_channel[0], bytes),
-                decode_t1(m_channel[1], bytes),
-                decode_t2(m_channel[2], bytes)
+                decode_humidity(m_channel[CHANNEL.HUMIDITY], bytes),
+                decode_t1(m_channel[CHANNEL.TEMPERATURE1], bytes),
+                decode_t2(m_channel[CHANNEL.TEMPERATURE2], bytes)
             };
 
             return measurement;
@@ -146,36 +218,35 @@ namespace ginstlog
          * Decode the measurement readout
          *
          * @param negative Indicates the measurement is neagtive
-         * @param bytes The string of BCD bytes
-         * @param tenths Indicates a tenths places is present on the readout
+         * @param bytes The string of binary bytes, MSBs first
+         * @param places Indicates the number of fractional digits
          * @return A string containing the measurement readout
          */
-        private string decode_readout(bool negative, uint8[] bytes, bool tenths) throws Error
+        private string decode_readout(bool negative, uint8[] bytes, int places)
         {
-            var builder = new StringBuilder();
-            var index = bytes.length - 1;
+            long @value = 0;
 
-            while (index >= 0)
+            foreach (var @byte in bytes)
             {
-                var nibble = bytes[index] & 0x0F;
-
-                // TODO: prepend nibble
-
-                if (tenths)
-                {
-                    builder.prepend_c('.');
-                }
-
-                nibble = (bytes[index] >> 4) & 0x0F;
-
-                // TODO: prepend nibble
-
-                index--;
+                @value = (@value << 8) | @byte;
             }
+
+            var as_string = @value.to_string();
+
+            var builder = new StringBuilder();
 
             if (negative)
             {
-                builder.prepend_c('-');
+                builder.append_c('-');
+            }
+
+            builder.append(as_string.substring(0, as_string.length - places));
+
+            if (places > 0)
+            {
+                builder.append(Posix.nl_langinfo(Posix.NLItem.RADIXCHAR));
+
+                builder.append(as_string.substring(-places, places));
             }
 
             return builder.str;
@@ -192,7 +263,7 @@ namespace ginstlog
         private Measurement decode_t1(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
+                bytes.length == MESSAGE_LENGTH,
                 null
                 );
 
@@ -208,12 +279,12 @@ namespace ginstlog
             else
             {
                 var negative = (bytes[2] & 0x20) == 0x20;
-                var tenths = true;
+                var places = 1;
 
                 var readout_value = decode_readout(
                     negative,
                     bytes[5:7],
-                    tenths
+                    places
                     );
 
                 var units = decode_units(bytes);
@@ -237,7 +308,7 @@ namespace ginstlog
         private Measurement decode_t2(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
+                bytes.length == MESSAGE_LENGTH,
                 null
                 );
 
@@ -253,12 +324,12 @@ namespace ginstlog
             else
             {
                 var negative = (bytes[2] & 0x80) == 0x80;
-                var tenths = (bytes[2] & 0x02) != 0x02;
+                var places = (bytes[2] & 0x02) != 0x02 ? 1 : 0;
 
                 var readout_value = decode_readout(
                     negative,
                     bytes[7:9],
-                    tenths
+                    places
                     );
 
                 var units = decode_units(bytes);
@@ -283,23 +354,78 @@ namespace ginstlog
         private TemperatureUnits decode_units(uint8[] bytes)
         {
             return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
+                bytes.length == MESSAGE_LENGTH,
                 TemperatureUnits.UNKNOWN
                 );
 
             var index = (bytes[1] >> 3) & 0x01;
 
             return_val_if_fail(
-                index < 0,
+                index >= 0,
                 TemperatureUnits.UNKNOWN
                 );
 
             return_val_if_fail(
-                index > TEMPERATURE_UNITS_LOOKUP.length,
+                index < TEMPERATURE_UNITS_LOOKUP.length,
                 TemperatureUnits.UNKNOWN
                 );
 
             return TEMPERATURE_UNITS_LOOKUP[index];
+        }
+
+
+        /**
+         * Poll for recent measurements
+         *
+         * Called by the GUI thread to check if another measurement is
+         * available.
+         *
+         * @return
+         */
+        private bool poll_measurement()
+        {
+            var measurement = m_queue.try_pop();
+
+            if (measurement != null)
+            {
+                update_readout(measurement);
+            }
+
+            return Source.CONTINUE;
+        }
+
+
+        /**
+         * Read measurements from the instrument
+         *
+         * @return A dummy value
+         */
+        private int read_measurements()
+        {
+            while (AtomicInt.get(ref m_stop) == 0)
+            {
+                Thread.usleep(m_interval);
+
+                try
+                {
+                    m_serial_device.send_command(READ_COMMAND);
+
+                    var response = m_serial_device.receive_response(MESSAGE_LENGTH);
+
+                    var measurements = decode_measurements(response);
+
+                    foreach (var measurement in measurements)
+                    {
+                        m_queue.push(measurement);
+                    }
+                }
+                catch (Error error)
+                {
+                    stderr.printf(@"Error: $(error.message)\n");
+                }
+            }
+
+            return 0;
         }
     }
 }

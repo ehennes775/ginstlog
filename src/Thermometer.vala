@@ -5,53 +5,21 @@ namespace ginstlog
 {
     /**
      * Supports thermometers by an unknown OEM
-     *
-     * Models Supported
-     * * B&K Precision Model 715
      */
     public class Thermometer : Instrument
     {
         /**
-         * The default name for this class of thermometer
-         */
-        public const string DEFAULT_NAME = "Dual Thermometer";
-
-
-        /**
-         * The interval to wait between polls, in microseconds
-         */
-        public ulong interval
-        {
-            get;
-            construct;
-            default = 500000;
-        }
-
-
-        /**
          * Construct the thermometer
          */
-        public Thermometer(
-            Channel[] channels,
-            string name,
-            SerialDevice serial_device
-            ) throws Error
+        public Thermometer(Thermometer3xxWorker worker) throws Error
         {
             Object(
-                channel_count : 2,
-                interval : 500000,
-                name : name
+                channel_count : worker.channel_count,
+                name : worker.name
                 );
 
-            m_worker = new Thermometer306Worker(
-                channels,
-                interval,
-                name,
-                serial_device
-                );
-
+            m_worker = worker;
             m_worker.update_readout.connect(on_update_readout);
-
             m_worker.start();
         }
 

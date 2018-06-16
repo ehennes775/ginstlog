@@ -39,21 +39,9 @@ namespace ginstlog
             requires(path_context.node != null)
 
         {
-            var channels = create_channels(path_context);
+            var worker = create_worker(path_context);
 
-            var name = XmlUtility.get_optional_string(
-                path_context,
-                "./Name",
-                Thermometer.DEFAULT_NAME
-                );
-
-            var serial_device = create_active_device(path_context);
-
-            return new Thermometer(
-                channels,
-                name,
-                serial_device
-                );
+            return new Thermometer(worker);
         }
 
 
@@ -186,6 +174,43 @@ namespace ginstlog
             device_path_context.node = device_node;
 
             return create_device(device_path_context);
+        }
+
+
+        private Thermometer3xxWorker create_worker(Xml.XPath.Context path_context) throws Error
+        {
+            var channels = create_channels(path_context);
+
+            var name = XmlUtility.get_optional_string(
+                path_context,
+                "./Name",
+                null
+                );
+
+            var serial_device = create_active_device(path_context);
+
+            if (path_context.node->name == "BkPrecision725")
+            {
+                return new HumidityTempMeter314BWorker(
+                    channels,
+                    500000,
+                    name,
+                    serial_device
+                    );
+            }
+            else if (path_context.node->name == "BkPrecision715")
+            {
+                return new Thermometer306Worker(
+                    channels,
+                    500000,
+                    name,
+                    serial_device
+                    );
+            }
+            else
+            {
+                throw new ConfigurationError.GENERIC("Unknown device");
+            }
         }
 
 

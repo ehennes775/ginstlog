@@ -31,6 +31,28 @@ namespace ginstlog
 
 
         /**
+         * The number of channels on the instrument
+         */
+        public int channel_count
+        {
+            get;
+            construct;
+            default = 0;
+        }
+
+
+        /**
+         * Provides a user friendly name for the instrument
+         */
+        public string name
+        {
+            get;
+            construct;
+            default = "Instrument";
+        }
+
+
+        /**
          * Start the background task an thread
          */
         public abstract void start();
@@ -44,6 +66,5 @@ namespace ginstlog
          * no longer reference it.
          */
         public abstract void stop();
-
     }
 }

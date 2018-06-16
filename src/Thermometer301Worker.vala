@@ -47,7 +47,14 @@ namespace ginstlog
          */
         public override void start()
         {
+            Idle.add(poll_measurement);
 
+            m_thread = new Thread<int>(
+                @"Thread.$(m_name)",
+                read_measurements
+                );
+
+            m_serial_device.connect();
         }
 
 
@@ -56,14 +63,55 @@ namespace ginstlog
          */
         public override void stop()
         {
-
+            AtomicInt.set(ref m_stop, 1);
+            Idle.remove_by_data(this);
         }
+
+
+        /**
+         * The serial device to communicate with the instrument
+         */
+        private SerialDevice m_serial_device;
+
+
+        /**
+         *
+         */
+        private AsyncQueue<Measurement> m_queue;
+
+
+        private int m_stop;
+
+
+        /**
+         *
+         */
+        private Thread<int> m_thread;
+
+        /**
+         * The interval to wait between polls, in microseconds
+         */
+        private ulong m_interval;
+
+
+        /**
+         * The name of the instrument
+         */
+        private string m_name;
+
+
 
 
         /**
          * The length of the response to the 'A' command in bytes
          */
         private const int MESSAGE_LENGTH = 8;
+
+
+        /**
+         *
+         */
+        private static const uint8[] READ_COMMAND = { 'A' };
 
 
         /**
@@ -299,6 +347,61 @@ namespace ginstlog
                 );
 
             return TEMPERATURE_UNITS_LOOKUP[index];
+        }
+
+
+        /**
+         * Poll for recent measurements
+         *
+         * Called by the GUI thread to check if another measurement is
+         * available.
+         *
+         * @return
+         */
+        private bool poll_measurement()
+        {
+            var measurement = m_queue.try_pop();
+
+            if (measurement != null)
+            {
+                update_readout(measurement);
+            }
+
+            return Source.CONTINUE;
+        }
+
+
+        /**
+         * Read measurements from the instrument
+         *
+         * @return A dummy value
+         */
+        private int read_measurements()
+        {
+            while (AtomicInt.get(ref m_stop) == 0)
+            {
+                Thread.usleep(m_interval);
+
+                try
+                {
+                    m_serial_device.send_command(READ_COMMAND);
+
+                    var response = m_serial_device.receive_response(MESSAGE_LENGTH);
+
+                    var measurements = decode_measurements(response);
+
+                    foreach (var measurement in measurements)
+                    {
+                        m_queue.push(measurement);
+                    }
+                }
+                catch (Error error)
+                {
+                    stderr.printf(@"Error: $(error.message)\n");
+                }
+            }
+
+            return 0;
         }
     }
 }

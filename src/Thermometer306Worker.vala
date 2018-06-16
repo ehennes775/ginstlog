@@ -17,7 +17,12 @@ namespace ginstlog
         /**
          * This instrument has two temperature channels
          */
-        public const int CHANNEL_COUNT = 2;
+         public enum CHANNEL
+         {
+             TEMPERATURE1,
+             TEMPERATURE2,
+             COUNT
+         }
 
 
         /**
@@ -36,10 +41,23 @@ namespace ginstlog
             SerialDevice serial_device
             )
         {
+            Object(
+                channel_count : CHANNEL.COUNT,
+                name : name ?? DEFAULT_NAME
+                );
+
+            m_name = name ?? DEFAULT_NAME;
+
+            if (channels.length != CHANNEL.COUNT)
+            {
+                throw new ConfigurationError.CHANNEL_COUNT(
+                    @"$(m_name) should have $(CHANNEL.COUNT) channel(s), but $(channels.length) are specified in the configuration file"
+                    );
+            }
+
             m_channel = channels;
             m_interval = interval;
             m_queue = new AsyncQueue<Measurement>();
-            m_name = name ?? DEFAULT_NAME;
             m_serial_device = serial_device;
             AtomicInt.set(ref m_stop, 0);
         }
