@@ -48,7 +48,7 @@
                 </SerialServer>
             </DeviceTable>
         </BkPrecision725>
-        <BkPrecision715 id="2">
+        <ExtechSdl200 id="2">
             <Name>Four Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
@@ -57,6 +57,12 @@
                 </Channel>
                 <Channel index="1">
                     <Name>T2: Thermocouple</Name>
+                </Channel>
+                <Channel index="2">
+                    <Name>T3: Thermocouple</Name>
+                </Channel>
+                <Channel index="3">
+                    <Name>T4: Thermocouple</Name>
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">
@@ -69,28 +75,6 @@
                     <Timeout>2000 ms</Timeout>
                 </SerialServer>
             </DeviceTable>
-        </BkPrecision715>
-        <BkPrecision715 id="3">
-            <Name>Dual Thermometer #4</Name>
-            <PollInterval>1000000</PollInterval>
-            <ChannelTable>
-                <Channel index="0">
-                    <Name>T1: Ambient</Name>
-                </Channel>
-                <Channel index="1">
-                    <Name>T2: Enclosure</Name>
-                </Channel>
-            </ChannelTable>
-            <DeviceTable activeId="0">
-                <SerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB3</DeviceFile>
-                    <Timeout>2000 ms</Timeout>
-                </SerialDevice>
-                <SerialServer id="1">
-                    <Address>127.0.0.1</Address>
-                    <Timeout>2000 ms</Timeout>
-                </SerialServer>
-            </DeviceTable>
-        </BkPrecision715>
+        </ExtechSdl200>
     </InstrumentTable>
 </Configuration>

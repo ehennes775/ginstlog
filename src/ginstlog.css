@@ -38,6 +38,12 @@
 
 .humiditytemp-case
 {
-    background : cadetblue;
+    background : steelblue;
+    border-radius : 10px;
+}
+
+.fourchannelinstrument-case
+{
+    background : darkgreen;
     border-radius : 10px;
 }

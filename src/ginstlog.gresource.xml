@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/com/github/ehennes775/ginstlog">
+        <file>FourChannelInstrumentWidget.ui.xml</file>
         <file>ginstlog.css</file>
         <file>MainWindow.ui.xml</file>
         <file>ThermometerWidget.ui.xml</file>

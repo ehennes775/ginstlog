@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<interface>
+	<template class="ginstlogFourChannelInstrumentWidget" parent="GtkGrid">
+		<style>
+			<class name="fourchannelinstrument-case"/>
+		</style>
+		<child>
+			<object class="GtkGrid" id="vertical-grid">
+				<property name="margin">10</property>
+				<property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+				<child>
+					<object class="GtkLabel" id="name-label">
+						<property name="label">Dual Thermometer</property>
+						<property name="xalign">0.0</property>
+						<style>
+							<class name="instrument-label"/>
+						</style>
+					</object>
+				</child>
+				<child>
+					<object class="GtkGrid" id="screen-grid">
+						<property name="hexpand">TRUE</property>
+						<property name="margin">10</property>
+						<property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+						<property name="vexpand">TRUE</property>
+						<style>
+							<class name="instrument-screen"/>
+						</style>
+						<child>
+							<object class="GtkGrid" id="icon-grid">
+								<property name="hexpand">TRUE</property>
+								<property name="margin">5</property>
+								<child>
+									<object class="GtkLabel" id="hold-icon">
+										<property name="hexpand">TRUE</property>
+										<property name="label">HOLD</property>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="time-icon">
+										<property name="hexpand">TRUE</property>
+										<property name="label">TIME</property>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="min-icon">
+										<property name="hexpand">TRUE</property>
+										<property name="label">MIN</property>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="max-icon">
+										<property name="hexpand">TRUE</property>
+										<property name="label">MAX</property>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="low-battery-icon">
+										<property name="hexpand">TRUE</property>
+										<property name="label">BAT</property>
+									</object>
+								</child>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t1-label">
+								<property name="hexpand">TRUE</property>
+								<property name="label">T1</property>
+								<property name="xalign">0.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t1-readout">
+								<property name="hexpand">TRUE</property>
+								<property name="label">72.0 &#176;F</property>
+								<property name="xalign">1.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<attributes>
+								  <attribute name="scale" value="3.0"/>
+								</attributes>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t2-label">
+								<property name="hexpand">TRUE</property>
+								<property name="label">T2</property>
+								<property name="xalign">0.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t2-readout">
+								<property name="hexpand">TRUE</property>
+								<property name="label">72.5 &#176;F</property>
+								<property name="xalign">1.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<attributes>
+								  <attribute name="scale" value="3.0"/>
+								</attributes>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+                        <child>
+							<object class="GtkLabel" id="t3-label">
+								<property name="hexpand">TRUE</property>
+								<property name="label">T3</property>
+								<property name="xalign">0.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t3-readout">
+								<property name="hexpand">TRUE</property>
+								<property name="label">72.5 &#176;F</property>
+								<property name="xalign">1.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<attributes>
+								  <attribute name="scale" value="3.0"/>
+								</attributes>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+                        <child>
+							<object class="GtkLabel" id="t4-label">
+								<property name="hexpand">TRUE</property>
+								<property name="label">T4</property>
+								<property name="xalign">0.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel" id="t4-readout">
+								<property name="hexpand">TRUE</property>
+								<property name="label">72.5 &#176;F</property>
+								<property name="xalign">1.0</property>
+								<property name="margin">5</property>
+                                <property name="no-show-all">TRUE</property>
+								<attributes>
+								  <attribute name="scale" value="3.0"/>
+								</attributes>
+								<style>
+									<class name="temperature-readout"/>
+								</style>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>

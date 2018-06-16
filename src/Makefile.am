@@ -17,6 +17,8 @@ ginstlog_SOURCES = \
 	Configuration.vala \
 	ConfigurationError.vala \
 	ErrorDialog.vala \
+	ExtechSdl200Worker.vala \
+	FourChannelInstrumentWidget.vala \
 	HumidityTempMeter314BWorker.vala \
 	Instrument.vala \
 	InstrumentError.vala \

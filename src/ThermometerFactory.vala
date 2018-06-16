@@ -207,6 +207,15 @@ namespace ginstlog
                     serial_device
                     );
             }
+            else if (path_context.node->name == "ExtechSdl200")
+            {
+                return new ExtechSdl200Worker(
+                    channels,
+                    500000,
+                    name,
+                    serial_device
+                    );
+            }
             else
             {
                 throw new ConfigurationError.GENERIC("Unknown device");

@@ -90,6 +90,7 @@ namespace ginstlog
 
             lookup["BkPrecision715"] = new ThermometerFactory();
             lookup["BkPrecision725"] = new ThermometerFactory();
+            lookup["ExtechSdl200"] = new ThermometerFactory();
 
             return lookup;
         }
