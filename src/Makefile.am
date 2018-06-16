@@ -41,6 +41,7 @@ ginstlog_SOURCES = \
 	Thermometer3xxWorker.vala \
 	ThermometerFactory.vala \
 	ThermometerWidget.vala \
+	TripleThermometerWidget.vala \
 	TtySerialDevice.vala \
 	TtySerialDeviceFactory.vala \
 	XmlUtility.vala \

@@ -59,11 +59,18 @@ namespace ginstlog
 
             foreach (var instrument in instruments)
             {
-                var widget = new ThermometerWidget();
-
-                widget.instrument = instrument;
-
-                m_instrument_rack.add(widget);
+                if (instrument.channel_count == 3)
+                {
+                    var widget = new TripleThermometerWidget();
+                    widget.instrument = instrument;
+                    m_instrument_rack.add(widget);
+                }
+                else
+                {
+                    var widget = new ThermometerWidget();
+                    widget.instrument = instrument;
+                    m_instrument_rack.add(widget);
+                }
             }
         }
 

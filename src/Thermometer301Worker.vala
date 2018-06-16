@@ -100,6 +100,10 @@ namespace ginstlog
         private string m_name;
 
 
+        /**
+         *
+         */
+        private static uint8 BLANK_NIBBLE = 0x0B;
 
 
         /**

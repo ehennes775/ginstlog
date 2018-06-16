@@ -35,3 +35,9 @@
 {
     background : black;
 }
+
+.humiditytemp-case
+{
+    background : cadetblue;
+    border-radius : 10px;
+}
