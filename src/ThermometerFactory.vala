@@ -9,7 +9,7 @@ namespace ginstlog
     public class ThermometerFactory : InstrumentFactory
     {
         /**
-         *
+         * The string to prefix channel names for thermometers
          */
         public string channel_prefix
         {
@@ -18,6 +18,20 @@ namespace ginstlog
             default = "T";
         }
 
+
+        /**
+         *
+         */
+        public string factory_id
+        {
+            get;
+            private set;
+        }
+
+
+        /**
+         * Initialize the instance
+         */
         construct
         {
             m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
@@ -29,10 +43,24 @@ namespace ginstlog
 
 
         /**
+         * Initialize a new instance
          *
-         *
-         * @param path_context
-         * @return
+         * @param path_context A path context to the instrument element in the
+         * InstrumentTable.xml resource.
+         */
+        public ThermometerFactory(Xml.XPath.Context path_context) throws Error
+        {
+            base(path_context);
+
+            factory_id = XmlUtility.get_required_string(
+                path_context,
+                "./InstrumentFactoryId"
+                );
+        }
+
+
+        /**
+         * {@inheritDoc}
          */
         public override Instrument create_instrument(Xml.XPath.Context path_context) throws Error
 
@@ -189,7 +217,7 @@ namespace ginstlog
 
             var serial_device = create_active_device(path_context);
 
-            if (path_context.node->name == "BkPrecision725")
+            if (factory_id == "Model314B")
             {
                 return new HumidityTempMeter314BWorker(
                     channels,
@@ -198,7 +226,7 @@ namespace ginstlog
                     serial_device
                     );
             }
-            else if (path_context.node->name == "BkPrecision715")
+            else if (factory_id == "Model306")
             {
                 return new Thermometer306Worker(
                     channels,
@@ -207,7 +235,7 @@ namespace ginstlog
                     serial_device
                     );
             }
-            else if (path_context.node->name == "ExtechSDL200")
+            else if (factory_id == "SDL200")
             {
                 return new ExtechSdl200Worker(
                     channels,
@@ -218,7 +246,9 @@ namespace ginstlog
             }
             else
             {
-                throw new ConfigurationError.GENERIC("Unknown device");
+                throw new ConfigurationError.GENERIC(
+                    @"Unknown device $(factory_id)"
+                    );
             }
         }
 

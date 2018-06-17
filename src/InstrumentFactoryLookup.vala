@@ -137,7 +137,7 @@ namespace ginstlog
                             "./ElementName"
                             );
 
-                        lookup[element_name] = new ThermometerFactory();
+                        lookup[element_name] = new ThermometerFactory(path_context);
                     }
                 }
                 finally
