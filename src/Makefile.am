@@ -5,10 +5,13 @@ AM_VALAFLAGS = --target-glib=2.38 --pkg gee-0.8 --pkg gtk+-3.0 --pkg libxml-2.0 
 
 GLIB_COMPILE_RESOURCES = glib-compile-resources
 
-BUILT_SOURCES = ginstlog.gresource.c
+RESOURCE_FILES = ginstlog.gresource.c
 
-$(BUILT_SOURCES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCES_FILE))
+$(RESOURCE_FILES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCES_FILE))
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source $<
+
+BUILT_SOURCES =
+	$(RESOURCE_FILES)
 
 bin_PROGRAMS = ginstlog
 
@@ -51,6 +54,3 @@ ginstlog_SOURCES = \
 	$(BUILT_SOURCES)
 
 ginstlog_LDADD = -lm $(DEPS_LIBS)
-
-../docs/Instruments.md : InstrumentTable.xml InstrumentTableToMarkdown.xslt
-	xsltproc --output ../docs/Instruments.md InstrumentTableToMarkdown.xslt InstrumentTable.xml

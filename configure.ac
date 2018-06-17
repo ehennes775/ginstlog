@@ -8,6 +8,7 @@ AM_PROG_VALAC([0.25.1])
 
 AC_CONFIG_FILES([
 	Makefile
+	docs/Makefile
 	src/Makefile
 	])
 
