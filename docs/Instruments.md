@@ -10,7 +10,7 @@ The following table contains the instruments supported by gintlog.
 |BK Precision|Model 720|Humidity/Temp Meter with Dual Input|Planned|
 |BK Precision|Model 725|Datalogging Humidity/Temp Meter with Dual Input|Supported|
 |Extech|380193|Passive Component LCR Meter|Planned|
-|Extech|EA15|EasyView Dual Input Temperature Datalogger|Planned|
+|Extech|EA15|EasyView™ Dual Input Temperature Datalogger|Planned|
 |Extech|LCR200|Passive Component LCR Meter|Planned|
 |Extech|SDL200|4-Channel Datalogging Thermometer|Planned|
 |Omega Engineering|HH309A|Four-Channel Temperature Logger with USB and RS232|Planned|
