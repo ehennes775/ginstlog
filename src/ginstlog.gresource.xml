@@ -4,6 +4,7 @@
         <file>FourChannelInstrumentWidget.ui.xml</file>
         <file>ginstlog.css</file>
         <file>InstrumentTable.xml</file>
+        <file>InstrumentFactoryTable.xml</file>
         <file>MainWindow.ui.xml</file>
         <file>ThermometerWidget.ui.xml</file>
         <file>TripleThermometerWidget.ui.xml</file>

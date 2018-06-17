@@ -81,13 +81,96 @@ namespace ginstlog
         /**
          *
          */
+        private InstrumentFactory create_factory()
+        {
+            return null;
+        }
+
+
+        /**
+         * Get the static resource compiled with the application
+         */
+        [CCode(cname="ginstlog_get_resource")]
+        private extern static Resource get_resource();
+
+
+        /**
+         *
+         */
         private Gee.Map<string,InstrumentFactory> create_lookup()
 
             ensures(result != null)
 
         {
+            var document = XmlUtility.document_from_resource(
+                get_resource(),
+                "/com/github/ehennes775/ginstlog/InstrumentTable.xml",
+                ResourceLookupFlags.NONE
+                );
+
             var lookup = new Gee.HashMap<string,InstrumentFactory>();
 
+            try
+            {
+                var path_context = new Xml.XPath.Context(document);
+
+                var path_result = path_context.eval_expression(
+                    "/InstrumentTable/Instrument"
+                    );
+
+                try
+                {
+                    var count = path_result->nodesetval->length();
+
+                    for (var index = 0; index < count; index++)
+                    {
+                        var node = path_result->nodesetval->item(index);
+
+                        path_context.node = node;
+
+                        var element_name = XmlUtility.get_required_string(
+                            path_context,
+                            "./ElementName"
+                            );
+
+                        lookup[element_name] = new ThermometerFactory();
+                        stdout.printf(@"element_name = $(element_name)\n");
+                    }
+                }
+                finally
+                {
+                    delete path_result;
+                }
+            }
+            finally
+            {
+                delete document;
+            }
+
+
+/*
+            var document = Xml.Parser.parse();
+
+            try
+            {
+                var path_context = new Xml.XPath.Context(document);
+
+                var path_result = path_context.eval_expression(
+                    "/InstrumentTable/Instrument"
+                    );
+
+                for (var index = 0; index < count; index++)
+                {
+                    var factory = create_factory();
+
+                    //lookup[name] = factory;
+                }
+            }
+            finally
+            {
+                delete document;
+            }
+*/
             lookup["BkPrecision715"] = new ThermometerFactory();
             lookup["BkPrecision725"] = new ThermometerFactory();
             lookup["ExtechSdl200"] = new ThermometerFactory();

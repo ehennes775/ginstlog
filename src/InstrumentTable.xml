@@ -2,91 +2,120 @@
 <!-- Metadata for instruments supported by ginstlog -->
 <InstrumentTable>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>BkPrecision5942B</ElementName>
         <Manufacturer>B&amp;K Precision</Manufacturer>
         <Model>5492B</Model>
         <Description>5 1/2 Digit Bench Digital Multimeter</Description>
         <Link>https://www.bkprecision.com/products/multimeters/5492B-5-1-2-digit-bench-digital-multimeter.html</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Scpi</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>BkPrecision710</ElementName>
         <Manufacturer>B&amp;K Precision</Manufacturer>
         <Model>Model 710</Model>
         <Description>Dual Input Thermometer</Description>
         <Link>http://www.bkprecision.com/products/environmental-testers/710-dual-input-thermometer.html</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Model301</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>BkPrecision715</ElementName>
         <Manufacturer>B&amp;K Precision</Manufacturer>
         <Model>Model 715</Model>
         <Description>Dual Input Thermometer with Datalogging</Description>
         <Link>https://www.bkprecision.com/products/environmental-testers/715-dual-input-thermometer-with-datalogging.html</Link>
         <Support>Supported</Support>
+        <InstrumentFactoryId>Model306</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>BkPrecision720</ElementName>
         <Manufacturer>B&amp;K Precision</Manufacturer>
         <Model>Model 720</Model>
         <Description>Humidity/Temp Meter with Dual Input</Description>
         <Link>https://www.bkprecision.com/products/environmental-testers/720-humidity-temp-meter-with-dual-input.html</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Model311</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>BkPrecision725</ElementName>
         <Manufacturer>B&amp;K Precision</Manufacturer>
         <Model>Model 725</Model>
         <Description>Datalogging Humidity/Temp Meter with Dual Input</Description>
         <Link>https://www.bkprecision.com/products/environmental-testers/725-datalogging-humidity-temp-meter-with-dual-input.html</Link>
         <Support>Supported</Support>
+        <InstrumentFactoryId>Model314B</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>Extech380193</ElementName>
         <Manufacturer>Extech</Manufacturer>
         <Model>380193</Model>
         <Description>Passive Component LCR Meter</Description>
         <Link>http://www.extech.com/display/?id=14154</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Model380193</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>ExtechEA15</ElementName>
         <Manufacturer>Extech</Manufacturer>
         <Model>EA15</Model>
         <Description>EasyView&#8482; Dual Input Temperature Datalogger</Description>
         <Link>http://www.extech.com/display/?id=14443</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>EA15</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>ExtechLCR200</ElementName>
         <Manufacturer>Extech</Manufacturer>
         <Model>LCR200</Model>
         <Description>Passive Component LCR Meter</Description>
         <Link>http://www.extech.com/display/?id=14531</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>LCR200</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>ExtechSDL200</ElementName>
         <Manufacturer>Extech</Manufacturer>
         <Model>SDL200</Model>
         <Description>4-Channel Datalogging Thermometer</Description>
         <Link>http://www.extech.com/display/?id=14531</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>SDL200</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>OmegaHH303</ElementName>
+        <Manufacturer>Omega Engineering</Manufacturer>
+        <Model>HH303</Model>
+        <Description>OMEGAETTE™ HH303 Datalogger Thermometer</Description>
+        <Link>https://www.omega.com/pptst/HH300_303.html</Link>
+        <Support>Planned</Support>
+        <InstrumentFactoryId>Model303</InstrumentFactoryId>
+    </Instrument>
+    <Instrument>
+        <ElementName>OmegaHH309A</ElementName>
         <Manufacturer>Omega Engineering</Manufacturer>
         <Model>HH309A</Model>
         <Description>Four-Channel Temperature Logger with USB and RS232</Description>
         <Link>https://www.omega.com/pptst/HH309A.html</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Model309</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName></ElementName>
+        <ElementName>OmegaHH311</ElementName>
+        <Manufacturer>Omega Engineering</Manufacturer>
+        <Model>HH311</Model>
+        <Description>OMEGAETTE&#8482; HH311 Series Humidity Temperature Meter</Description>
+        <Link>https://www.omega.com/pptst/HH310_311.html</Link>
+        <Support>Planned</Support>
+        <InstrumentFactoryId>Model314</InstrumentFactoryId>
+    </Instrument>
+    <Instrument>
+        <ElementName>OmegaHH314A</ElementName>
         <Manufacturer>Omega Engineering</Manufacturer>
         <Model>HH314A</Model>
         <Description>Handheld Temperature Humidity Meter with USB and RS232</Description>
         <Link>https://www.omega.com/pptst/HH314A.html</Link>
         <Support>Planned</Support>
+        <InstrumentFactoryId>Model314</InstrumentFactoryId>
     </Instrument>
 </InstrumentTable>

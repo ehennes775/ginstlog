@@ -9,6 +9,43 @@ namespace ginstlog
     namespace XmlUtility
     {
         /**
+         * Load an XML document from a resource
+         *
+         * @param resource
+         * @param path
+         * @param flags
+         * @return
+         */
+        public Xml.Doc* document_from_resource(Resource resource, string path, ResourceLookupFlags flags)
+        {
+            var bytes = resource.lookup_data(path, flags);
+
+            if (bytes == null)
+            {
+                throw new InternalError.RESOURCE_LOOKUP(
+                    @"Unable to lookup resource '$(path)'"
+                    );
+            }
+
+            var data = bytes.get_data();
+
+            var document = Xml.Parser.parse_memory(
+                (string) data,
+                data.length
+                );
+
+            if (document == null)
+            {
+                throw new InternalError.RESOURCE_PARSE(
+                    @"Unable to parse XML resource '$(path)'"
+                    );
+            }
+
+            return document;
+        }
+
+
+        /**
          *
          *
          * @param path_context

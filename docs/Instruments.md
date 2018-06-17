@@ -12,6 +12,8 @@ The following table contains the instruments supported by ginstlog.
 |Extech|[EA15]([http://www.extech.com/display/?id=14443)|EasyView™ Dual Input Temperature Datalogger|Planned|
 |Extech|[LCR200]([http://www.extech.com/display/?id=14531)|Passive Component LCR Meter|Planned|
 |Extech|[SDL200]([http://www.extech.com/display/?id=14531)|4-Channel Datalogging Thermometer|Planned|
+|Omega Engineering|[HH303]([https://www.omega.com/pptst/HH300_303.html)|OMEGAETTE™ HH303 Datalogger Thermometer|Planned|
 |Omega Engineering|[HH309A]([https://www.omega.com/pptst/HH309A.html)|Four-Channel Temperature Logger with USB and RS232|Planned|
+|Omega Engineering|[HH311]([https://www.omega.com/pptst/HH310_311.html)|OMEGAETTE™ HH311 Series Humidity Temperature Meter|Planned|
 |Omega Engineering|[HH314A]([https://www.omega.com/pptst/HH314A.html)|Handheld Temperature Humidity Meter with USB and RS232|Planned|
 

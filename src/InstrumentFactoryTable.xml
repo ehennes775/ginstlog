@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InstrumentFactoryTable>
+    <InstrumentFactory id="Model301">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+    <InstrumentFactory id="Model303">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+    <InstrumentFactory id="Model306">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+    <InstrumentFactory id="Model309">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+    <InstrumentFactory id="Model311">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+    <InstrumentFactory id="Model314B">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
+</InstrumentFactoryTable>
