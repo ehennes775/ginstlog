@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Metadata for instruments supported by ginstlog -->
+<InstrumentTable>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>BK Precision</Manufacturer>
+        <Model>5492B</Model>
+        <Description>5 1/2 Digit Bench Digital Multimeter</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>BK Precision</Manufacturer>
+        <Model>Model 710</Model>
+        <Description>Dual Input Thermometer</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>BK Precision</Manufacturer>
+        <Model>Model 715</Model>
+        <Description>Dual Input Thermometer with Datalogging</Description>
+        <Support>Supported</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>BK Precision</Manufacturer>
+        <Model>Model 720</Model>
+        <Description>Humidity/Temp Meter with Dual Input</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>BK Precision</Manufacturer>
+        <Model>Model 725</Model>
+        <Description>Datalogging Humidity/Temp Meter with Dual Input</Description>
+        <Support>Supported</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Extech</Manufacturer>
+        <Model>380193</Model>
+        <Description>Passive Component LCR Meter</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Extech</Manufacturer>
+        <Model>EA15</Model>
+        <Description>EasyView Dual Input Temperature Datalogger</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Extech</Manufacturer>
+        <Model>LCR200</Model>
+        <Description>Passive Component LCR Meter</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Extech</Manufacturer>
+        <Model>SDL200</Model>
+        <Description>4-Channel Datalogging Thermometer</Description>
+        <Support>Planned</Support>
+    </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Omega Engineering</Manufacturer>
+        <Model>HH309A</Model>
+        <Description>Four-Channel Temperature Logger with USB and RS232</Description>
+        <Support>Planned</Support>
+    </Instrument>
+</InstrumentTable>

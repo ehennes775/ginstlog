@@ -51,3 +51,6 @@ ginstlog_SOURCES = \
 	$(BUILT_SOURCES)
 
 ginstlog_LDADD = -lm $(DEPS_LIBS)
+
+../docs/Instruments.md : InstrumentTable.xml InstrumentTableToMarkdown.xslt
+	xsltproc --output ../docs/Instruments.md InstrumentTableToMarkdown.xslt InstrumentTable.xml
