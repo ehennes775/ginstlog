@@ -58,14 +58,18 @@ namespace ginstlog
 
             if (factory == null)
             {
-                throw new ConfigurationError.GENERIC(@"");
+                throw new ConfigurationError.GENERIC(
+                    @"A"
+                    );
             }
 
             var instrument = factory.create_instrument(path_context);
 
             if (instrument == null)
             {
-                throw new ConfigurationError.GENERIC(@"");
+                throw new ConfigurationError.GENERIC(
+                    @"B"
+                    );
             }
 
             return instrument;
@@ -134,7 +138,6 @@ namespace ginstlog
                             );
 
                         lookup[element_name] = new ThermometerFactory();
-                        stdout.printf(@"element_name = $(element_name)\n");
                     }
                 }
                 finally
@@ -146,34 +149,6 @@ namespace ginstlog
             {
                 delete document;
             }
-
-
-/*
-            var document = Xml.Parser.parse();
-
-            try
-            {
-                var path_context = new Xml.XPath.Context(document);
-
-                var path_result = path_context.eval_expression(
-                    "/InstrumentTable/Instrument"
-                    );
-
-                for (var index = 0; index < count; index++)
-                {
-                    var factory = create_factory();
-
-                    //lookup[name] = factory;
-                }
-            }
-            finally
-            {
-                delete document;
-            }
-*/
-            lookup["BkPrecision715"] = new ThermometerFactory();
-            lookup["BkPrecision725"] = new ThermometerFactory();
-            lookup["ExtechSdl200"] = new ThermometerFactory();
 
             return lookup;
         }

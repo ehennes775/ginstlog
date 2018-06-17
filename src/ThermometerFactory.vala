@@ -207,7 +207,7 @@ namespace ginstlog
                     serial_device
                     );
             }
-            else if (path_context.node->name == "ExtechSdl200")
+            else if (path_context.node->name == "ExtechSDL200")
             {
                 return new ExtechSdl200Worker(
                     channels,

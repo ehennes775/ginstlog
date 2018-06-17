@@ -48,7 +48,7 @@
                 </SerialServer>
             </DeviceTable>
         </BkPrecision725>
-        <ExtechSdl200 id="2">
+        <ExtechSDL200 id="2">
             <Name>Four Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
@@ -75,6 +75,6 @@
                     <Timeout>2000 ms</Timeout>
                 </SerialServer>
             </DeviceTable>
-        </ExtechSdl200>
+        </ExtechSDL200>
     </InstrumentTable>
 </Configuration>
