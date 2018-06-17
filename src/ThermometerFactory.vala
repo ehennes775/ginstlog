@@ -9,17 +9,6 @@ namespace ginstlog
     public class ThermometerFactory : InstrumentFactory
     {
         /**
-         * The string to prefix channel names for thermometers
-         */
-        public string channel_prefix
-        {
-            get;
-            construct;
-            default = "T";
-        }
-
-
-        /**
          *
          */
         public string factory_id
@@ -30,15 +19,21 @@ namespace ginstlog
 
 
         /**
-         * Initialize the instance
+         *
          */
-        construct
+        public InstrumentWorkerFactory factory
         {
-            m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
+            get;
+            private set;
+        }
 
-            m_serial_device_factory_lookup.add(
-                new TtySerialDeviceFactory()
-                );
+
+        /**
+         * Initialize the class
+         */
+        static construct
+        {
+            s_lookup = create_lookup();
         }
 
 
@@ -56,6 +51,15 @@ namespace ginstlog
                 path_context,
                 "./InstrumentFactoryId"
                 );
+
+            factory = s_lookup[factory_id];
+
+            if (factory == null)
+            {
+                throw new ConfigurationError.GENERIC(
+                    @"Unknown device $(factory_id)"
+                    );
+            }
         }
 
 
@@ -69,202 +73,78 @@ namespace ginstlog
         {
             var worker = create_worker(path_context);
 
-            return new Thermometer(worker);
-        }
-
-
-
-
-        /**
-         *
-         */
-        private Channel create_channel(Xml.Node* node) throws Error
-
-            requires(node != null)
-            requires(node->doc != null)
-
-        {
-            var path_context = new Xml.XPath.Context(node->doc);
-
-            path_context.node = node;
-
-            var index = XmlUtility.get_required_int(
-                path_context,
-                "./@index"
-                );
-
-            var default_name = make_default_channel_name(index);
-
-            var name = XmlUtility.get_optional_string(
-                path_context,
-                "./Name",
-                default_name
-                );
-
-            return new Channel(index, default_name, name);
+            return new Thermometer(worker.name, worker);
         }
 
 
         /**
          *
          */
-        private Channel[] create_channels(Xml.XPath.Context path_context) throws Error
+        private InstrumentWorker create_worker(Xml.XPath.Context path_context) throws Error
         {
-            var path_result = path_context.eval_expression(
-                @"./ChannelTable/Channel"
+            if (factory == null)
+            {
+                throw new InternalError.UNKNOWN("NULL");
+            }
+
+            var worker = factory.create(path_context);
+
+            if (worker == null)
+            {
+                throw new InternalError.UNKNOWN("NULL");
+            }
+
+            return worker;
+        }
+
+
+        /**
+         * Get the static resource compiled with the application
+         *
+         * The applicaiton generates a SIGSEGV if the reference is owned.
+         */
+        [CCode(cname="ginstlog_get_resource")]
+        private extern static unowned Resource get_resource();
+
+
+        /**
+         *
+         */
+        private static Gee.Map<string,InstrumentWorkerFactory> s_lookup = null;
+
+
+        /**
+         *
+         */
+        private static Gee.Map<string,InstrumentWorkerFactory> create_lookup()
+        {
+            var document = XmlUtility.document_from_resource(
+                get_resource(),
+                "/com/github/ehennes775/ginstlog/InstrumentFactoryTable.xml",
+                ResourceLookupFlags.NONE
                 );
+
+            var lookup = new Gee.HashMap<string,InstrumentWorkerFactory>();
 
             try
             {
-                return_val_if_fail(
-                    path_result != null,
-                    null
-                    );
-
-                return_val_if_fail(
-                    path_result->type == Xml.XPath.ObjectType.NODESET,
-                    null
-                    );
-
-                return_val_if_fail(
-                    path_result->nodesetval != null,
-                    null
-                    );
-
-                var count = path_result->nodesetval->length();
-
-                var channel_table = new Channel[count];
-
-                for (int node_index = 0; node_index < count; node_index++)
+                var factories = new InstrumentWorkerFactory[]
                 {
-                    var node = path_result->nodesetval->item(node_index);
+                    new Model306WorkerFactory(document),
+                    new Model314WorkerFactory(document)
+                };
 
-                    var channel = create_channel(node);
-
-                    if ((channel.index < 0) || (channel.index >= count))
-                    {
-                        throw new ConfigurationError.GENERIC(
-                            @"Channel index $(channel.index) out of range [0,$(count))"
-                            );
-                    }
-
-                    if (channel_table[channel.index] != null)
-                    {
-                        throw new ConfigurationError.GENERIC(
-                            @"Duplicate channel index $(channel.index)"
-                            );
-                    }
-
-                    channel_table[channel.index] = channel;
+                foreach (var factory in factories)
+                {
+                    lookup[factory.id] = factory;
                 }
-
-                return channel_table;
             }
             finally
             {
-                delete path_result;
+                delete document;
             }
-        }
 
-
-        private SerialDeviceFactoryLookup m_serial_device_factory_lookup;
-
-
-        /**
-         *
-         */
-        private SerialDevice create_device(Xml.XPath.Context path_context) throws Error
-
-            requires(m_serial_device_factory_lookup != null)
-            requires(path_context.node != null)
-
-        {
-            return m_serial_device_factory_lookup.create(path_context);
-        }
-
-
-        /**
-         *
-         */
-        private SerialDevice create_active_device(Xml.XPath.Context path_context) throws Error
-        {
-            var active_id = XmlUtility.get_required_string(
-                path_context,
-                "./DeviceTable/@activeId"
-                );
-
-            var device_node = XmlUtility.get_required_node(
-                path_context,
-                @"./DeviceTable/*[@id=$(active_id)]"
-                );
-
-            var device_path_context = new Xml.XPath.Context(device_node->doc);
-            device_path_context.node = device_node;
-
-            return create_device(device_path_context);
-        }
-
-
-        private Thermometer3xxWorker create_worker(Xml.XPath.Context path_context) throws Error
-        {
-            var channels = create_channels(path_context);
-
-            var name = XmlUtility.get_optional_string(
-                path_context,
-                "./Name",
-                null
-                );
-
-            var serial_device = create_active_device(path_context);
-
-            if (factory_id == "Model314B")
-            {
-                return new HumidityTempMeter314BWorker(
-                    channels,
-                    500000,
-                    name,
-                    serial_device
-                    );
-            }
-            else if (factory_id == "Model306")
-            {
-                return new Thermometer306Worker(
-                    channels,
-                    500000,
-                    name,
-                    serial_device
-                    );
-            }
-            else if (factory_id == "SDL200")
-            {
-                return new ExtechSdl200Worker(
-                    channels,
-                    500000,
-                    name,
-                    serial_device
-                    );
-            }
-            else
-            {
-                throw new ConfigurationError.GENERIC(
-                    @"Unknown device $(factory_id)"
-                    );
-            }
-        }
-
-
-        /**
-         * Create a default name for a thermometer channel
-         *
-         * @param node The zero based channel index
-         * @return A default name for the channel
-         */
-        private string make_default_channel_name(int index)
-
-            requires(index >= 0)
-
-        {
-            return @"T$(index + 1)";
+            return lookup;
         }
     }
 }

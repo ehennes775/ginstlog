@@ -68,7 +68,7 @@ namespace ginstlog
             if (instrument == null)
             {
                 throw new ConfigurationError.GENERIC(
-                    @"B"
+                    @"Could not create $(name)"
                     );
             }
 
@@ -93,9 +93,11 @@ namespace ginstlog
 
         /**
          * Get the static resource compiled with the application
+         *
+         * The applicaiton generates a SIGSEGV if the reference is owned.
          */
         [CCode(cname="ginstlog_get_resource")]
-        private extern static Resource get_resource();
+        private extern static unowned Resource get_resource();
 
 
         /**
@@ -128,16 +130,23 @@ namespace ginstlog
 
                     for (var index = 0; index < count; index++)
                     {
-                        var node = path_result->nodesetval->item(index);
+                        try
+                        {
+                            var node = path_result->nodesetval->item(index);
 
-                        path_context.node = node;
+                            path_context.node = node;
 
-                        var element_name = XmlUtility.get_required_string(
-                            path_context,
-                            "./ElementName"
-                            );
+                            var element_name = XmlUtility.get_required_string(
+                                path_context,
+                                "./ElementName"
+                                );
 
-                        lookup[element_name] = new ThermometerFactory(path_context);
+                            lookup[element_name] = new ThermometerFactory(path_context);
+                        }
+                        catch (Error error)
+                        {
+                            stderr.printf(@"$(error.message)\n");
+                        }
                     }
                 }
                 finally

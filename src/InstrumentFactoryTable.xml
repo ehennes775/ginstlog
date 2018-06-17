@@ -35,7 +35,7 @@
         <Parity>N</Parity>
         <StopBits>1</StopBits>
     </InstrumentFactory>
-    <InstrumentFactory id="Model314B">
+    <InstrumentFactory id="Model314">
         <GetType>ginstlog_thermometer_factory_get_type</GetType>
         <BaudRate>9600</BaudRate>
         <DataBits>8</DataBits>

@@ -11,11 +11,14 @@ namespace ginstlog
         /**
          * Construct the thermometer
          */
-        public Thermometer(Thermometer3xxWorker worker) throws Error
+        public Thermometer(
+            string name,
+            InstrumentWorker worker
+            ) throws Error
         {
             Object(
                 channel_count : worker.channel_count,
-                name : worker.name
+                name : name
                 );
 
             m_worker = worker;
@@ -68,7 +71,7 @@ namespace ginstlog
         /**
          *
          */
-        private Thermometer3xxWorker? m_worker;
+        private InstrumentWorker? m_worker;
 
 
         /**

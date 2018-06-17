@@ -34,6 +34,8 @@ ginstlog_SOURCES = \
 	MainWindow.vala \
 	Measurement.vala \
 	MeasurementFailure.vala \
+	Model306WorkerFactory.vala \
+	Model314WorkerFactory.vala \
 	Program.vala \
 	RelativeHumidity.vala \
 	SerialDevice.vala \

@@ -44,7 +44,7 @@
         <Description>Datalogging Humidity/Temp Meter with Dual Input</Description>
         <Link>https://www.bkprecision.com/products/environmental-testers/725-datalogging-humidity-temp-meter-with-dual-input.html</Link>
         <Support>Supported</Support>
-        <InstrumentFactoryId>Model314B</InstrumentFactoryId>
+        <InstrumentFactoryId>Model314</InstrumentFactoryId>
     </Instrument>
     <Instrument>
         <ElementName>Extech380193</ElementName>
