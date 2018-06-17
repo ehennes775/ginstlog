@@ -28,6 +28,8 @@ ginstlog_SOURCES = \
 	InstrumentError.vala \
 	InstrumentFactory.vala \
 	InstrumentFactoryLookup.vala \
+	InstrumentWorker.vala \
+	InstrumentWorkerFactory.vala \
 	InternalError.vala \
 	MainWindow.vala \
 	Measurement.vala \

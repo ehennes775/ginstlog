@@ -20,7 +20,7 @@ namespace ginstlog
       * If reference counting occured on an instance of the same class, then
       * an alternate mechanism would be requred to force garbage collection.
       */
-    public abstract class Thermometer3xxWorker : Object
+    public abstract class Thermometer3xxWorker : InstrumentWorker
     {
         /**
          * Update UI readouts with a new measurement
