@@ -5,10 +5,12 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
 AC_PROG_CC
 AM_PROG_VALAC([0.25.1])
+AC_SUBST(PACKAGE_NAME)
 
 AC_CONFIG_FILES([
 	Makefile
 	docs/Makefile
+	src/InstrumentTableToMarkdown.xslt
 	src/Makefile
 	])
 
