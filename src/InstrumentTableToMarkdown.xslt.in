@@ -7,7 +7,7 @@ Converts the InstrumentTable.xml file into a markdown table for documnetation.
     <xsl:template match="/InstrumentTable">
         <xsl:text># Instruments
 </xsl:text>
-        <xsl:text>The following table contains the instruments supported by ginstlog.
+        <xsl:text>The following table contains the instruments supported by @PACKAGE_NAME@.
 
 </xsl:text>
         <xsl:text>|</xsl:text>
@@ -35,9 +35,11 @@ Converts the InstrumentTable.xml file into a markdown table for documnetation.
     <xsl:template match="/InstrumentTable/Instrument">
         <xsl:text>|</xsl:text>
         <xsl:value-of select="Manufacturer"/>
-        <xsl:text>|</xsl:text>
+        <xsl:text>|[</xsl:text>
         <xsl:value-of select="Model"/>
-        <xsl:text>|</xsl:text>
+        <xsl:text>](</xsl:text>
+        <xsl:value-of select="Link"/>
+        <xsl:text>)|</xsl:text>
         <xsl:value-of select="Description"/>
         <xsl:text>|</xsl:text>
         <xsl:value-of select="Support"/>
