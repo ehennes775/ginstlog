@@ -3,6 +3,7 @@
 Converts the InstrumentTable.xml file into a markdown table for documnetation.
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output omit-xml-declaration="yes"/>
     <xsl:template match="/InstrumentTable">
         <xsl:text># Instruments
 </xsl:text>

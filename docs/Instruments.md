@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 # Instruments
 The following table contains the instruments supported by gintlog.
 
