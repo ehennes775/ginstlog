@@ -27,7 +27,7 @@ stamp-h1
 compile
 
 ginstlog
+src/InstrumentTableToMarkdown.xslt
 
 ## Backup files
 *~
-

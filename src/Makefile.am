@@ -10,7 +10,7 @@ RESOURCE_FILES = ginstlog.gresource.c
 $(RESOURCE_FILES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCES_FILE))
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source $<
 
-BUILT_SOURCES =
+BUILT_SOURCES = \
 	$(RESOURCE_FILES)
 
 bin_PROGRAMS = ginstlog
