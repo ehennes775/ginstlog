@@ -7,6 +7,8 @@ AC_PROG_CC
 AM_PROG_VALAC([0.25.1])
 AC_SUBST(PACKAGE_NAME)
 
+AC_CHECK_PROG([XSLTPROC],[xsltproc],[xsltproc])
+
 AC_CONFIG_FILES([
 	Makefile
 	docs/Makefile

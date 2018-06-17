@@ -81,4 +81,12 @@
         <Link>https://www.omega.com/pptst/HH309A.html</Link>
         <Support>Planned</Support>
     </Instrument>
+    <Instrument>
+        <ElementName></ElementName>
+        <Manufacturer>Omega Engineering</Manufacturer>
+        <Model>HH314A</Model>
+        <Description>Handheld Temperature Humidity Meter with USB and RS232</Description>
+        <Link>https://www.omega.com/pptst/HH314A.html</Link>
+        <Support>Planned</Support>
+    </Instrument>
 </InstrumentTable>
