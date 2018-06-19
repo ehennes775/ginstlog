@@ -46,10 +46,10 @@ ginstlog_SOURCES = \
 	TemperatureUnits.vala \
 	ThermocoupleType.vala \
 	Thermometer.vala \
-	Thermometer301Worker.vala \
-	Thermometer304Worker.vala \
-	Thermometer306Worker.vala \
-	Thermometer3xxWorker.vala \
+	Series300/Thermometer301Worker.vala \
+	Series300/Thermometer304Worker.vala \
+	Series300/Thermometer306Worker.vala \
+	Series300/Thermometer3xxWorker.vala \
 	ThermometerFactory.vala \
 	ThermometerWidget.vala \
 	TripleThermometerWidget.vala \

@@ -2,7 +2,7 @@ AC_INIT([ginstlog],[0.0],[],[ginstlog],[https://github.com/ehennes775/ginstlog])
 AC_PREREQ([2.64])
 
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_PROG_CC
 AM_PROG_VALAC([0.25.1])
 AC_SUBST(PACKAGE_NAME)
