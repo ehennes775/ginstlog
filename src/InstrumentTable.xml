@@ -65,15 +65,6 @@
         <InstrumentFactoryId>EA15</InstrumentFactoryId>
     </Instrument>
     <Instrument>
-        <ElementName>ExtechLCR200</ElementName>
-        <Manufacturer>Extech</Manufacturer>
-        <Model>LCR200</Model>
-        <Description>Passive Component LCR Meter</Description>
-        <Link>http://www.extech.com/display/?id=14531</Link>
-        <Support>Planned</Support>
-        <InstrumentFactoryId>LCR200</InstrumentFactoryId>
-    </Instrument>
-    <Instrument>
         <ElementName>ExtechSDL200</ElementName>
         <Manufacturer>Extech</Manufacturer>
         <Model>SDL200</Model>

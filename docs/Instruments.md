@@ -10,7 +10,6 @@ The following table contains the instruments supported by ginstlog.
 |B&amp;K Precision|[Model 725](https://www.bkprecision.com/products/environmental-testers/725-datalogging-humidity-temp-meter-with-dual-input.html)|Datalogging Humidity/Temp Meter with Dual Input|Supported|
 |Extech|[380193](http://www.extech.com/display/?id=14154)|Passive Component LCR Meter|Planned|
 |Extech|[EA15](http://www.extech.com/display/?id=14443)|EasyView™ Dual Input Temperature Datalogger|Planned|
-|Extech|[LCR200](http://www.extech.com/display/?id=14531)|Passive Component LCR Meter|Planned|
 |Extech|[SDL200](http://www.extech.com/display/?id=14531)|4-Channel Datalogging Thermometer|Planned|
 |Omega Engineering|[HH303](https://www.omega.com/pptst/HH300_303.html)|OMEGAETTE™ HH303 Datalogger Thermometer|Planned|
 |Omega Engineering|[HH309A](https://www.omega.com/pptst/HH309A.html)|Four-Channel Temperature Logger with USB and RS232|Planned|
