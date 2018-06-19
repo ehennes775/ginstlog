@@ -11,8 +11,8 @@ AC_CHECK_PROG([XSLTPROC],[xsltproc],[xsltproc])
 
 AC_CONFIG_FILES([
 	Makefile
+	docs/InstrumentTableToMarkdown.xslt
 	docs/Makefile
-	src/InstrumentTableToMarkdown.xslt
 	src/Makefile
 	])
 

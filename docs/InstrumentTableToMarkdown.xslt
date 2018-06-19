@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Converts the InstrumentTable.xml file into a markdown table for documnetation.
+-->
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output omit-xml-declaration="yes"/>
+    <xsl:template match="/InstrumentTable">
+        <xsl:text># Instruments
+</xsl:text>
+        <xsl:text>The following table contains the instruments supported by ginstlog.
+
+</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>Manufacturer</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>Model</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>Description</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>Support</xsl:text>
+        <xsl:text>|
+</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>---</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>---</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>---</xsl:text>
+        <xsl:text>|</xsl:text>
+        <xsl:text>---</xsl:text>
+        <xsl:text>|
+</xsl:text>
+        <xsl:apply-templates select="/InstrumentTable/Instrument"/>
+    </xsl:template>
+    <xsl:template match="/InstrumentTable/Instrument">
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="Manufacturer"/>
+        <xsl:text>|[</xsl:text>
+        <xsl:value-of select="Model"/>
+        <xsl:text>](</xsl:text>
+        <xsl:value-of select="Link"/>
+        <xsl:text>)|</xsl:text>
+        <xsl:value-of select="Description"/>
+        <xsl:text>|</xsl:text>
+        <xsl:value-of select="Support"/>
+        <xsl:text>|
+</xsl:text>
+    </xsl:template>
+</xsl:stylesheet>
