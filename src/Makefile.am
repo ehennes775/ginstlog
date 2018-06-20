@@ -16,6 +16,14 @@ BUILT_SOURCES = \
 bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
+	Series300/Model306WorkerFactory.vala \
+	Series300/Model314WorkerFactory.vala \
+	Series300/ReadMeasurements.vala \
+	Series300/ReadMeasurements45.vala \
+	Series300/Thermometer301Worker.vala \
+	Series300/Thermometer304Worker.vala \
+	Series300/Thermometer306Worker.vala \
+	Series300/Thermometer3xxWorker.vala \
 	Channel.vala \
 	Configuration.vala \
 	ConfigurationError.vala \
@@ -34,8 +42,6 @@ ginstlog_SOURCES = \
 	MainWindow.vala \
 	Measurement.vala \
 	MeasurementFailure.vala \
-	Model306WorkerFactory.vala \
-	Model314WorkerFactory.vala \
 	Program.vala \
 	RelativeHumidity.vala \
 	SerialDevice.vala \
@@ -46,10 +52,6 @@ ginstlog_SOURCES = \
 	TemperatureUnits.vala \
 	ThermocoupleType.vala \
 	Thermometer.vala \
-	Series300/Thermometer301Worker.vala \
-	Series300/Thermometer304Worker.vala \
-	Series300/Thermometer306Worker.vala \
-	Series300/Thermometer3xxWorker.vala \
 	ThermometerFactory.vala \
 	ThermometerWidget.vala \
 	TripleThermometerWidget.vala \
