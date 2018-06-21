@@ -179,7 +179,7 @@ namespace ginstlog
 
             var mask = 0x01 << channel.index;
 
-            var open_loop = (bytes[42] & mask) == mask;
+            var open_loop = (bytes[43] & mask) == mask;
 
             if (open_loop)
             {
@@ -190,7 +190,10 @@ namespace ginstlog
             }
             else
             {
+                // todo: the sign is in the data bytes
                 var negative = false; //(bytes[2] & 0x02) == 0x02;
+
+                // the resolution is not at 43.
                 var places = (bytes[43] & mask) == mask ? 0 : 1;
 
                 var index0 = 2 * channel.index + 7;
