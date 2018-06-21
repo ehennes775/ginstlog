@@ -16,15 +16,16 @@ BUILT_SOURCES = \
 bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
+	Series300/Model301Worker.vala \
+	Series300/Model304Worker.vala \
+	Series300/Model306Worker.vala \
 	Series300/Model306WorkerFactory.vala \
 	Series300/Model309Worker.vala \
 	Series300/Model309WorkerFactory.vala \
+	Series300/Model314BWorker.vala \
 	Series300/Model314WorkerFactory.vala \
 	Series300/ReadMeasurements.vala \
 	Series300/ReadMeasurements45.vala \
-	Series300/Thermometer301Worker.vala \
-	Series300/Thermometer304Worker.vala \
-	Series300/Thermometer306Worker.vala \
 	Series300/Thermometer3xxWorker.vala \
 	Channel.vala \
 	Configuration.vala \
@@ -33,7 +34,6 @@ ginstlog_SOURCES = \
 	ErrorDialog.vala \
 	ExtechSdl200Worker.vala \
 	FourChannelInstrumentWidget.vala \
-	HumidityTempMeter314BWorker.vala \
 	Instrument.vala \
 	InstrumentError.vala \
 	InstrumentFactory.vala \
