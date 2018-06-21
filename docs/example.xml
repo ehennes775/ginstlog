@@ -48,7 +48,7 @@
                 </SerialServer>
             </DeviceTable>
         </BkPrecision725>
-        <BkPrecision715 id="2">
+        <OmegaHH309A id="2">
             <Name>Two Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
@@ -57,6 +57,12 @@
                 </Channel>
                 <Channel index="1">
                     <Name>T2: Thermocouple</Name>
+                </Channel>
+                <Channel index="2">
+                    <Name>T3: Ambient</Name>
+                </Channel>
+                <Channel index="3">
+                    <Name>T4: Thermocouple</Name>
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">
@@ -69,6 +75,6 @@
                     <Timeout>2000 ms</Timeout>
                 </SerialServer>
             </DeviceTable>
-        </BkPrecision715>
+        </OmegaHH309A>
     </InstrumentTable>
 </Configuration>

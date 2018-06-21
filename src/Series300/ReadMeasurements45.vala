@@ -77,7 +77,7 @@ namespace ginstlog
                     );
             }
 
-            if (response[-1] != END_BYTE)
+            if (response[RESPONSE_LENGTH-1] != END_BYTE)
             {
                 throw new CommunicationError.FRAMING_ERROR(
                     @"Framing error: Expecting $(END_BYTE) at end of response"
@@ -114,10 +114,10 @@ namespace ginstlog
         {
             var measurement = new Measurement[]
             {
-                decode_t1(m_channel[0], bytes),
-                decode_t1(m_channel[1], bytes),
-                decode_t1(m_channel[2], bytes),
-                decode_t1(m_channel[3], bytes)
+                decode_t(m_channel[0], bytes),
+                decode_t(m_channel[1], bytes),
+                decode_t(m_channel[2], bytes),
+                decode_t(m_channel[3], bytes)
             };
 
             return measurement;
@@ -170,14 +170,16 @@ namespace ginstlog
          * @param bytes The response to the 'A' command
          * @return The measurement from the first channel
          */
-        private Measurement decode_t1(Channel channel, uint8[] bytes) throws Error
+        private Measurement decode_t(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length != RESPONSE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 null
                 );
 
-            var open_loop = (bytes[42] & 0x01) == 0x01;
+            var mask = 0x01 << channel.index;
+
+            var open_loop = (bytes[42] & mask) == mask;
 
             if (open_loop)
             {
@@ -189,11 +191,14 @@ namespace ginstlog
             else
             {
                 var negative = false; //(bytes[2] & 0x02) == 0x02;
-                var places = (bytes[43] & 0x01) == 0x01 ? 0 : 1;
+                var places = (bytes[43] & mask) == mask ? 0 : 1;
+
+                var index0 = 2 * channel.index + 7;
+                var index1 = index0 + 2;
 
                 var readout_value = decode_readout(
                     negative,
-                    bytes[7:9],
+                    bytes[index0:index1],
                     places
                     );
 
@@ -219,19 +224,19 @@ namespace ginstlog
         private TemperatureUnits decode_units(uint8[] bytes)
         {
             return_val_if_fail(
-                bytes.length != RESPONSE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 TemperatureUnits.UNKNOWN
                 );
 
             var index = (bytes[1] >> 7) & 0x01;
 
             return_val_if_fail(
-                index < 0,
+                index >= 0,
                 TemperatureUnits.UNKNOWN
                 );
 
             return_val_if_fail(
-                index > TEMPERATURE_UNITS_LOOKUP.length,
+                index < TEMPERATURE_UNITS_LOOKUP.length,
                 TemperatureUnits.UNKNOWN
                 );
 
