@@ -153,10 +153,43 @@ namespace ginstlog
          */
         private Measurement[] decode_measurements(uint8[] bytes) throws Error
         {
+            var display_mode = (bytes[2] >> 6) & 0x03;
+
+            if (display_mode == 0x00)
+            {
+                var measurement = new Measurement[]
+                {
+                    decode_t(1, m_channel[0], bytes),
+                    new MeasurementFailure(m_channel[1], "N/A")
+                };
+
+                return measurement;
+            }
+            if (display_mode == 0x01)
+            {
+                var measurement = new Measurement[]
+                {
+                    new MeasurementFailure(m_channel[0], "N/A"),
+                    decode_t(1, m_channel[1], bytes)
+                };
+
+                return measurement;
+            }
+            if (display_mode == 0x02)
+            {
+                var measurement = new Measurement[]
+                {
+                    decode_t(0, m_channel[0], bytes),
+                    decode_t(1, m_channel[1], bytes)
+                };
+
+                return measurement;
+            }
+
             var measurement = new Measurement[]
             {
-                decode_t(0, m_channel[0], bytes),
-                decode_t(1, m_channel[1], bytes)
+                decode_t(1, m_channel[0], bytes),
+                decode_t(0, m_channel[1], bytes)
             };
 
             return measurement;
