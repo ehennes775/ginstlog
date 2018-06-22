@@ -55,28 +55,35 @@ namespace ginstlog
          */
         public MainWindow.with_configuration(Configuration configuration)
         {
-            var instruments = configuration.create_instruments();
-
-            foreach (var instrument in instruments)
+            try
             {
-                if (instrument.channel_count == 4)
+                var instruments = configuration.create_instruments();
+
+                foreach (var instrument in instruments)
                 {
-                    var widget = new FourChannelInstrumentWidget();
-                    widget.instrument = instrument;
-                    m_instrument_rack.add(widget);
+                    if (instrument.channel_count == 4)
+                    {
+                        var widget = new FourChannelInstrumentWidget();
+                        widget.instrument = instrument;
+                        m_instrument_rack.add(widget);
+                    }
+                    else if (instrument.channel_count == 3)
+                    {
+                        var widget = new TripleThermometerWidget();
+                        widget.instrument = instrument;
+                        m_instrument_rack.add(widget);
+                    }
+                    else
+                    {
+                        var widget = new ThermometerWidget();
+                        widget.instrument = instrument;
+                        m_instrument_rack.add(widget);
+                    }
                 }
-                else if (instrument.channel_count == 3)
-                {
-                    var widget = new TripleThermometerWidget();
-                    widget.instrument = instrument;
-                    m_instrument_rack.add(widget);
-                }
-                else
-                {
-                    var widget = new ThermometerWidget();
-                    widget.instrument = instrument;
-                    m_instrument_rack.add(widget);
-                }
+            }
+            catch (Error error)
+            {
+                stderr.printf(@"$(error.message)\n");
             }
         }
 

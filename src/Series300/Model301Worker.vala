@@ -12,12 +12,17 @@ namespace ginstlog
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
      * || B&amp;K Precision || Model 710 || Used for development ||
      */
-    public class Thermometer301Worker : Thermometer3xxWorker
+    public class Model301Worker : Thermometer3xxWorker
     {
         /**
          * This instrument has two temperature channels
          */
-        public const int CHANNEL_COUNT = 2;
+          public enum CHANNEL
+          {
+              TEMPERATURE1,
+              TEMPERATURE2,
+              COUNT
+          }
 
 
         /**
@@ -31,14 +36,34 @@ namespace ginstlog
          *
          * @param channel Metadata for the measurement channels
          */
-        public Thermometer301Worker(Channel[] channel) throws Error
+        public Model301Worker(
+            Channel[] channels,
+            ulong interval,
+            string? name,
+            SerialDevice serial_device
+            ) throws Error
         {
-            if (channel.length != CHANNEL_COUNT)
+            Object(
+                channel_count : CHANNEL.COUNT,
+                name : name ?? DEFAULT_NAME
+                );
+
+            m_name = name ?? DEFAULT_NAME;
+
+            if (channels.length != CHANNEL.COUNT)
             {
-                // TODO throw an error
+                throw new ConfigurationError.CHANNEL_COUNT(
+                    @"$(m_name) should have $(CHANNEL.COUNT) channel(s), but $(channels.length) are specified in the configuration file"
+                    );
             }
 
-            m_channel = channel;
+            m_channel = channels;
+            m_interval = interval;
+            m_queue = new AsyncQueue<Measurement>();
+            m_serial_device = serial_device;
+            AtomicInt.set(ref m_stop, 0);
+
+            m_read = new ReadMeasurements8(channels);
         }
 
 
@@ -144,152 +169,7 @@ namespace ginstlog
         private Channel[] m_channel;
 
 
-        /**
-         * Decode the measurement readout
-         *
-         * @param negative Indicates the measurement is neagtive
-         * @param bytes The string of BCD bytes
-         * @param tenths Indicates a tenths places is present on the readout
-         * @return A string containing the measurement readout
-         */
-        private string decode_readout(bool negative, uint8[] bytes, bool tenths) throws Error
-        {
-            var builder = new StringBuilder();
-            var index = bytes.length - 1;
-
-            while (index >= 0)
-            {
-                var nibble = bytes[index] & 0x0F;
-
-                // TODO: prepend nibble
-
-                if (tenths)
-                {
-                    builder.prepend_c('.');
-                }
-
-                nibble = (bytes[index] >> 4) & 0x0F;
-
-                // TODO: prepend nibble
-
-                index--;
-            }
-
-            if (negative)
-            {
-                builder.prepend_c('-');
-            }
-
-            return builder.str;
-        }
-
-
-        /**
-         * Decode measurements from a response to the 'A' command
-         *
-         * @param bytes The response to the 'A' command
-         * @return An array of measurements
-         */
-        private Measurement[] decode_measurements(uint8[] bytes) throws Error
-        {
-            var measurement = new Measurement[]
-            {
-                decode_t1(m_channel[0], bytes),
-                decode_t2(m_channel[1], bytes)
-            };
-
-            return measurement;
-        }
-
-
-        /**
-         * Decode the first channel temperature from a response
-         *
-         * @param channel The channel to present the measurement on
-         * @param bytes The response to the 'A' command
-         * @return The measurement from the first channel
-         */
-        private Measurement decode_t1(Channel channel, uint8[] bytes) throws Error
-        {
-            return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
-                null
-                );
-
-            var open_loop = (bytes[2] & 0x01) == 0x01;
-
-            if (open_loop)
-            {
-                return new MeasurementFailure(
-                    channel,
-                    "OL"
-                    );
-            }
-            else
-            {
-                var negative = (bytes[2] & 0x02) == 0x02;
-                var tenths = (bytes[2] & 0x04) != 0x04;
-
-                var readout_value = decode_readout(
-                    negative,
-                    bytes[3:5],
-                    tenths
-                    );
-
-                var units = decode_units(bytes);
-
-                return new Temperature(
-                    channel,
-                    readout_value,
-                    units
-                    );
-            }
-        }
-
-
-        /**
-         * Decode the second channel temperature from a response
-         *
-         * @param channel The channel to present the measurement on
-         * @param bytes The response to the 'A' command
-         * @return The measurement from the first channel
-         */
-        private Measurement decode_t2(Channel channel, uint8[] bytes) throws Error
-        {
-            return_val_if_fail(
-                bytes.length != MESSAGE_LENGTH,
-                null
-                );
-
-            var open_loop = (bytes[2] & 0x08) == 0x08;
-
-            if (open_loop)
-            {
-                return new MeasurementFailure(
-                    channel,
-                    "OL"
-                    );
-            }
-            else
-            {
-                var negative = (bytes[2] & 0x10) == 0x10;
-                var tenths = (bytes[2] & 0x20) != 0x20;
-
-                var readout_value = decode_readout(
-                    negative,
-                    bytes[5:7],
-                    tenths
-                    );
-
-                var units = decode_units(bytes);
-
-                return new Temperature(
-                    channel,
-                    readout_value,
-                    units
-                    );
-            }
-        }
+        private ReadMeasurements8 m_read;
 
 
         /**
@@ -388,11 +268,7 @@ namespace ginstlog
 
                 try
                 {
-                    m_serial_device.send_command(READ_COMMAND);
-
-                    var response = m_serial_device.receive_response(MESSAGE_LENGTH);
-
-                    var measurements = decode_measurements(response);
+                    var measurements = m_read.execute(m_serial_device);
 
                     foreach (var measurement in measurements)
                     {

@@ -16,7 +16,7 @@
         <Model>Model 710</Model>
         <Description>Dual Input Thermometer</Description>
         <Link>http://www.bkprecision.com/products/environmental-testers/710-dual-input-thermometer.html</Link>
-        <Support>Planned</Support>
+        <Support>Supported</Support>
         <InstrumentFactoryId>Model301</InstrumentFactoryId>
     </Instrument>
     <Instrument>
@@ -88,7 +88,7 @@
         <Model>HH309A</Model>
         <Description>Four-Channel Temperature Logger with USB and RS232</Description>
         <Link>https://www.omega.com/pptst/HH309A.html</Link>
-        <Support>Planned</Support>
+        <Support>Supported</Support>
         <InstrumentFactoryId>Model309</InstrumentFactoryId>
     </Instrument>
     <Instrument>

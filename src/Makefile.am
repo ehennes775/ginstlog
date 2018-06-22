@@ -17,6 +17,7 @@ bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
 	Series300/Model301Worker.vala \
+	Series300/Model301WorkerFactory.vala \
 	Series300/Model304Worker.vala \
 	Series300/Model306Worker.vala \
 	Series300/Model306WorkerFactory.vala \
@@ -25,6 +26,7 @@ ginstlog_SOURCES = \
 	Series300/Model314BWorker.vala \
 	Series300/Model314WorkerFactory.vala \
 	Series300/ReadMeasurements.vala \
+	Series300/ReadMeasurements8.vala \
 	Series300/ReadMeasurements45.vala \
 	Series300/Thermometer3xxWorker.vala \
 	Channel.vala \
