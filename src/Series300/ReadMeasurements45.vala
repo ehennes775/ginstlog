@@ -4,7 +4,7 @@
 namespace ginstlog
 {
     /**
-     *
+     * A command to read measurements with a 45 byte response
      */
     public class ReadMeasurements45 : ReadMeasurements
     {
@@ -15,27 +15,9 @@ namespace ginstlog
 
 
         /**
-         * The last byte in a response, used to detect framing errors
-         */
-        public const uint8 END_BYTE = 0x03;
-
-
-        /**
-         * The command to send to the instrument for a reading
-         */
-        public static const uint8[] READ_COMMAND = { 'A' };
-
-
-        /**
          * The length of the expected response from the instrument, in bytes
          */
         public const int RESPONSE_LENGTH = 45;
-
-
-        /**
-         * The first byte in a response, used to detect framing errors
-         */
-        public const uint8 START_BYTE = 0x02;
 
 
         /**
@@ -86,16 +68,6 @@ namespace ginstlog
 
             return decode_measurements(response);
         }
-
-
-        /**
-         * A lookup table for decoding the temperature units
-         */
-        private static const TemperatureUnits[] TEMPERATURE_UNITS_LOOKUP =
-        {
-            /* 0 */ TemperatureUnits.FAHRENHEIT,
-            /* 1 */ TemperatureUnits.CELSIUS
-        };
 
 
         /**
