@@ -42,4 +42,11 @@
         <Parity>N</Parity>
         <StopBits>1</StopBits>
     </InstrumentFactory>
+    <InstrumentFactory id="SDL200">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <BaudRate>9600</BaudRate>
+        <DataBits>8</DataBits>
+        <Parity>N</Parity>
+        <StopBits>1</StopBits>
+    </InstrumentFactory>
 </InstrumentFactoryTable>

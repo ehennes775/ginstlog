@@ -133,7 +133,8 @@ namespace ginstlog
                     new Model301WorkerFactory(document),
                     new Model306WorkerFactory(document),
                     new Model309WorkerFactory(document),
-                    new Model314WorkerFactory(document)
+                    new Model314WorkerFactory(document),
+                    new Series407.Series407WorkerFactory(document)
                 };
 
                 foreach (var factory in factories)

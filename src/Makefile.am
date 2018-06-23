@@ -29,6 +29,10 @@ ginstlog_SOURCES = \
 	Series300/ReadMeasurements8.vala \
 	Series300/ReadMeasurements45.vala \
 	Series300/Thermometer3xxWorker.vala \
+	Series407/ReadMeasurements.vala \
+	Series407/ReadMeasurementsSdl200.vala \
+	Series407/Series407Worker.vala \
+	Series407/Series407WorkerFactory.vala \
 	Channel.vala \
 	Configuration.vala \
 	ConfigurationError.vala \
