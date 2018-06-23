@@ -51,7 +51,6 @@ namespace ginstlog.Series407
 
             return new Series407Worker(
                 channels,
-                500000,
                 name,
                 serial_device
                 );

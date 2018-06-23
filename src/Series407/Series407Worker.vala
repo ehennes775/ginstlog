@@ -15,7 +15,6 @@ namespace ginstlog.Series407
          */
         public Series407Worker(
             Channel[] channels,
-            ulong interval,
             string? name,
             SerialDevice serial_device
             ) throws Error
@@ -37,11 +36,10 @@ namespace ginstlog.Series407
             }
 
             m_channel = channels;
-            m_interval = interval;
+            m_interval = 0;
             m_queue = new AsyncQueue<Measurement>();
             m_serial_device = serial_device;
             AtomicInt.set(ref m_stop, 0);
-
         }
 
 
@@ -72,24 +70,10 @@ namespace ginstlog.Series407
 
 
         /**
-         * The serial device to communicate with the instrument
+         * Metadata for the measurement channels
          */
-        private SerialDevice m_serial_device;
+        private Channel[] m_channel;
 
-
-        /**
-         *
-         */
-        private AsyncQueue<Measurement> m_queue;
-
-
-        private int m_stop;
-
-
-        /**
-         *
-         */
-        private Thread<int> m_thread;
 
         /**
          * The interval to wait between polls, in microseconds
@@ -104,50 +88,33 @@ namespace ginstlog.Series407
 
 
         /**
-         *
+         * The serial device to communicate with the instrument
          */
-        private static uint8 BLANK_NIBBLE = 0x0B;
-
-
-        /**
-         * The length of the response to the 'A' command in bytes
-         */
-        private const int MESSAGE_LENGTH = 8;
+        private SerialDevice m_serial_device;
 
 
         /**
          *
          */
-        private static const uint8[] READ_COMMAND = { 'A' };
+        private AsyncQueue<Measurement> m_queue;
 
 
         /**
-         * A lookup table for decoding the temperature units
+         *
          */
-        private static const TemperatureUnits[] TEMPERATURE_UNITS_LOOKUP =
-        {
-            /* 0 */ TemperatureUnits.FAHRENHEIT,
-            /* 1 */ TemperatureUnits.CELSIUS
-        };
-
-
-        /**
-         * A lookup table for decoding the thermocouple type
-         */
-        private static const ThermocoupleType[] THERMOCOUPLE_TYPE_LOOKUP =
-        {
-            /* 0 */ ThermocoupleType.K,
-            /* 1 */ ThermocoupleType.J
-        };
-
-
-        /**
-         * Metadata for the measurement channels
-         */
-        private Channel[] m_channel;
-
-
         private ReadMeasurements m_read;
+
+
+        /**
+         *
+         */
+        private int m_stop;
+
+
+        /**
+         *
+         */
+        private Thread<int> m_thread;
 
 
         /**
