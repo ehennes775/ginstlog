@@ -21,11 +21,23 @@ namespace ginstlog
 
 
         /**
-         * Receive a response from the thermometer
+         * Receive a response from an instrument
          *
-         * @param size The size of the expected response in characters
+         * @param length The size of the expected response in bytes
          */
         public abstract uint8[] receive_response(int length) throws Error;
+
+
+        /**
+         * Receive a response from an instrument
+         *
+         * This version of receive discards bytes until the start byte is
+         * received.
+         *
+         * @param length The size of the expected response in bytes
+         * @param start The first byte of the expected response
+         */
+        public abstract uint8[] receive_response_with_start(int length, uint8 start) throws Error;
 
 
         /**

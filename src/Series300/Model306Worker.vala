@@ -383,7 +383,10 @@ namespace ginstlog
             {
                 m_serial_device.send_command(READ_COMMAND);
 
-                var response = m_serial_device.receive_response(10);
+                var response = m_serial_device.receive_response_with_start(
+                    10,
+                    0x02
+                    );
 
                 if ((response[0] != 0x02) || (response[9] != 0x03))
                 {

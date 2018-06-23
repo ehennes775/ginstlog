@@ -132,6 +132,50 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
+        public override uint8[] receive_response_with_start(int length, uint8 start) throws Error
+        {
+            var buffer = new uint8[length];
+            size_t count = 0;
+
+            while (count < length)
+            {
+                var status = Posix.read(m_fd, &buffer[count], length - count);
+
+                if (status < 0)
+                {
+                    var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
+
+                    throw new InstrumentError.GENERIC(@"Error reading from socket: $(inner)\n");
+                }
+
+                if (status == 0)
+                {
+                    throw new InstrumentError.COMMUNICATION_TIMEOUT(@"Communication timeout socket");
+                }
+
+                count += status;
+
+                var first_byte = (uint8*) Posix.memchr(&buffer[0], start, count);
+
+                if (first_byte == null)
+                {
+                    count = 0;
+                }
+                else
+                {
+                    count -= first_byte - &buffer[0];
+
+                    Posix.memmove(&buffer[0], first_byte, count);
+                }
+            }
+
+            return buffer;
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
         public override void send_command(uint8[] command) throws Error
         {
             var status = Posix.write(m_fd, command, command.length);

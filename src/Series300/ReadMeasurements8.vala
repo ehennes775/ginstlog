@@ -43,7 +43,10 @@ namespace ginstlog
         {
             device.send_command(READ_COMMAND);
 
-            var response = device.receive_response(RESPONSE_LENGTH);
+            var response = device.receive_response_with_start(
+                RESPONSE_LENGTH,
+                START_BYTE
+                );
 
             if (response.length != RESPONSE_LENGTH)
             {
