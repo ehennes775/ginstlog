@@ -1,1 +1,2 @@
-![Four Channels Transmitting](NormalFour.JPG "Four Channels Transmitting")
+
+![Four Channels Transmitting](NormalFour.PNG)
