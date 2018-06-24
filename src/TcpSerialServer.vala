@@ -9,9 +9,44 @@ namespace ginstlog
     public class TcpSerialServer : SerialDevice
     {
         /**
+         * The address of the TCP serial server
+         */
+        public string address
+        {
+            get;
+            construct;
+        }
+
+
+        /**
+         * The port number
+         */
+        public int port
+        {
+            get;
+            construct;
+        }
+
+
+        /**
+         * Initialize a new instance
+         *
+         * @param address
+         * @param port
+         */
+        public TcpSerialServer(string address, uint16 port)
+        {
+            Object(
+                address : address,
+                port : port
+                );
+        }
+
+
+        /**
          * {@inheritDoc}
          */
-        public override void connect()
+        public override void connect() throws Error
         {
             disconnect();
 
@@ -20,12 +55,14 @@ namespace ginstlog
             m_fd = Posix.socket(
                 domain,
                 Posix.SOCK_STREAM,
-                0
+                Posix.IPProto.TCP
                 );
 
             if (m_fd < 0)
             {
-
+                throw new CommunicationError.UNKNOWN(
+                    @"Error connecting to server $(address):$(port) : $(strerror(errno))"
+                    );
             }
 
             if (domain == Posix.AF_INET)
@@ -33,22 +70,24 @@ namespace ginstlog
                 var socket_address = Posix.SockAddrIn()
                 {
                     sin_family = Posix.AF_INET,
-                    sin_port = 0,
+                    sin_port = Posix.htons((uint16)port),
                     sin_addr = Posix.InAddr()
                     {
-                        s_addr = Posix.inet_addr("127.0.0.1")
+                        s_addr = Posix.inet_addr(address)
                     }
                 };
 
                 var status = Posix.connect(
                     m_fd,
-                    socket_address,
+                    ref socket_address,
                     sizeof(Posix.SockAddrIn)
                     );
 
                 if (status < 0)
                 {
-
+                    throw new CommunicationError.UNKNOWN(
+                        @"Error connecting to server $(address):$(port) : $(strerror(errno))"
+                        );
                 }
             }
             else if (domain == Posix.AF_INET6)
@@ -75,12 +114,14 @@ namespace ginstlog
 
                 if (status < 0)
                 {
-
+                    throw new CommunicationError.UNKNOWN(
+                        @"Error connecting to server $(address):$(port) : $(strerror(errno))"
+                        );
                 }
             }
             else
             {
-
+                throw new CommunicationError.UNKNOWN("Ouch 4");
             }
         }
 
@@ -104,7 +145,7 @@ namespace ginstlog
         public override uint8[] receive_response(int length) throws Error
         {
             var buffer = new uint8[length];
-            size_t count = 0;
+            /* size_t count = 0;
 
             while (count < length)
             {
@@ -123,7 +164,7 @@ namespace ginstlog
                 }
 
                 count += status;
-            }
+            } */
 
             return buffer;
         }

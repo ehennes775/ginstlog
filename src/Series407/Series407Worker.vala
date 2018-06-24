@@ -28,14 +28,6 @@ namespace ginstlog.Series407
 
             m_read = new ReadMeasurementsSdl200(channels);
 
-            if (channels.length != 4)
-            {
-                throw new ConfigurationError.CHANNEL_COUNT(
-                    @"$(m_name) should have $(4) channel(s), but $(channels.length) are specified in the configuration file"
-                    );
-            }
-
-            m_channel = channels;
             m_interval = 0;
             m_queue = new AsyncQueue<Measurement>();
             m_serial_device = serial_device;
@@ -67,12 +59,6 @@ namespace ginstlog.Series407
             AtomicInt.set(ref m_stop, 1);
             Idle.remove_by_data(this);
         }
-
-
-        /**
-         * Metadata for the measurement channels
-         */
-        private Channel[] m_channel;
 
 
         /**
@@ -147,7 +133,7 @@ namespace ginstlog.Series407
         {
             while (AtomicInt.get(ref m_stop) == 0)
             {
-                Thread.usleep(m_interval);
+                Thread.usleep(500000);
 
                 try
                 {

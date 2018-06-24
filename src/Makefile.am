@@ -56,6 +56,7 @@ ginstlog_SOURCES = \
 	SerialDeviceFactory.vala \
 	SerialDeviceFactoryLookup.vala \
 	TcpSerialServer.vala \
+	TcpSerialServerFactory.vala \
 	Temperature.vala \
 	TemperatureUnits.vala \
 	ThermocoupleType.vala \

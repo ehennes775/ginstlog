@@ -11,7 +11,7 @@ namespace ginstlog
         /**
          *
          */
-        public abstract void connect();
+        public abstract void connect() throws Error;
 
 
         /**

@@ -27,6 +27,10 @@ namespace ginstlog
             m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
 
             m_serial_device_factory_lookup.add(
+                new TcpSerialServerFactory()
+                );
+
+            m_serial_device_factory_lookup.add(
                 new TtySerialDeviceFactory()
                 );
         }

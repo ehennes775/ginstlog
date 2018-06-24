@@ -93,15 +93,16 @@
                     <Name>T4: Thermocouple</Name>
                 </Channel>
             </ChannelTable>
-            <DeviceTable activeId="0">
+            <DeviceTable activeId="1">
                 <SerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB3</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </SerialDevice>
-                <SerialServer id="1">
-                    <Address>127.0.0.1</Address>
+                <TcpSerialServer id="1">
+                    <Address>192.168.2.30</Address>
+                    <Port>4000</Port>
                     <Timeout>2000 ms</Timeout>
-                </SerialServer>
+                </TcpSerialServer>
             </DeviceTable>
         </ExtechSDL200>
     </InstrumentTable>
