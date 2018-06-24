@@ -7,19 +7,19 @@ Advantech VESP211-232 serial server.
 instructions from the manufacturer. These settings will vary depending on the
 network configuration and instrument. The key settings for this example follow:
 
-| Item | Value | Notes |
-| --- | --- | --- |
-| DHCP | OFF | Set to match network configuration |
-| IP Address | 192.168.2.30 | Set to match network configuration |
-| Protocol | TCP | Set to match ginstlog |
-| Mode | Server | Set to match ginstlog |
-| Port Number | 4000 | Uses VESP211-232 default |
-| Mode | RS-232 | Set to match SDL200 |
-| Baud Rate | 9600 | Set to match SDL200 |
-| Data Bits | 8 | Set to match SDL200 |
-| Stop Bits | 1 | Set to match SDL200 |
-| Parity | None | Set to match SDL200 |
-| Flow Control | None | Set to match SDL200 |
+   | Item | Value | Notes |
+   | --- | --- | --- |
+   | DHCP | OFF | Set to match network configuration |
+   | IP Address | 192.168.2.30 | Set to match network configuration |
+   | Protocol | TCP | Set to match ginstlog |
+   | Mode | Server | Set to match ginstlog |
+   | Port Number | 4000 | Uses VESP211-232 default |
+   | Mode | RS-232 | Set to match SDL200 |
+   | Baud Rate | 9600 | Set to match SDL200 |
+   | Data Bits | 8 | Set to match SDL200 |
+   | Stop Bits | 1 | Set to match SDL200 |
+   | Parity | None | Set to match SDL200 |
+   | Flow Control | None | Set to match SDL200 |
 
 1. __Check Grounding.__ Ensure current paths will not cause harm to people or
 damage equipment.
@@ -39,30 +39,30 @@ with the following steps:
    The `socat` command will echo the data arriving over the TCP connection to
    the terminal. The output in this example shows channel 4 reading 73.5 &deg;F.
 
-```bash
-$ socat - TCP4:192.168.2.30:4000
- 34020100000735
-```
+      ```bash
+      $ socat - TCP4:192.168.2.30:4000
+       34020100000735
+      ```
 
 1. __Edit the instrument configuration.__ In the configuration file, set the
 `Address` and `Port` to match the address and port for the serial server. Set
 the `activeId` to the `id` of the serial server.
 
-```xml
-<DeviceTable activeId="1">
-    <SerialDevice id="0">
-        <DeviceFile>/dev/ttyUSB3</DeviceFile>
-        <Timeout>2000 ms</Timeout>
-    </SerialDevice>
-    <TcpSerialServer id="1">
-        <Address>192.168.2.30</Address>
-        <Port>4000</Port>
-    </TcpSerialServer>
-</DeviceTable>
-```
+   ```xml
+   <DeviceTable activeId="1">
+       <SerialDevice id="0">
+           <DeviceFile>/dev/ttyUSB3</DeviceFile>
+           <Timeout>2000 ms</Timeout>
+       </SerialDevice>
+       <TcpSerialServer id="1">
+           <Address>192.168.2.30</Address>
+           <Port>4000</Port>
+       </TcpSerialServer>
+   </DeviceTable>
+   ```
 
 1. __Run the application.__
 
-```bash
-$ ./ginstlog configuration.xml
-```
+   ```bash
+   $ ./ginstlog configuration.xml
+   ```
