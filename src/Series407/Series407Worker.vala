@@ -28,7 +28,6 @@ namespace ginstlog.Series407
 
             m_read = new ReadMeasurementsSdl200(channels);
 
-            m_interval = 0;
             m_queue = new AsyncQueue<Measurement>();
             m_serial_device = serial_device;
             AtomicInt.set(ref m_stop, 0);
@@ -62,21 +61,9 @@ namespace ginstlog.Series407
 
 
         /**
-         * The interval to wait between polls, in microseconds
-         */
-        private ulong m_interval;
-
-
-        /**
          * The name of the instrument
          */
         private string m_name;
-
-
-        /**
-         * The serial device to communicate with the instrument
-         */
-        private SerialDevice m_serial_device;
 
 
         /**
@@ -89,6 +76,12 @@ namespace ginstlog.Series407
          *
          */
         private ReadMeasurements m_read;
+
+
+        /**
+         * The serial device to communicate with the instrument
+         */
+        private SerialDevice m_serial_device;
 
 
         /**

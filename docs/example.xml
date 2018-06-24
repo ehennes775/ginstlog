@@ -12,14 +12,14 @@
                     <Name>T2: Enclosure</Name>
                 </Channel>
             </ChannelTable>
-            <DeviceTable activeId="0">
+            <DeviceTable activeId="1">
                 <TtySerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB0</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </TtySerialDevice>
                 <TcpSerialServer id="1">
-                    <Address>127.0.0.1</Address>
-                    <Timeout>2000 ms</Timeout>
+                    <Address>192.168.2.29</Address>
+                    <Port>4001</Port>
                 </TcpSerialServer>
             </DeviceTable>
         </BkPrecision715>

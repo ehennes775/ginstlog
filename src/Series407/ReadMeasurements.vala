@@ -17,7 +17,8 @@ namespace ginstlog.Series407
         /**
          * The length of the expected response from the instrument
          *
-         *
+         * The response length of a single measurement. Insruments with
+         * multiple cannels will send multiple messages.
          */
         public const int RESPONSE_LENGTH = 16;
 
@@ -37,7 +38,10 @@ namespace ginstlog.Series407
 
 
         /**
+         * Read measurements from the device
          *
+         * @param device The serial device to read the measurements from
+         * @return The measurements from the device
          */
         public abstract Measurement[] execute(SerialDevice device) throws Error;
 

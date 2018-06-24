@@ -4,18 +4,20 @@
 namespace ginstlog.Series407
 {
     /**
-     * Creates workers for a model 309 thermometer
+     * Creates workers for Extech series 407 instruments
      */
     public class Series407WorkerFactory : InstrumentWorkerFactory
     {
         /**
-         *
+         * The name of the element in the InstrumentFactoryTable.xml file
          */
         public const string FACTORY_ID = "SDL200";
 
 
         /**
          * Initialize a new instance
+         *
+         * @param document The InstrumentFactoryTable.xml document
          */
         public Series407WorkerFactory(Xml.Doc* document) throws Error
         {

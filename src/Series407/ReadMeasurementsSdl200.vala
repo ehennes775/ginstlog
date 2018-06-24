@@ -10,8 +10,6 @@ namespace ginstlog.Series407
     {
         /**
          * The number of channels
-         *
-         *
          */
         public const int CHANNEL_COUNT = 4;
 
