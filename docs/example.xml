@@ -76,7 +76,29 @@
                 </TcpSerialServer>
             </DeviceTable>
         </OmegaHH309A>
-        <ExtechSDL200 id="3">
+        <BkPrecision710 id="3">
+            <Name>Two Channel Thermometer</Name>
+            <PollInterval>1000000</PollInterval>
+            <ChannelTable>
+                <Channel index="0">
+                    <Name>T1: Ambient</Name>
+                </Channel>
+                <Channel index="1">
+                    <Name>T2: Thermocouple</Name>
+                </Channel>
+            </ChannelTable>
+            <DeviceTable activeId="0">
+                <TtySerialDevice id="0">
+                    <DeviceFile>/dev/ttyUSB3</DeviceFile>
+                    <Timeout>2000 ms</Timeout>
+                </TtySerialDevice>
+                <TcpSerialServer id="1">
+                    <Address>127.0.0.1</Address>
+                    <Timeout>2000 ms</Timeout>
+                </TcpSerialServer>
+            </DeviceTable>
+        </BkPrecision710>
+        <ExtechSDL200 id="4">
             <Name>Four Channel Thermometer</Name>
             <ChannelTable>
                 <Channel index="0">

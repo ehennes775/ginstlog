@@ -70,7 +70,7 @@
         <Model>SDL200</Model>
         <Description>4-Channel Datalogging Thermometer</Description>
         <Link>http://www.extech.com/display/?id=14531</Link>
-        <Support>Planned</Support>
+        <Support>Supported</Support>
         <InstrumentFactoryId>SDL200</InstrumentFactoryId>
     </Instrument>
     <Instrument>
