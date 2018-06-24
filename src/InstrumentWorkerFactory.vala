@@ -20,33 +20,33 @@ namespace ginstlog
 
 
         /**
-         * Initialize the instance
-         */
-        construct
-        {
-            m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
-
-            m_serial_device_factory_lookup.add(
-                new TcpSerialServerFactory()
-                );
-
-            m_serial_device_factory_lookup.add(
-                new TtySerialDeviceFactory()
-                );
-        }
-
-
-        /**
          * Initialize a new instance
          *
          * @param path_context A path context to the instrument worker element
-         * in the InstrumentTable.xml resource.
+         * in the InstrumentFactoryTable.xml resource.
          */
         public InstrumentWorkerFactory(Xml.XPath.Context path_context) throws Error
         {
             id = XmlUtility.get_required_string(
                 path_context,
                 "./@id"
+                );
+
+            var device_path_context = new Xml.XPath.Context(path_context.doc);
+
+            device_path_context.node = XmlUtility.get_required_node(
+                path_context,
+                "./DeviceTable"
+                );
+
+            m_serial_device_factory_lookup = new SerialDeviceFactoryLookup();
+
+            m_serial_device_factory_lookup.add(
+                new TcpSerialServerFactory(device_path_context)
+                );
+
+            m_serial_device_factory_lookup.add(
+                new TtySerialDeviceFactory(device_path_context)
                 );
         }
 

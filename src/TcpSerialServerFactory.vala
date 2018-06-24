@@ -10,8 +10,11 @@ namespace ginstlog
     {
         /**
          * Initialize a new instance
+         *
+         * @param path_context A path context to the DeviceTable element
+         * inside the InstrumentFactoryTable.xml file.
          */
-        public TcpSerialServerFactory()
+        public TcpSerialServerFactory(Xml.XPath.Context path_context)
         {
             Object(
                 name : "TcpSerialServer"

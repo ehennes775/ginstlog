@@ -53,6 +53,8 @@ namespace ginstlog
 
             if (factory == null)
             {
+                stderr.printf(@"Could not find $(name)\n");
+
                 return_val_if_reached(null);
             }
 

@@ -10,11 +10,38 @@ namespace ginstlog
     {
         /**
          * Initialize a new instance
+         *
+         * @param path_context A path context to the DeviceTable element
+         * inside the InstrumentFactoryTable.xml file.
          */
-        public TtySerialDeviceFactory()
+        public TtySerialDeviceFactory(Xml.XPath.Context path_context)
         {
             Object(
-                name : "SerialDevice"
+                name : "TtySerialDevice"
+                );
+
+            m_baud_rate = XmlUtility.get_optional_string(
+                path_context,
+                "./TtySerialDevice/BaudRate",
+                "9600"
+                );
+
+            m_data_bits = XmlUtility.get_optional_string(
+                path_context,
+                "./TtySerialDevice/DataBits",
+                "8"
+                );
+
+            m_parity = XmlUtility.get_optional_string(
+                path_context,
+                "./TtySerialDevice/Parity",
+                "N"
+                );
+
+            m_stop_bits = XmlUtility.get_optional_string(
+                path_context,
+                "./TtySerialDevice/StopBits",
+                "1"
                 );
         }
 
@@ -47,5 +74,29 @@ namespace ginstlog
 
             return new TtySerialDevice(device_file, timeout);
         }
+
+
+        /**
+         *
+         */
+        private string m_baud_rate;
+
+
+        /**
+         *
+         */
+        private string m_data_bits;
+
+
+        /**
+         *
+         */
+        private string m_parity;
+
+
+        /**
+         *
+         */
+        private string m_stop_bits;
     }
 }

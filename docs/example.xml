@@ -13,14 +13,14 @@
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">
-                <SerialDevice id="0">
+                <TtySerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB0</DeviceFile>
                     <Timeout>2000 ms</Timeout>
-                </SerialDevice>
-                <SerialServer id="1">
+                </TtySerialDevice>
+                <TcpSerialServer id="1">
                     <Address>127.0.0.1</Address>
                     <Timeout>2000 ms</Timeout>
-                </SerialServer>
+                </TcpSerialServer>
             </DeviceTable>
         </BkPrecision715>
         <BkPrecision725 id="1">
@@ -38,14 +38,14 @@
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">
-                <SerialDevice id="0">
+                <TtySerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB1</DeviceFile>
                     <Timeout>2000 ms</Timeout>
-                </SerialDevice>
-                <SerialServer id="1">
+                </TtySerialDevice>
+                <TcpSerialServer id="1">
                     <Address>127.0.0.1</Address>
                     <Timeout>2000 ms</Timeout>
-                </SerialServer>
+                </TcpSerialServer>
             </DeviceTable>
         </BkPrecision725>
         <OmegaHH309A id="2">
@@ -66,14 +66,14 @@
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="0">
-                <SerialDevice id="0">
+                <TtySerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB2</DeviceFile>
                     <Timeout>2000 ms</Timeout>
-                </SerialDevice>
-                <SerialServer id="1">
+                </TtySerialDevice>
+                <TcpSerialServer id="1">
                     <Address>127.0.0.1</Address>
                     <Timeout>2000 ms</Timeout>
-                </SerialServer>
+                </TcpSerialServer>
             </DeviceTable>
         </OmegaHH309A>
         <ExtechSDL200 id="3">
@@ -93,10 +93,10 @@
                 </Channel>
             </ChannelTable>
             <DeviceTable activeId="1">
-                <SerialDevice id="0">
+                <TtySerialDevice id="0">
                     <DeviceFile>/dev/ttyUSB3</DeviceFile>
                     <Timeout>2000 ms</Timeout>
-                </SerialDevice>
+                </TtySerialDevice>
                 <TcpSerialServer id="1">
                     <Address>192.168.2.30</Address>
                     <Port>4000</Port>
