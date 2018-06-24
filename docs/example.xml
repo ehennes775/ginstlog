@@ -77,8 +77,7 @@
             </DeviceTable>
         </OmegaHH309A>
         <ExtechSDL200 id="3">
-            <Name>Two Channel Thermometer</Name>
-            <PollInterval>1000000</PollInterval>
+            <Name>Four Channel Thermometer</Name>
             <ChannelTable>
                 <Channel index="0">
                     <Name>T1: Ambient</Name>
@@ -101,7 +100,6 @@
                 <TcpSerialServer id="1">
                     <Address>192.168.2.30</Address>
                     <Port>4000</Port>
-                    <Timeout>2000 ms</Timeout>
                 </TcpSerialServer>
             </DeviceTable>
         </ExtechSDL200>
