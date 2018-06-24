@@ -4,7 +4,16 @@
 namespace ginstlog
 {
     /**
+     * Creates SerialDevice objects that communucate with TTY serial devices
      *
+     * Data specific to the insrument is located in the
+     * InstrumentFactoryTable.xml file.
+     *
+     * Data specific to the configuration is located in the XML configuration
+     * file passed in on the command line.
+     *
+     * This factory takes data from both locations, configures, and creates
+     * properly initialized SerialDevice objects.
      */
     public class TtySerialDeviceFactory : SerialDeviceFactory
     {
@@ -47,10 +56,7 @@ namespace ginstlog
 
 
         /**
-         * Create a new TtySerialDevice
-         *
-         * @param path_context
-         * @return
+         * {@inheritDoc}
          */
         public override SerialDevice create(Xml.XPath.Context path_context) throws Error
 
@@ -77,25 +83,33 @@ namespace ginstlog
 
 
         /**
+         * The baud rate
          *
+         * (String format is temporary.)
          */
         private string m_baud_rate;
 
 
         /**
+         * The number of data bits
          *
+         * (String format is temporary.)
          */
         private string m_data_bits;
 
 
         /**
+         * The parity
          *
+         * (String format is temporary.)
          */
         private string m_parity;
 
 
         /**
+         * The number of stop bits
          *
+         * (String format is temporary.)
          */
         private string m_stop_bits;
     }

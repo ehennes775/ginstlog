@@ -4,12 +4,32 @@
 namespace ginstlog
 {
     /**
+     * Creates SerialDevice objects that communucate with TCP serial servers
      *
+     * Data specific to the insrument is located in the
+     * InstrumentFactoryTable.xml file.
+     *
+     * Data specific to the configuration is located in the XML configuration
+     * file passed in on the command line.
+     *
+     * This factory takes data from both locations, configures, and creates
+     * properly initialized SerialDevice objects.
      */
     public class TcpSerialServerFactory : SerialDeviceFactory
     {
         /**
+         * The XML element name related to this object
+         */
+        public const string ELEMENT_NAME = "TcpSerialServer";
+
+
+        /**
          * Initialize a new instance
+         *
+         * Currently, the TcpSerialServer element inside the
+         * InstrumentFactoryTable.xml file has no children. But, the element
+         * must be present to indicate the instrument supports serial server
+         * connections.
          *
          * @param path_context A path context to the DeviceTable element
          * inside the InstrumentFactoryTable.xml file.
@@ -17,16 +37,13 @@ namespace ginstlog
         public TcpSerialServerFactory(Xml.XPath.Context path_context)
         {
             Object(
-                name : "TcpSerialServer"
+                name : ELEMENT_NAME
                 );
         }
 
 
         /**
-         * Create a new TtySerialDevice
-         *
-         * @param path_context
-         * @return
+         * {@inheritDoc}
          */
         public override SerialDevice create(Xml.XPath.Context path_context) throws Error
 
