@@ -12,7 +12,7 @@ namespace ginstlog
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
      * || B&amp;K Precision || Model 715 || Used for development ||
      */
-    public class Model309Worker : Thermometer3xxWorker
+    public class Model309Worker : Series300Worker
     {
         /**
          * This instrument has two temperature channels

@@ -12,7 +12,7 @@ namespace ginstlog
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
      * || Omega || HH309A || Used for development ||
      */
-    public class Thermometer304Worker : Thermometer3xxWorker
+    public class Thermometer304Worker : Series300Worker
     {
         /**
          * This instrument has four temperature channels

@@ -13,7 +13,7 @@ namespace ginstlog
      * || B&amp;K Precision || Model 720 || Not tested ||
      * || B&amp;K Precision || Model 725 || Used for development ||
      */
-    public class HumidityTempMeter314BWorker : Thermometer3xxWorker
+    public class HumidityTempMeter314BWorker : Series300Worker
     {
         /**
          * This instrument has one humidity and two temperature channels

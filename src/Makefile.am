@@ -28,7 +28,7 @@ ginstlog_SOURCES = \
 	Series300/ReadMeasurements.vala \
 	Series300/ReadMeasurements8.vala \
 	Series300/ReadMeasurements45.vala \
-	Series300/Thermometer3xxWorker.vala \
+	Series300/Series300Worker.vala \
 	Series407/ReadMeasurements.vala \
 	Series407/ReadMeasurementsSdl200.vala \
 	Series407/Series407Worker.vala \
@@ -38,7 +38,6 @@ ginstlog_SOURCES = \
 	ConfigurationError.vala \
 	CommunicationError.vala \
 	ErrorDialog.vala \
-	ExtechSdl200Worker.vala \
 	FourChannelInstrumentWidget.vala \
 	Instrument.vala \
 	InstrumentError.vala \
