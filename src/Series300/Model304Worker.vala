@@ -15,12 +15,6 @@ namespace ginstlog
     public class Thermometer304Worker : Series300Worker
     {
         /**
-         * This instrument has four temperature channels
-         */
-        public const int CHANNEL_COUNT = 4;
-
-
-        /**
          * When a name is not provided in the configuration file
          */
         public const string DEFAULT_NAME = "Four Channel Thermometer";
@@ -43,20 +37,18 @@ namespace ginstlog
                 serial_device
                 );
 
-            if (channels.length != CHANNEL_COUNT)
-            {
-                throw new ConfigurationError.CHANNEL_COUNT(
-                    @"$(name ?? DEFAULT_NAME) should have $(CHANNEL_COUNT) channel(s), but $(channels.length) are specified in the configuration file"
-                    );
-            }
-
             m_read = new ReadMeasurements8(channels);
         }
 
-        public override Measurement[] read_measurements_inner(SerialDevice device) throws Error
+
+        /**
+         * {@inheritDoc}
+         */
+        protected override Measurement[] read_measurements_inner(SerialDevice device) throws Error
         {
             return m_read.execute(device);
         }
+
 
         /**
          *

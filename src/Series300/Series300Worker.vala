@@ -71,7 +71,10 @@ namespace ginstlog
         }
 
 
-        public abstract Measurement[] read_measurements_inner(SerialDevice device) throws Error;
+        /**
+         *
+         */
+        protected abstract Measurement[] read_measurements_inner(SerialDevice device) throws Error;
 
 
         /**

@@ -14,10 +14,15 @@ namespace ginstlog
      */
     public class ReadMeasurements10 : ReadMeasurements
     {
-        /**
-         * The number of channels in the response
-         */
-        public const int CHANNEL_COUNT = 2;
+         /**
+          * This instrument has two temperature channels
+          */
+          public enum CHANNEL
+          {
+              TEMPERATURE1,
+              TEMPERATURE2,
+              COUNT
+          }
 
 
         /**
@@ -33,10 +38,10 @@ namespace ginstlog
         {
             m_channel = channel;
 
-            if (m_channel.length != CHANNEL_COUNT)
+            if (m_channel.length != CHANNEL.COUNT)
             {
                 throw new ConfigurationError.CHANNEL_COUNT(
-                    @"Instrument has $(CHANNEL_COUNT) channels, but $(m_channel.length) specified"
+                    @"Instrument has $(CHANNEL.COUNT) channels, but $(m_channel.length) specified"
                     );
             }
         }

@@ -16,17 +16,6 @@ namespace ginstlog
     public class Thermometer306Worker : Series300Worker
     {
         /**
-         * This instrument has two temperature channels
-         */
-         public enum CHANNEL
-         {
-             TEMPERATURE1,
-             TEMPERATURE2,
-             COUNT
-         }
-
-
-        /**
          * When a name is not provided in the configuration file
          */
         public const string DEFAULT_NAME = "Dual Thermometer";
@@ -49,20 +38,18 @@ namespace ginstlog
                 serial_device
                 );
 
-            if (channels.length != CHANNEL.COUNT)
-            {
-                throw new ConfigurationError.CHANNEL_COUNT(
-                    @"$(name ?? DEFAULT_NAME) should have $(CHANNEL.COUNT) channel(s), but $(channels.length) are specified in the configuration file"
-                    );
-            }
-
             m_read = new ReadMeasurements10(channels);
         }
 
-        public override Measurement[] read_measurements_inner(SerialDevice device) throws Error
+
+        /**
+         * {@inheritDoc}
+         */
+        protected override Measurement[] read_measurements_inner(SerialDevice device) throws Error
         {
             return m_read.execute(device);
         }
+
 
         /**
          *
