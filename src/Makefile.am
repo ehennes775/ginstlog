@@ -27,6 +27,7 @@ ginstlog_SOURCES = \
 	Series300/Model314WorkerFactory.vala \
 	Series300/ReadMeasurements.vala \
 	Series300/ReadMeasurements8.vala \
+	Series300/ReadMeasurements10.vala \
 	Series300/ReadMeasurements45.vala \
 	Series300/Series300Worker.vala \
 	Series407/ReadMeasurements.vala \

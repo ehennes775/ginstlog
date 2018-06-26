@@ -36,55 +36,62 @@ namespace ginstlog
          * Initialize a new instance
          */
         public HumidityTempMeter314BWorker(
-            Channel[] channel,
+            Channel[] channels,
             ulong interval,
             string? name,
             SerialDevice serial_device
             ) throws Error
         {
-            Object(
-                channel_count : CHANNEL.COUNT,
-                name : name ?? DEFAULT_NAME
+            base(
+                channels,
+                interval,
+                name ?? DEFAULT_NAME,
+                serial_device
                 );
 
-            if (channel.length != CHANNEL.COUNT)
+            if (channels.length != CHANNEL.COUNT)
             {
                 throw new ConfigurationError.CHANNEL_COUNT(
-                    @"$(this.name) should have $(CHANNEL.COUNT) channel(s), but $(channel.length) are specified in the configuration file"
+                    @"$(name ?? DEFAULT_NAME) should have $(CHANNEL.COUNT) channel(s), but $(channels.length) are specified in the configuration file"
+                    );
+            }
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        protected override Measurement[] read_measurements_inner(SerialDevice device) throws Error
+        {
+            device.send_command(READ_COMMAND);
+
+            var response = device.receive_response_with_start(
+                RESPONSE_LENGTH,
+                ReadMeasurements.START_BYTE
+                );
+
+            if (response.length != RESPONSE_LENGTH)
+            {
+                throw new CommunicationError.MESSAGE_LENGTH(
+                    @"Expecting $(RESPONSE_LENGTH) bytes, but received $(response.length) bytes"
                     );
             }
 
-            m_channel = channel;
-            m_interval = interval;
-            m_queue = new AsyncQueue<Measurement>();
-            m_serial_device = serial_device;
-            AtomicInt.set(ref m_stop, 0);
-        }
+            if (response[0] != ReadMeasurements.START_BYTE)
+            {
+                throw new CommunicationError.FRAMING_ERROR(
+                    @"Framing error: Expecting $(ReadMeasurements.START_BYTE) at start of response"
+                    );
+            }
 
+            if (response[RESPONSE_LENGTH-1] != ReadMeasurements.END_BYTE)
+            {
+                throw new CommunicationError.FRAMING_ERROR(
+                    @"Framing error: Expecting $(ReadMeasurements.END_BYTE) at end of response"
+                    );
+            }
 
-        /**
-         * {@inheritDoc}
-         */
-        public override void start()
-        {
-            Idle.add(poll_measurement);
-
-            m_thread = new Thread<int>(
-                @"Thread.$(name)",
-                read_measurements
-                );
-
-            m_serial_device.connect();
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        public override void stop()
-        {
-            AtomicInt.set(ref m_stop, 1);
-            Idle.remove_by_data(this);
+            return decode_measurements(response);
         }
 
 
@@ -97,7 +104,7 @@ namespace ginstlog
         /**
          * The length of the response to the 'A' command in bytes
          */
-        private const int MESSAGE_LENGTH = 10;
+        private const int RESPONSE_LENGTH = 10;
 
 
         /**
@@ -117,43 +124,6 @@ namespace ginstlog
 
 
         /**
-         * Metadata for the measurement channels
-         */
-        private Channel[] m_channel;
-
-
-        /**
-         * The interval to wait between polls, in microseconds
-         */
-        private ulong m_interval;
-
-
-        /**
-         * A queue to send measurements from the communications thread to the
-         * GUI thread
-         */
-        private AsyncQueue<Measurement> m_queue;
-
-
-        /**
-         * The serial device to communicate with the instrument
-         */
-        private SerialDevice m_serial_device;
-
-
-        /**
-         * Signals the communications thread to terminate
-         */
-        private int m_stop;
-
-
-        /**
-         * A thread for blocking communications with the instrument
-         */
-        private Thread<int> m_thread;
-
-
-        /**
          * Decode the humidity from a response
          *
          * @param channel The channel to present the measurement on
@@ -163,7 +133,7 @@ namespace ginstlog
         private Measurement decode_humidity(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length == MESSAGE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 null
                 );
 
@@ -263,7 +233,7 @@ namespace ginstlog
         private Measurement decode_t1(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length == MESSAGE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 null
                 );
 
@@ -308,7 +278,7 @@ namespace ginstlog
         private Measurement decode_t2(Channel channel, uint8[] bytes) throws Error
         {
             return_val_if_fail(
-                bytes.length == MESSAGE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 null
                 );
 
@@ -354,7 +324,7 @@ namespace ginstlog
         private TemperatureUnits decode_units(uint8[] bytes)
         {
             return_val_if_fail(
-                bytes.length == MESSAGE_LENGTH,
+                bytes.length == RESPONSE_LENGTH,
                 TemperatureUnits.UNKNOWN
                 );
 
@@ -371,64 +341,6 @@ namespace ginstlog
                 );
 
             return TEMPERATURE_UNITS_LOOKUP[index];
-        }
-
-
-        /**
-         * Poll for recent measurements
-         *
-         * Called by the GUI thread to check if another measurement is
-         * available.
-         *
-         * @return
-         */
-        private bool poll_measurement()
-        {
-            var measurement = m_queue.try_pop();
-
-            if (measurement != null)
-            {
-                update_readout(measurement);
-            }
-
-            return Source.CONTINUE;
-        }
-
-
-        /**
-         * Read measurements from the instrument
-         *
-         * @return A dummy value
-         */
-        private int read_measurements()
-        {
-            while (AtomicInt.get(ref m_stop) == 0)
-            {
-                Thread.usleep(m_interval);
-
-                try
-                {
-                    m_serial_device.send_command(READ_COMMAND);
-
-                    var response = m_serial_device.receive_response_with_start(
-                        MESSAGE_LENGTH,
-                        0x02
-                        );
-
-                    var measurements = decode_measurements(response);
-
-                    foreach (var measurement in measurements)
-                    {
-                        m_queue.push(measurement);
-                    }
-                }
-                catch (Error error)
-                {
-                    stderr.printf(@"Error: $(error.message)\n");
-                }
-            }
-
-            return 0;
         }
     }
 }

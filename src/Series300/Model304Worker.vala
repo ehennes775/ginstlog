@@ -29,27 +29,38 @@ namespace ginstlog
         /**
          * Initialize a new instance
          */
-        public Thermometer304Worker()
+        public Thermometer304Worker(
+            Channel[] channels,
+            ulong interval,
+            string? name,
+            SerialDevice serial_device
+            ) throws Error
         {
+            base(
+                channels,
+                interval,
+                name ?? DEFAULT_NAME,
+                serial_device
+                );
 
+            if (channels.length != CHANNEL_COUNT)
+            {
+                throw new ConfigurationError.CHANNEL_COUNT(
+                    @"$(name ?? DEFAULT_NAME) should have $(CHANNEL_COUNT) channel(s), but $(channels.length) are specified in the configuration file"
+                    );
+            }
+
+            m_read = new ReadMeasurements8(channels);
         }
 
+        public override Measurement[] read_measurements_inner(SerialDevice device) throws Error
+        {
+            return m_read.execute(device);
+        }
 
         /**
-         * {@inheritDoc}
+         *
          */
-        public override void start()
-        {
-
-        }
-
-
-        /**
-         * {@inheritDoc}
-         */
-        public override void stop()
-        {
-
-        }
+        private ReadMeasurements m_read;
     }
 }

@@ -49,7 +49,7 @@
             </DeviceTable>
         </BkPrecision725>
         <OmegaHH309A id="2">
-            <Name>Two Channel Thermometer</Name>
+            <Name>Four Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
             <ChannelTable>
                 <Channel index="0">

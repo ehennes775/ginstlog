@@ -22,5 +22,148 @@ namespace ginstlog
       */
     public abstract class Series300Worker : InstrumentWorker
     {
+        /**
+         *
+         */
+        public Series300Worker(
+            Channel[] channels,
+            ulong interval,
+            string name,
+            SerialDevice serial_device
+            ) throws Error
+        {
+            Object(
+                channel_count : channels.length,
+                name : name
+                );
+
+            m_channel = channels;
+            m_interval = interval;
+            m_queue = new AsyncQueue<Measurement>();
+            m_serial_device = serial_device;
+            AtomicInt.set(ref m_stop, 0);
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override void start()
+        {
+            Idle.add(poll_measurement);
+
+            m_thread = new Thread<int>(
+                @"Thread.$(m_name)",
+                read_measurements
+                );
+
+            m_serial_device.connect();
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override void stop()
+        {
+            AtomicInt.set(ref m_stop, 1);
+            Idle.remove_by_data(this);
+        }
+
+
+        public abstract Measurement[] read_measurements_inner(SerialDevice device) throws Error;
+
+
+        /**
+         * Metadata for the measurement channels
+         */
+        protected Channel[] m_channel;
+
+
+        /**
+         * The interval to wait between polls, in microseconds
+         */
+        private ulong m_interval;
+
+
+        /**
+         *
+         */
+        private AsyncQueue<Measurement> m_queue;
+
+
+        /**
+         * The name of the instrument
+         */
+        private string m_name;
+
+
+        /**
+         * The serial device to communicate with the instrument
+         */
+        private SerialDevice m_serial_device;
+
+
+        /**
+         *
+         */
+        private int m_stop;
+
+
+        /**
+         *
+         */
+        private Thread<int> m_thread;
+
+
+        /**
+         * Poll for recent measurements
+         *
+         * Called by the GUI thread to check if another measurement is
+         * available.
+         *
+         * @return
+         */
+        private bool poll_measurement()
+        {
+            var measurement = m_queue.try_pop();
+
+            if (measurement != null)
+            {
+                update_readout(measurement);
+            }
+
+            return Source.CONTINUE;
+        }
+
+
+        /**
+         * Read measurements from the instrument
+         *
+         * @return A dummy value
+         */
+        private int read_measurements()
+        {
+            while (AtomicInt.get(ref m_stop) == 0)
+            {
+                Thread.usleep(m_interval);
+
+                try
+                {
+                    var measurements = read_measurements_inner(m_serial_device);
+
+                    foreach (var measurement in measurements)
+                    {
+                        m_queue.push(measurement);
+                    }
+                }
+                catch (Error error)
+                {
+                    stderr.printf(@"Error: $(error.message)\n");
+                }
+            }
+
+            return 0;
+        }
     }
 }

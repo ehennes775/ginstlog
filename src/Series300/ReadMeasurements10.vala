@@ -4,15 +4,15 @@
 namespace ginstlog
 {
     /**
-     * A command to read measurements with an 8 byte response
+     * A command to read measurements with a 10 byte response
      *
      * Multple manufacturers provide a variant of this instrument. When queried
-     * over RS-232 for the model number, this instrument returns 301.
+     * over RS-232 for the model number, this instrument returns 306.
      *
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
-     * || B&amp;K Precision || Model 710 || Used for development ||
+     * || B&amp;K Precision || Model 715 || Used for development ||
      */
-    public class ReadMeasurements8 : ReadMeasurements
+    public class ReadMeasurements10 : ReadMeasurements
     {
         /**
          * The number of channels in the response
@@ -23,13 +23,13 @@ namespace ginstlog
         /**
          * The length of the expected response from the instrument, in bytes
          */
-        public const int RESPONSE_LENGTH = 8;
+        public const int RESPONSE_LENGTH = 10;
 
 
         /**
          * Initialize a new instance
          */
-        public ReadMeasurements8(Channel[] channel) throws Error
+        public ReadMeasurements10(Channel[] channel) throws Error
         {
             m_channel = channel;
 
@@ -134,43 +134,10 @@ namespace ginstlog
          */
         private Measurement[] decode_measurements(uint8[] bytes) throws Error
         {
-            var display_mode = (bytes[2] >> 6) & 0x03;
-
-            if (display_mode == 0x00)
-            {
-                var measurement = new Measurement[]
-                {
-                    decode_t(1, m_channel[0], bytes),
-                    new MeasurementFailure(m_channel[1], "N/A")
-                };
-
-                return measurement;
-            }
-            if (display_mode == 0x01)
-            {
-                var measurement = new Measurement[]
-                {
-                    new MeasurementFailure(m_channel[0], "N/A"),
-                    decode_t(1, m_channel[1], bytes)
-                };
-
-                return measurement;
-            }
-            if (display_mode == 0x02)
-            {
-                var measurement = new Measurement[]
-                {
-                    decode_t(0, m_channel[0], bytes),
-                    decode_t(1, m_channel[1], bytes)
-                };
-
-                return measurement;
-            }
-
             var measurement = new Measurement[]
             {
-                decode_t(1, m_channel[0], bytes),
-                decode_t(0, m_channel[1], bytes)
+                decode_t(0, m_channel[0], bytes),
+                decode_t(1, m_channel[1], bytes)
             };
 
             return measurement;
@@ -247,40 +214,52 @@ namespace ginstlog
                 null
                 );
 
-            var open_loop_mask = 0x01 << (3 * window);
-            var open_loop = (bytes[2] & open_loop_mask) == open_loop_mask;
+            var time_mode = ((bytes[1] & 0x08) == 0x08);
 
-            if (open_loop)
+            if (time_mode)
             {
                 return new MeasurementFailure(
                     channel,
-                    "OL"
+                    "N/A"
                     );
             }
             else
             {
-                var negative_mask = 0x01 << (3 * window + 1);
-                var negative = (bytes[2] & negative_mask) == negative_mask;
+                var open_loop_mask = 0x01 << (3 * window);
+                var open_loop = (bytes[2] & open_loop_mask) == open_loop_mask;
 
-                var places_mask = 0x01 << (3 * window + 2);
-                var places = (bytes[2] & places_mask) == places_mask ? 0 : 1;
+                if (open_loop)
+                {
+                    return new MeasurementFailure(
+                        channel,
+                        "OL"
+                        );
+                }
+                else
+                {
+                    var negative_mask = 0x01 << (3 * window + 1);
+                    var negative = (bytes[2] & negative_mask) == negative_mask;
 
-                var index0 = 2 * window + 3;
-                var index1 = index0 + 2;
+                    var places_mask = 0x01 << (3 * window + 2);
+                    var places = (bytes[2] & places_mask) == places_mask ? 0 : 1;
 
-                var readout_value = decode_readout(
-                    negative,
-                    bytes[index0:index1],
-                    places
-                    );
+                    var index0 = 4 * window + 3;
+                    var index1 = index0 + 2;
 
-                var units = decode_units(bytes);
+                    var readout_value = decode_readout(
+                        negative,
+                        bytes[index0:index1],
+                        places
+                        );
 
-                return new Temperature(
-                    channel,
-                    readout_value,
-                    units
-                    );
+                    var units = decode_units(bytes);
+
+                    return new Temperature(
+                        channel,
+                        readout_value,
+                        units
+                        );
+                }
             }
         }
 

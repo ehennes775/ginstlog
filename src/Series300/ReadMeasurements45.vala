@@ -5,6 +5,11 @@ namespace ginstlog
 {
     /**
      * A command to read measurements with a 45 byte response
+     * Multple manufacturers provide a variant of this instrument. When queried
+     * over RS-232 for the model number, this instrument returns 306.
+     *
+     * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
+     * || Omega Engineering || HH309A || Used for development ||
      */
     public class ReadMeasurements45 : ReadMeasurements
     {
