@@ -15,43 +15,43 @@ namespace ginstlog
 
 
         /**
-         * Indicates E type thermocouple
+         * Indicates type E thermocouple
          */
         E,
 
 
         /**
-         * Indicates J type thermocouple
+         * Indicates type J thermocouple
          */
         J,
 
 
         /**
-         * Indicates K type thermocouple
+         * Indicates type K thermocouple
          */
         K,
 
 
         /**
-         * Indicates N type thermocouple
+         * Indicates type N thermocouple
          */
         N,
 
 
         /**
-         * Indicates R type thermocouple
+         * Indicates type R thermocouple
          */
         R,
 
 
         /**
-         * Indicates S type thermocouple
+         * Indicates type S thermocouple
          */
         S,
 
 
         /**
-         * Indicates T type thermocouple
+         * Indicates type T thermocouple
          */
         T,
 
