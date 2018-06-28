@@ -7,10 +7,10 @@ namespace ginstlog
      * Background and thread for an unknown OEM thermometer
      *
      * Multple manufacturers provide a variant of this instrument. When queried
-     * over RS-232 for the model number, this instrument returns 306.
+     * over RS-232 for the model number, this instrument returns 309.
      *
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
-     * || B&amp;K Precision || Model 715 || Used for development ||
+     * || Omega Engineering || HH309A || Used for development ||
      */
     public class Model309Worker : Series300Worker
     {

@@ -5,6 +5,12 @@ namespace ginstlog
 {
     /**
      * Creates workers for a model 309 thermometer
+     *
+     * Multple manufacturers provide a variant of this instrument. When queried
+     * over RS-232 for the model number, this instrument returns 309.
+     *
+     * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
+     * || Omega Engineering || HH309A || Used for development ||
      */
     public class Model309WorkerFactory : InstrumentWorkerFactory
     {
