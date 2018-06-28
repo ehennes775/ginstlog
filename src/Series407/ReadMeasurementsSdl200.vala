@@ -122,7 +122,8 @@ namespace ginstlog.Series407
                 return new Temperature(
                     m_channel[index],
                     readout,
-                    units
+                    units,
+                    ThermocoupleType.UNKNOWN
                     );
             }
         }

@@ -41,6 +41,16 @@ namespace ginstlog
 
 
         /**
+         * A lookup table for decoding the thermocouple type
+         */
+        protected static const ThermocoupleType[] THERMOCOUPLE_TYPE_LOOKUP =
+        {
+            /* 0 */ ThermocoupleType.K,
+            /* 1 */ ThermocoupleType.J
+        };
+
+
+        /**
          * A lookup table for decoding the temperature units
          */
         protected static const TemperatureUnits[] TEMPERATURE_UNITS_LOOKUP =
@@ -48,5 +58,29 @@ namespace ginstlog
             /* 0 */ TemperatureUnits.FAHRENHEIT,
             /* 1 */ TemperatureUnits.CELSIUS
         };
+
+
+        /**
+         * Decode the thermocouple type from the response
+         *
+         * @param bytes The response
+         * @return The thermocouple type
+         */
+        protected ThermocoupleType decode_thermocouple_type(uint8[] bytes)
+        {
+            var index = (bytes[1] >> 3) & 0x01;
+
+            return_val_if_fail(
+                index >= 0,
+                ThermocoupleType.UNKNOWN
+                );
+
+            return_val_if_fail(
+                index < THERMOCOUPLE_TYPE_LOOKUP.length,
+                ThermocoupleType.UNKNOWN
+                );
+
+            return THERMOCOUPLE_TYPE_LOOKUP[index];
+        }
     }
 }

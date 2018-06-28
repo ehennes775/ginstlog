@@ -259,10 +259,15 @@ namespace ginstlog
 
                     var units = decode_units(bytes);
 
+                    var type = decode_thermocouple_type(
+                        bytes[index0:index1]
+                        );
+
                     return new Temperature(
                         channel,
                         readout_value,
-                        units
+                        units,
+                        type
                         );
                 }
             }

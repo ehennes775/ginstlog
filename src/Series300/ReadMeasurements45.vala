@@ -210,7 +210,8 @@ namespace ginstlog
                 return new Temperature(
                     channel,
                     readout_value,
-                    units
+                    units,
+                    TYPE
                     );
             }
         }

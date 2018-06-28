@@ -19,6 +19,16 @@ namespace ginstlog
 
 
         /**
+         * The thermocouple type making the measurement
+         */
+        public ThermocoupleType thermocouple_type
+        {
+            get;
+            construct;
+        }
+
+
+        /**
          * The units of the temperature measurement
          */
         public TemperatureUnits units
@@ -34,15 +44,22 @@ namespace ginstlog
          * @param channel The channel making the temperature measurement
          * @param temperature The measurement in string format
          * @param units The units of the temperature measurement
+         * @param type The thermocouple type making the measurement
          */
-        public Temperature(Channel channel, string temperature, TemperatureUnits units)
+        public Temperature(
+            Channel channel,
+            string temperature,
+            TemperatureUnits units,
+            ThermocoupleType type
+            )
         {
             Object(
                 channel : channel,
                 channel_index : channel.index,
                 channel_name : channel.name,
                 readout_value : @"$(temperature) $(units)",
-                units : units
+                units : units,
+                thermocouple_type : type
                 );
         }
     }
