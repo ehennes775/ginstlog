@@ -60,5 +60,50 @@ namespace ginstlog
          * The number of thermocouple types
          */
         COUNT;
+
+
+        /**
+         * Return a string representation of the thermocouple type
+         *
+         * The string returned by this function is suitable for both debugging
+         * and display.
+         *
+         * @return The string representation of the thermocouple type
+         */
+        public string to_string()
+
+            requires(this < COUNT)
+
+        {
+            switch (this)
+            {
+                case UNKNOWN:
+                    return "UNKNOWN";
+
+                case E:
+                    return "E";
+
+                case J:
+                    return "J";
+
+                case K:
+                    return "K";
+
+                case N:
+                    return "N";
+
+                case R:
+                    return "R";
+
+                case S:
+                    return "S";
+
+                case T:
+                    return "T";
+
+                default:
+                    return_val_if_reached("UNKNOWN");
+            }
+        }
     }
 }

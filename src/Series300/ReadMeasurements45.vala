@@ -86,6 +86,20 @@ namespace ginstlog
 
 
         /**
+        * This value in the temperature data bytes indicates the
+        * thermocouple below the lower threshold
+         */
+        private const long NEGATIVE_OPEN_LOOP = -32768;
+
+
+        /**
+         * This value in the temperature data bytes indicates the
+         * thermocouple is open loop
+         */
+        private const long OPEN_LOOP = 32767;
+
+
+        /**
          * Metadata for the measurement channels
          */
         private Channel[] m_channel;
@@ -159,14 +173,14 @@ namespace ginstlog
 
             var @value = decode_value(bytes[index0:index1]);
 
-            if (@value == 32767)
+            if (@value == OPEN_LOOP)
             {
                 return new MeasurementFailure(
                     channel,
                     "OL"
                     );
             }
-            else if (@value == -32768)
+            else if (@value == NEGATIVE_OPEN_LOOP)
             {
                 return new MeasurementFailure(
                     channel,
