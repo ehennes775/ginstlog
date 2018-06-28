@@ -114,36 +114,26 @@ namespace ginstlog
         /**
          * Decode the measurement readout
          *
+         * Places can only be 0 or 1.
+         *
          * @param negative Indicates the measurement is neagtive
-         * @param bytes The string of binary bytes, MSBs first
+         * @param value The temperature in tenths of degrees
          * @param places Indicates the number of fractional digits
          * @return A string containing the measurement readout
          */
-        private string decode_readout(bool negative, uint8[] bytes, int places)
+        private string decode_readout(long @value, int places)
         {
-            long @value = 0;
-
-            foreach (var @byte in bytes)
-            {
-                @value = (@value << 8) | @byte;
-            }
-
             var as_string = @value.to_string();
 
             var builder = new StringBuilder();
 
-            if (negative)
-            {
-                builder.append_c('-');
-            }
-
-            builder.append(as_string.substring(0, as_string.length - places));
+            builder.append(as_string.substring(0, as_string.length - 1));
 
             if (places > 0)
             {
                 builder.append(Posix.nl_langinfo(Posix.NLItem.RADIXCHAR));
 
-                builder.append(as_string.substring(-places, places));
+                builder.append(as_string.substring(-1, 1));
             }
 
             return builder.str;
@@ -164,31 +154,33 @@ namespace ginstlog
                 null
                 );
 
-            var mask = 0x01 << channel.index;
+            var index0 = 2 * channel.index + 7;
+            var index1 = index0 + 2;
 
-            var open_loop = (bytes[43] & mask) == mask;
+            var @value = decode_value(bytes[index0:index1]);
 
-            if (open_loop)
+            if (@value == 32767)
             {
                 return new MeasurementFailure(
                     channel,
                     "OL"
                     );
             }
+            else if (@value == -32768)
+            {
+                return new MeasurementFailure(
+                    channel,
+                    "-OL"
+                    );
+            }
             else
             {
-                // todo: the sign is in the data bytes
-                var negative = false; //(bytes[2] & 0x02) == 0x02;
+                var mask = 0x01 << channel.index;
 
-                // the resolution is not at 43.
                 var places = (bytes[43] & mask) == mask ? 0 : 1;
 
-                var index0 = 2 * channel.index + 7;
-                var index1 = index0 + 2;
-
                 var readout_value = decode_readout(
-                    negative,
-                    bytes[index0:index1],
+                    @value,
                     places
                     );
 
@@ -231,6 +223,30 @@ namespace ginstlog
                 );
 
             return TEMPERATURE_UNITS_LOOKUP[index];
+        }
+
+
+        /**
+         * Decode the value from the response
+         *
+         * The bytes represent the temperature in tenths of degress. The format
+         * is binary twos compliment. The sign bit is in the MSB. When no
+         * decimal place is used, the digit does not contain a useful value.
+         *
+         * @param bytes The binary data in the response
+         * @return The value in tenths of degrees
+         */
+        public long decode_value(uint8[] bytes)
+        {
+            bool negative = (bytes[0] & 0x80) == 0x80;
+            long @value = negative ? -1 : 0;
+
+            foreach (var @byte in bytes)
+            {
+                @value = (@value << 8) | @byte;
+            }
+
+            return @value;
         }
     }
 }
