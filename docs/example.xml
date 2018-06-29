@@ -125,5 +125,26 @@
                 </TcpSerialServer>
             </DeviceTable>
         </ExtechSDL200>
+        <ExtechEA15 id="4">
+            <Name>Two Channel Thermometer</Name>
+            <ChannelTable>
+                <Channel index="0">
+                    <Name>T1: Ambient</Name>
+                </Channel>
+                <Channel index="1">
+                    <Name>T2: Thermocouple</Name>
+                </Channel>
+            </ChannelTable>
+            <DeviceTable activeId="0">
+                <TtySerialDevice id="0">
+                    <DeviceFile>/dev/ttyUSB4</DeviceFile>
+                    <Timeout>2000 ms</Timeout>
+                </TtySerialDevice>
+                <TcpSerialServer id="1">
+                    <Address>192.168.2.30</Address>
+                    <Port>4000</Port>
+                </TcpSerialServer>
+            </DeviceTable>
+        </ExtechEA15>
     </InstrumentTable>
 </Configuration>

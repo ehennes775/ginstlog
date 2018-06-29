@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InstrumentFactoryTable>
+    <InstrumentFactory id="EA15">
+        <GetType>ginstlog_thermometer_factory_get_type</GetType>
+        <DeviceTable>
+            <TtySerialDevice>
+                <BaudRate>9600</BaudRate>
+                <DataBits>8</DataBits>
+                <Parity>N</Parity>
+                <StopBits>1</StopBits>
+            </TtySerialDevice>
+            <TcpSerialServer>
+            </TcpSerialServer>
+        </DeviceTable>
+    </InstrumentFactory>
     <InstrumentFactory id="Model301">
         <GetType>ginstlog_thermometer_factory_get_type</GetType>
         <DeviceTable>

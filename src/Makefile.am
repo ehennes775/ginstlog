@@ -16,6 +16,10 @@ BUILT_SOURCES = \
 bin_PROGRAMS = ginstlog
 
 ginstlog_SOURCES = \
+	Ea15/Ea15Worker.vala \
+	Ea15/Ea15WorkerFactory.vala \
+	Ea15/EaWorker.vala \
+	Ea15/ReadMeasurementsEa15.vala \
 	Series300/Model301Worker.vala \
 	Series300/Model301WorkerFactory.vala \
 	Series300/Model304Worker.vala \

@@ -130,6 +130,7 @@ namespace ginstlog
             {
                 var factories = new InstrumentWorkerFactory[]
                 {
+                    new Ea15WorkerFactory(document),
                     new Model301WorkerFactory(document),
                     new Model306WorkerFactory(document),
                     new Model309WorkerFactory(document),
