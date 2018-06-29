@@ -60,7 +60,7 @@ namespace ginstlog
                     return "\u00B0F";
 
                 case KELVIN:
-                    return "\u00B0K";
+                    return "K";
 
                 default:
                     return_val_if_reached("\u00B0");
