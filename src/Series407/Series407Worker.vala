@@ -24,8 +24,6 @@ namespace ginstlog.Series407
                 name : name
                 );
 
-            m_name = name;
-
             m_read = new ReadMeasurementsSdl200(channels);
 
             m_queue = new AsyncQueue<Measurement>();
@@ -42,11 +40,9 @@ namespace ginstlog.Series407
             Idle.add(poll_measurement);
 
             m_thread = new Thread<int>(
-                @"Thread.$(m_name)",
+                @"Thread.$(name)",
                 read_measurements
                 );
-
-            m_serial_device.connect();
         }
 
 
@@ -58,12 +54,6 @@ namespace ginstlog.Series407
             AtomicInt.set(ref m_stop, 1);
             Idle.remove_by_data(this);
         }
-
-
-        /**
-         * The name of the instrument
-         */
-        private string m_name;
 
 
         /**
@@ -124,6 +114,8 @@ namespace ginstlog.Series407
          */
         private int read_measurements()
         {
+            m_serial_device.connect();
+
             while (AtomicInt.get(ref m_stop) == 0)
             {
                 Thread.usleep(500000);

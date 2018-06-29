@@ -205,10 +205,13 @@ namespace ginstlog
             }
             else
             {
+                var negative = (bytes[status_index] & 0x80) == 0x80;
+
                 var index0 = 3 * channel.index + 2;
                 var index1 = index0 + 2;
 
                 var @value = decode_value(
+                    negative,
                     bytes[index0:index1]
                     );
 
@@ -284,16 +287,22 @@ namespace ginstlog
         /**
          * Decode the value from the response
          *
+         * @param negative The value is negative
          * @param bytes The binary data in the response
          * @return The value in tenths of degrees
          */
-        public long decode_value(uint8[] bytes)
+        public long decode_value(bool negative, uint8[] bytes)
         {
             long @value = 0;
 
             foreach (var @byte in bytes)
             {
                 @value = (@value << 8) | @byte;
+            }
+
+            if (negative)
+            {
+                @value = -@value;
             }
 
             return @value;

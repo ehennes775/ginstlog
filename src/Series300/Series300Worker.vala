@@ -53,11 +53,9 @@ namespace ginstlog
             Idle.add(poll_measurement);
 
             m_thread = new Thread<int>(
-                @"Thread.$(m_name)",
+                @"Thread.$(name)",
                 read_measurements
                 );
-
-            m_serial_device.connect();
         }
 
 
@@ -93,12 +91,6 @@ namespace ginstlog
          *
          */
         private AsyncQueue<Measurement> m_queue;
-
-
-        /**
-         * The name of the instrument
-         */
-        private string m_name;
 
 
         /**
@@ -147,6 +139,8 @@ namespace ginstlog
          */
         private int read_measurements()
         {
+            m_serial_device.connect();
+
             while (AtomicInt.get(ref m_stop) == 0)
             {
                 Thread.usleep(m_interval);
