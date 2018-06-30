@@ -1,7 +1,7 @@
 /*
  *  Copyright (C) 2018 Edward Hennessy
  */
-namespace ginstlog
+namespace ginstlog.Ea15
 {
     /**
      * Background and thread for an Extech EA15 thermometer
@@ -50,6 +50,6 @@ namespace ginstlog
         /**
          *
          */
-        private ReadMeasurementsEa15 m_read;
+        private ReadMeasurements m_read;
     }
 }

@@ -1,7 +1,7 @@
 /*
  *  Copyright (C) 2018 Edward Hennessy
  */
-namespace ginstlog
+namespace ginstlog.Series300
 {
     /**
      * Background and thread for an unknown OEM thermometer

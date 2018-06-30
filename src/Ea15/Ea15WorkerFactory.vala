@@ -1,7 +1,7 @@
 /*
  *  Copyright (C) 2018 Edward Hennessy
  */
-namespace ginstlog
+namespace ginstlog.Ea15
 {
     /**
      * Creates workers for a model 309 thermometer

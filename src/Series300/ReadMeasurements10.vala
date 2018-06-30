@@ -1,7 +1,7 @@
 /*
  *  Copyright (C) 2018 Edward Hennessy
  */
-namespace ginstlog
+namespace ginstlog.Series300
 {
     /**
      * A command to read measurements with a 10 byte response

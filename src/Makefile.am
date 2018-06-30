@@ -19,6 +19,7 @@ ginstlog_SOURCES = \
 	Ea15/Ea15Worker.vala \
 	Ea15/Ea15WorkerFactory.vala \
 	Ea15/EaWorker.vala \
+	Ea15/ReadMeasurements.vala \
 	Ea15/ReadMeasurementsEa15.vala \
 	Series300/Model301Worker.vala \
 	Series300/Model301WorkerFactory.vala \
