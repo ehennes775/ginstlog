@@ -11,6 +11,7 @@ $(RESOURCE_FILES) : $(RESOURCES_FILE) $(shell $(GLIB_COMPILE_RESOURCES) --genera
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --generate-source $<
 
 BUILT_SOURCES = \
+	CommunicationError.vala \
 	$(RESOURCE_FILES)
 
 bin_PROGRAMS = ginstlog
@@ -42,7 +43,6 @@ ginstlog_SOURCES = \
 	Channel.vala \
 	Configuration.vala \
 	ConfigurationError.vala \
-	CommunicationError.vala \
 	ErrorDialog.vala \
 	FourChannelInstrumentWidget.vala \
 	Instrument.vala \
@@ -75,3 +75,7 @@ ginstlog_SOURCES = \
 	$(BUILT_SOURCES)
 
 ginstlog_LDADD = -lm $(DEPS_LIBS)
+
+
+CommunicationError.vala : ErrorTable.xml ErrorTableToVala.xslt
+	$(XSLTPROC) --output $@ ErrorTableToVala.xslt ErrorTable.xml

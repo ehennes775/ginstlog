@@ -23,7 +23,12 @@ namespace ginstlog.Ea15
     public abstract class EaWorker : InstrumentWorker
     {
         /**
+         * Initialize the instance
          *
+         * @param channels The metadata on the channels
+         * @param interval The interval in between polls
+         * @param name The name of the instrument to appear in the GUI
+         * @param serial_device The serial device to communicate with the instrument
          */
         public EaWorker(
             Channel[] channels,

@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ErrorTable>
-    <ErrorDomain>
-        <Error code="1">
-            <Identifier>CHANNEL_COUNT</Identifier>
+    <ErrorDomain id="CommunicationError">
+        <Quark>ginstlog_communication_error-quark</Quark>
+        <Error id="UNKNOWN">
             <Description>The number of channels specified in the configuration file does not match the number of channels on the instrument.</Description>
+        </Error>
+        <Error id="FRAMING_ERROR">
+            <Description>A response from an instrument has a framing error.</Description>
+        </Error>
+        <Error id="MESSAGE_LENGTH">
+            <Description>A response from the instrument could not be processed because of the message length.</Description>
+        </Error>
+        <Error id="RESPONSE_TIMEOUT">
+            <Description>Communication timed out waiting for a response.</Description>
+        </Error>
+        <Error id="UNKNOWN_UNITS">
+            <Description>The instrument sent a unit of measurement that the application does not recognize.</Description>
         </Error>
     </ErrorDomain>
 </ErrorTable>
