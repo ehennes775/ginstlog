@@ -7,7 +7,7 @@ Converts the ErrorTable.xml file into Vala source code.
     <xsl:output method="text"/>
     <xsl:output omit-xml-declaration="yes"/>
     <xsl:param name="path">/ErrorTable/ErrorDomain[@id='CommunicationError']</xsl:param>
-    <xsl:template match="/ErrorTable/ErrorDomain[@id='CommunicationError']">
+    <xsl:template match="/ErrorTable/ErrorDomain">
         <xsl:text>/**&#x0A;</xsl:text>
         <xsl:text> *&#x0A;</xsl:text>
         <xsl:text> */&#x0A;</xsl:text>
@@ -17,20 +17,19 @@ Converts the ErrorTable.xml file into Vala source code.
         <xsl:value-of select="@id"/>
         <xsl:text>&#x0A;</xsl:text>
         <xsl:text>    {&#x0A;</xsl:text>
-        <xsl:apply-templates select="/ErrorTable/ErrorDomain/Error"/>
+        <xsl:for-each select="./Error">
+            <xsl:text>        /**&#x0A;</xsl:text>
+            <xsl:text>         * </xsl:text>
+            <xsl:value-of select="Description"/>
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>         */&#x0A;</xsl:text>
+            <xsl:text>        </xsl:text>
+            <xsl:value-of select="@id"/>
+            <xsl:text>,&#x0A;</xsl:text>
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>&#x0A;</xsl:text>
+        </xsl:for-each>
         <xsl:text>    }&#x0A;</xsl:text>
         <xsl:text>}&#x0A;</xsl:text>
-    </xsl:template>
-    <xsl:template match="/ErrorTable/ErrorDomain/Error">
-        <xsl:text>        /**&#x0A;</xsl:text>
-        <xsl:text>         * </xsl:text>
-        <xsl:value-of select="Description"/>
-        <xsl:text>&#x0A;</xsl:text>
-        <xsl:text>         */&#x0A;</xsl:text>
-        <xsl:text>        </xsl:text>
-        <xsl:value-of select="@id"/>
-        <xsl:text>,&#x0A;</xsl:text>
-        <xsl:text>&#x0A;</xsl:text>
-        <xsl:text>&#x0A;</xsl:text>
     </xsl:template>
 </xsl:stylesheet>

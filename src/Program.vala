@@ -43,7 +43,7 @@ namespace ginstlog
         {
             try
             {
-                throw new ConfigurationError.GENERIC(
+                throw new ConfigurationError.MISSING_CONFIGURATION(
                     "The applcation requires a configuration file."
                     );
             }

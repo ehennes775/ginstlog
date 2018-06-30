@@ -30,5 +30,9 @@ compile
 ginstlog
 src/InstrumentTableToMarkdown.xslt
 
+## Generated sources
+src/CommunicationError.vala
+
+
 ## Backup files
 *~

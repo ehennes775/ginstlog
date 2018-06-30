@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/com/github/ehennes775/ginstlog">
+        <file>ErrorTable.xml</file>
         <file>FourChannelInstrumentWidget.ui.xml</file>
         <file>ginstlog.css</file>
         <file>InstrumentTable.xml</file>

@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ErrorTable>
+    <ErrorDomain id="ConfigurationError">
+        <Quark>ginstlog_configuration_error-quark</Quark>
+        <Title>Configuration Error</Title>
+        <Error id="UNKNOWN">
+            <Description>An unknown configuration error.</Description>
+        </Error>
+        <Error id="CHANNEL_COUNT">
+            <Description>The number of channels specified in the configuration file does not match the number of channels on the instrument.</Description>
+        </Error>
+        <Error id="CHANNEL_REQUIRED">
+            <Description>The instrument requires at least one channel specified in the configuration file.</Description>
+        </Error>
+        <Error id="GENERIC">
+            <Description>Generic configuration error</Description>
+        </Error>
+        <Error id="FILE_NOT_FOUND">
+            <Description>File not found.</Description>
+        </Error>
+        <Error id="MISSING_CONFIGURATION">
+            <Description>The application requires that a configuration file is specified on the command line.</Description>
+        </Error>
+    </ErrorDomain>
     <ErrorDomain id="CommunicationError">
         <Quark>ginstlog_communication_error-quark</Quark>
+        <Title>Communication Error</Title>
         <Error id="UNKNOWN">
-            <Description>The number of channels specified in the configuration file does not match the number of channels on the instrument.</Description>
+            <Description>An unknown communication error.</Description>
         </Error>
         <Error id="FRAMING_ERROR">
             <Description>A response from an instrument has a framing error.</Description>

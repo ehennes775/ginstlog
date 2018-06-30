@@ -42,7 +42,6 @@ ginstlog_SOURCES = \
 	Series407/Series407WorkerFactory.vala \
 	Channel.vala \
 	Configuration.vala \
-	ConfigurationError.vala \
 	ErrorDialog.vala \
 	FourChannelInstrumentWidget.vala \
 	Instrument.vala \
