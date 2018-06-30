@@ -41,7 +41,7 @@ namespace ginstlog
         /**
          * Start the background task and thread
          */
-        public abstract void start();
+        public abstract void start() throws CommunicationError;
 
 
         /**

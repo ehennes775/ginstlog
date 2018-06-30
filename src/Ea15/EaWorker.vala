@@ -53,9 +53,11 @@ namespace ginstlog.Ea15
         /**
          * {@inheritDoc}
          */
-        public override void start()
+        public override void start() throws CommunicationError
         {
             Idle.add(poll_measurement);
+
+            m_serial_device.connect();
 
             m_thread = new Thread<int>(
                 @"Thread.$(name)",
@@ -144,8 +146,6 @@ namespace ginstlog.Ea15
          */
         private int read_measurements()
         {
-            m_serial_device.connect();
-
             while (AtomicInt.get(ref m_stop) == 0)
             {
                 Thread.usleep(m_interval);

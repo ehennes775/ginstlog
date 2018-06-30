@@ -46,7 +46,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override void connect() throws Error
+        public override void connect() throws CommunicationError
         {
             disconnect();
 
@@ -142,7 +142,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override uint8[] receive_response(int length) throws Error
+        public override uint8[] receive_response(int length) throws CommunicationError
         {
             var buffer = new uint8[length];
             /* size_t count = 0;
@@ -173,7 +173,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override uint8[] receive_response_with_start(int length, uint8 start) throws Error
+        public override uint8[] receive_response_with_start(int length, uint8 start) throws CommunicationError
         {
             var buffer = new uint8[length];
             size_t count = 0;
@@ -186,12 +186,12 @@ namespace ginstlog
                 {
                     var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                    throw new InstrumentError.GENERIC(@"Error reading from socket: $(inner)\n");
+                    throw new CommunicationError.UNKNOWN(@"Error reading from socket: $(inner)\n");
                 }
 
                 if (status == 0)
                 {
-                    throw new InstrumentError.COMMUNICATION_TIMEOUT(@"Communication timeout socket");
+                    throw new CommunicationError.RESPONSE_TIMEOUT(@"Communication timeout socket");
                 }
 
                 count += status;
@@ -217,7 +217,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override void send_command(uint8[] command) throws Error
+        public override void send_command(uint8[] command) throws CommunicationError
         {
             var status = Posix.write(m_fd, command, command.length);
 
@@ -225,7 +225,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error writing to socket: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error writing to socket: $(inner)\n");
             }
         }
 

@@ -55,7 +55,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override void connect()
+        public override void connect() throws CommunicationError
         {
             disconnect();
 
@@ -65,7 +65,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Unable to open serial device: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Unable to open serial device: $(inner)\n");
             }
 
             if (!Posix.isatty(m_fd))
@@ -82,7 +82,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error getting the serial device configuraion: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error getting the serial device configuraion: $(inner)\n");
             }
 
             config.c_iflag &= ~Posix.IGNBRK;
@@ -119,7 +119,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error setting the input baud rate: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error setting the input baud rate: $(inner)\n");
             }
 
             status = Posix.cfsetospeed(ref config, SERIAL_SPEED);
@@ -128,7 +128,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error setting the output baud rate: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error setting the output baud rate: $(inner)\n");
             }
 
             config.c_cflag &= ~Posix.CSIZE;
@@ -147,7 +147,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error setting the serial device configuraion: $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error setting the serial device configuraion: $(inner)\n");
             }
         }
 
@@ -168,7 +168,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override uint8[] receive_response(int length) throws Error
+        public override uint8[] receive_response(int length) throws CommunicationError
 
             requires(m_fd >= 0)
             ensures(result.length == length)
@@ -185,7 +185,7 @@ namespace ginstlog
                 {
                     var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                    throw new InstrumentError.GENERIC(
+                    throw new CommunicationError.UNKNOWN(
                         @"Error reading from $(device_file): $(inner)\n"
                         );
                 }
@@ -207,7 +207,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override uint8[] receive_response_with_start(int length, uint8 start) throws Error
+        public override uint8[] receive_response_with_start(int length, uint8 start) throws CommunicationError
 
             requires(m_fd >= 0)
             ensures(result.length == length)
@@ -224,7 +224,7 @@ namespace ginstlog
                 {
                     var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                    throw new InstrumentError.GENERIC(
+                    throw new CommunicationError.UNKNOWN(
                         @"Error reading from $(device_file): $(inner)\n"
                         );
                 }
@@ -259,7 +259,7 @@ namespace ginstlog
         /**
          * {@inheritDoc}
          */
-        public override void send_command(uint8[] command) throws Error
+        public override void send_command(uint8[] command) throws CommunicationError
 
             requires(m_fd >= 0)
 
@@ -279,7 +279,7 @@ namespace ginstlog
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";
 
-                throw new InstrumentError.GENERIC(@"Error writing to $(device_file): $(inner)\n");
+                throw new CommunicationError.UNKNOWN(@"Error writing to $(device_file): $(inner)\n");
             }
         }
 

@@ -15,11 +15,15 @@ namespace ginstlog
          */
         public Configuration(File configurationFile) throws Error
         {
-            m_document = Xml.Parser.parse_file(configurationFile.get_path());
+            var path = configurationFile.get_path();
+
+            m_document = Xml.Parser.parse_file(path);
 
             if (m_document == null)
             {
-                throw new InstrumentError.GENERIC("Unknown");
+                throw new ConfigurationError.FILE_NOT_FOUND(
+                    @"Unable to locate file '$(path)'"
+                    );
             }
 
             m_path_context = new Xml.XPath.Context(m_document);
@@ -73,11 +77,18 @@ namespace ginstlog
 
                 for (var index = 0; index < count; index++)
                 {
-                    var node = path_result->nodesetval->item(index);
+                    try
+                    {
+                        var node = path_result->nodesetval->item(index);
 
-                    var instrument = create_instrument(node);
+                        var instrument = create_instrument(node);
 
-                    instrument_list.add(instrument);
+                        instrument_list.add(instrument);
+                    }
+                    catch (Error error)
+                    {
+                        stderr.printf(@"$(error.message)\n");
+                    }
                 }
 
                 return instrument_list;
@@ -113,14 +124,7 @@ namespace ginstlog
 
             path_context.node = node;
 
-            try
-            {
-                return InstrumentFactoryLookup.create_instrument(path_context);
-            }
-            finally
-            {
-
-            }
+            return InstrumentFactoryLookup.create_instrument(path_context);
         }
     }
 }

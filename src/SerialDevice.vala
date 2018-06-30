@@ -11,7 +11,7 @@ namespace ginstlog
         /**
          *
          */
-        public abstract void connect() throws Error;
+        public abstract void connect() throws CommunicationError;
 
 
         /**
@@ -25,7 +25,7 @@ namespace ginstlog
          *
          * @param length The size of the expected response in bytes
          */
-        public abstract uint8[] receive_response(int length) throws Error;
+        public abstract uint8[] receive_response(int length) throws CommunicationError;
 
 
         /**
@@ -37,7 +37,7 @@ namespace ginstlog
          * @param length The size of the expected response in bytes
          * @param start The first byte of the expected response
          */
-        public abstract uint8[] receive_response_with_start(int length, uint8 start) throws Error;
+        public abstract uint8[] receive_response_with_start(int length, uint8 start) throws CommunicationError;
 
 
         /**
@@ -45,6 +45,6 @@ namespace ginstlog
          *
          * @param command The command to send to the thermometer
          */
-        public abstract void send_command(uint8[] command) throws Error;
+        public abstract void send_command(uint8[] command) throws CommunicationError;
     }
 }
