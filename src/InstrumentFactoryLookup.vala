@@ -58,7 +58,7 @@ namespace ginstlog
 
             if (factory == null)
             {
-                throw new ConfigurationError.GENERIC(
+                throw new ConfigurationError.UKNOWN_INSTRUMENT(
                     @"Uknown instrument '$(name)'"
                     );
             }

@@ -15,6 +15,18 @@ namespace ginstlog.Series407
 
 
         /**
+         * When operating in T1-T2 mode, include T1-T2 as measurement T4.
+         * Otherwise, include not available.
+         */
+        public bool include_delta
+        {
+            get;
+            construct;
+            default = false;
+        }
+
+
+        /**
          * Initialize a new instance
          */
         public ReadMeasurementsSdl200(Channel[] channel) throws Error
@@ -41,6 +53,7 @@ namespace ginstlog.Series407
          */
         public override Measurement[] execute(SerialDevice device) throws Error
         {
+            var delta_mode = true;
             var measurement = new Measurement[CHANNEL_COUNT] { null };
 
             for (var count = 0; count < CHANNEL_COUNT; count++)
@@ -80,10 +93,31 @@ namespace ginstlog.Series407
                         );
                 }
 
+                if (channel_index == 2)
+                {
+                    delta_mode = false;
+                }
+
                 measurement[channel_index] = decode_measurement(
                     channel_index,
                     response
                     );
+            }
+
+            if (delta_mode)
+            {
+                measurement[2] = new MeasurementFailure(
+                    m_channel[2],
+                    "N/A"
+                    );
+
+                if (!include_delta)
+                {
+                    measurement[3] = new MeasurementFailure(
+                        m_channel[3],
+                        "N/A"
+                        );
+                }
             }
 
             return measurement;

@@ -114,9 +114,9 @@
                     <Name>T4: Thermocouple</Name>
                 </Channel>
             </ChannelTable>
-            <DeviceTable activeId="1">
+            <DeviceTable activeId="0">
                 <TtySerialDevice id="0">
-                    <DeviceFile>/dev/ttyUSB3</DeviceFile>
+                    <DeviceFile>/dev/ttyUSB0</DeviceFile>
                     <Timeout>2000 ms</Timeout>
                 </TtySerialDevice>
                 <TcpSerialServer id="1">

@@ -23,7 +23,15 @@ namespace ginstlog
 
             m_worker = worker;
             m_worker.update_readout.connect(on_update_readout);
-            m_worker.start();
+
+            try
+            {
+                m_worker.start();
+            }
+            catch (Error error)
+            {
+                stderr.printf(@"$(error.message)\n");
+            }
         }
 
 

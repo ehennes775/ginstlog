@@ -96,11 +96,22 @@ namespace ginstlog.Series407
          */
         private bool poll_measurement()
         {
+            var latest = new Measurement[channel_count];
             var measurement = m_queue.try_pop();
 
-            if (measurement != null)
+            while (measurement != null)
             {
-                update_readout(measurement);
+                latest[measurement.channel_index] = measurement;
+
+                measurement = m_queue.try_pop();
+            }
+
+            for (int index = 0; index < channel_count; index++)
+            {
+                if (latest[index] != null)
+                {
+                    update_readout(latest[index]);
+                }
             }
 
             return Source.CONTINUE;
@@ -118,15 +129,22 @@ namespace ginstlog.Series407
 
             while (AtomicInt.get(ref m_stop) == 0)
             {
-                Thread.usleep(500000);
+                Thread.usleep(0);
 
                 try
                 {
                     var measurements = m_read.execute(m_serial_device);
 
-                    foreach (var measurement in measurements)
+                    if (measurements != null)
                     {
-                        m_queue.push(measurement);
+                        foreach (var measurement in measurements)
+                        {
+                            m_queue.push(measurement);
+                        }
+                    }
+                    else
+                    {
+                        stderr.printf(@"NULL measurement on $(name)\n");
                     }
                 }
                 catch (Error error)

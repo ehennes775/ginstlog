@@ -9,13 +9,13 @@ namespace ginstlog
     public abstract class SerialDevice : Object
     {
         /**
-         *
+         * Connect to the instrument
          */
         public abstract void connect() throws CommunicationError;
 
 
         /**
-         *
+         * Disconnect from the instrument
          */
         public abstract void disconnect();
 

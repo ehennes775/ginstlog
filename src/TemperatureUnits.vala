@@ -47,12 +47,14 @@ namespace ginstlog
          * @return The string representation of the units
          */
         public string to_string()
-
-            requires(this < COUNT)
-
         {
+            return_val_if_fail(this < COUNT, "\u00B0");
+
             switch (this)
             {
+                case UNKNOWN:
+                    return "\u00B0";
+
                 case CELSIUS:
                     return "\u00B0C";
 

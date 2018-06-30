@@ -154,9 +154,16 @@ namespace ginstlog.Ea15
                 {
                     var measurements = read_measurements_inner(m_serial_device);
 
-                    foreach (var measurement in measurements)
+                    if (measurements != null)
                     {
-                        m_queue.push(measurement);
+                        foreach (var measurement in measurements)
+                        {
+                            m_queue.push(measurement);
+                        }
+                    }
+                    else
+                    {
+                        stderr.printf(@"NULL measurement on $(name)\n");
                     }
                 }
                 catch (Error error)
