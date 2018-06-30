@@ -19,6 +19,11 @@ namespace ginstlog.Ea15
 
         /**
          * Initialize a new instance
+         *
+         * @param channels The metadata on the channels
+         * @param interval The interval in between polls
+         * @param name The name of the instrument to appear in the GUI
+         * @param serial_device The serial device to communicate with the instrument
          */
         public Ea15Worker(
             Channel[] channels,
@@ -34,7 +39,7 @@ namespace ginstlog.Ea15
                 serial_device
                 );
 
-            m_read = new ReadMeasurementsEa15(channels);
+            m_read_command = new ReadMeasurementsEa15(channels);
         }
 
 
@@ -43,13 +48,13 @@ namespace ginstlog.Ea15
          */
         protected override Measurement[] read_measurements_inner(SerialDevice device) throws Error
         {
-            return m_read.execute(device);
+            return m_read_command.execute(device);
         }
 
 
         /**
-         *
+         * The command to read measurments from the instrument
          */
-        private ReadMeasurements m_read;
+        private ReadMeasurements m_read_command;
     }
 }

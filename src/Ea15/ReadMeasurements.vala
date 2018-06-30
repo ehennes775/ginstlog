@@ -19,10 +19,8 @@ namespace ginstlog.Ea15
         /**
          * Read measurements from an instrument
          *
-         *
-         *
          * @param device The serial device to read the measurements from
-         * @return The measurements from the device
+         * @return The measurements from the instrument
          */
         public abstract Measurement[] execute(SerialDevice device) throws Error;
     }

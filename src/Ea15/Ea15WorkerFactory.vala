@@ -4,22 +4,13 @@
 namespace ginstlog.Ea15
 {
     /**
-     * Creates workers for a model 309 thermometer
-     *
-     * Multple manufacturers provide a variant of this instrument. When queried
-     * over RS-232 for the model number, this instrument returns 309.
+     * Creates workers for an Extech EA15 thermometer
      *
      * || ''Manufacturer'' || ''Model'' || ''Notes'' ||
-     * || Omega Engineering || HH309A || Used for development ||
+     * || Extech || EA15 || Used for development ||
      */
     public class Ea15WorkerFactory : InstrumentWorkerFactory
     {
-        /**
-         *
-         */
-        public const string FACTORY_ID = "EA15";
-
-
         /**
          * Initialize a new instance
          */
@@ -57,10 +48,22 @@ namespace ginstlog.Ea15
 
             return new Ea15Worker(
                 channels,
-                500000,
+                INTERVAL,
                 name,
                 serial_device
                 );
         }
+
+
+        /**
+         * The element ID inside the InstrumentFactoryTable.xml file
+         */
+        private const string FACTORY_ID = "EA15";
+
+
+        /**
+         * The EA15 continuously transmits, so no delay
+         */
+        private const ulong INTERVAL = 0;
     }
 }

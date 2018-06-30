@@ -143,7 +143,7 @@ namespace ginstlog.Ea15
 
             while (AtomicInt.get(ref m_stop) == 0)
             {
-                //Thread.usleep(m_interval);
+                Thread.usleep(m_interval);
 
                 try
                 {
