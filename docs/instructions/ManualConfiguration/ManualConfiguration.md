@@ -65,15 +65,15 @@ active device. Any number of devices can be specified in the `DeviceTable`. The
     a. __Edit a TTY serial device.__ A TTY serial device provides communication
     over a serial port.
 
-       | Element | Description |
-       | --- | --- |
-       | DeviceFile | The device file (e.g. /dev/ttyUSB0) |
+      | Element | Description |
+      | --- | --- |
+      | DeviceFile | The device file (e.g. /dev/ttyUSB0) |
 
     b. __Edit a TCP serial server.__ A TCP serial server provides communication
     over the network to a serial instrument. The baud rate, data bits, parity,
     and stop bits need to be configured on the serial server.
 
-       | Element | Description |
-       | --- | --- |
-       | Address | The IP address of the serial server |
-       | Port | The port number of the process handling the serial I/O |
+      | Element | Description |
+      | --- | --- |
+      | Address | The IP address of the serial server |
+      | Port | The port number of the process handling the serial I/O |
