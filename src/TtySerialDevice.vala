@@ -143,6 +143,22 @@ namespace ginstlog
 
             status = Posix.tcsetattr(m_fd, Posix.TCSAFLUSH, config);
 
+            /*
+            This code sets DTR for devices that use the signal for power. So
+            far, it looks like the DTR line already gets set by some other
+            mechanism.
+
+            {
+                int flag = Linux.Termios.TIOCM_DTR;
+
+                Posix.ioctl(
+                    m_fd,
+                    Linux.Termios.TIOCMBIS,
+                    ref flag
+                    );
+            }
+            */
+
             if (status < 0)
             {
                 var inner = Posix.strerror(Posix.errno) ?? @"$(Posix.errno)";

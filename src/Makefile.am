@@ -1,7 +1,7 @@
 RESOURCES_FILE = ginstlog.gresource.xml
 
 AM_CPPFLAGS = $(DEPS_CFLAGS) -DIMAGE_DIR=\"$(imgdir)\" -DPKGDATADIR=\"$(pkgdatadir)\" -include config.h
-AM_VALAFLAGS = --target-glib=2.38 --pkg gee-0.8 --pkg gtk+-3.0 --pkg libxml-2.0 --pkg posix --gresources=$(RESOURCES_FILE)
+AM_VALAFLAGS = --target-glib=2.38 --pkg gee-0.8 --pkg gtk+-3.0 --pkg libxml-2.0 --pkg linux --pkg posix --gresources=$(RESOURCES_FILE)
 
 GLIB_COMPILE_RESOURCES = glib-compile-resources
 
