@@ -11,3 +11,7 @@ The following screenshot shows the application in development:
 ## Instruments
 
 The [instrument table](docs/Instruments.md) contains a list of instruments supported by ginstlog.
+
+## Instructions
+
+See [instructions](docs/instructions/index.md) for using ginstlog.
