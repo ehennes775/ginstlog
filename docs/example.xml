@@ -147,4 +147,12 @@
             </DeviceTable>
         </ExtechEA15>
     </InstrumentTable>
+    <LoggerTable activeId="0">
+        <Logger id="0">
+            <TriggerTable activeId="0">
+                <TimeoutTrigger id="0">
+                </TimeoutTrigger>
+            </TriggerTable>
+        </Logger>
+    </LoggerTable>
 </Configuration>

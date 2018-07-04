@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<interface>
+	<template class="ginstlogLoggerWidget" parent="GtkGrid">
+        <style>
+            <class name="instrument-rack"/>
+        </style>
+        <child>
+            <object class="GtkGrid" id="data-logger-inner">
+                <property name="column-homogeneous">TRUE</property>
+                <property name="column-spacing">1</property>
+                <property name="vexpand">TRUE</property>
+                <style>
+                    <class name="instrument-rack"/>
+                </style>
+                <child>
+                    <object class="GtkLabel" id="data-logger-enable-label">
+                        <property name="label">Enable Logging</property>
+                    </object>
+                </child>
+                <child>
+                    <object class="GtkSwitch" id="data-logger-enable-switch">
+                    </object>
+                </child>
+            </object>
+        </child>
+	</template>
+</interface>

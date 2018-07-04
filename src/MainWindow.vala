@@ -18,6 +18,8 @@ namespace ginstlog
          */
         static construct
         {
+            var t = typeof(LoggerWidget);
+            stdout.printf(@"static construct $(t)\n");
         }
 
 
@@ -26,6 +28,9 @@ namespace ginstlog
          */
         construct
         {
+            var t = typeof(LoggerWidget);
+            stdout.printf(@"construct $(t)\n");
+
             delete_event.connect(on_delete_event);
         }
 
@@ -80,12 +85,22 @@ namespace ginstlog
                         m_instrument_rack.add(widget);
                     }
                 }
+
+                var logger = configuration.create_logger();
+                m_data_logger_widget.logger = logger;
             }
             catch (Error error)
             {
                 stderr.printf(@"$(error.message)\n");
             }
         }
+
+
+        /**
+         * The grid widget containing the instruments
+         */
+        [GtkChild(name="data-logger-widget")]
+        private LoggerWidget m_data_logger_widget;
 
 
         /**

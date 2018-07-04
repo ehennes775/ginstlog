@@ -103,6 +103,33 @@ namespace ginstlog
         /**
          *
          */
+        public Logging.Logger create_logger() throws ConfigurationError
+        {
+            var path_context = new Xml.XPath.Context(m_document);
+
+            var active_id = XmlUtility.get_required_string(
+                path_context,
+                "/Configuration/LoggerTable/@activeId"
+                );
+
+            path_context.node = XmlUtility.get_required_node(
+                path_context,
+                @"/Configuration/LoggerTable/Logger[@id='$(active_id)']"
+                );
+
+            return s_logger_factory.create(path_context);
+        }
+
+
+        /**
+         *
+         */
+        private static Logging.LoggerFactory s_logger_factory = new Logging.LoggerFactory();
+
+
+        /**
+         *
+         */
         private Xml.Doc* m_document = null;
 
 
