@@ -8,6 +8,10 @@ The following screenshot shows the application in development:
 
 ![Development Screenshot](docs/ScreenShot.png)
 
+The following screenshot shows the data logger portion of the application:
+
+![Development Screenshot](docs/DataLogger.png)
+
 ## Instruments
 
 The [instrument table](docs/Instruments.md) contains a list of instruments supported by ginstlog.

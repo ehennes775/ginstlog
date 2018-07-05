@@ -50,15 +50,31 @@
 
 .logger
 {
-    background : dimgrey;
+    background : slateblue4;
     border-radius : 10px;
     color : wheat;
 }
 
 .logger .frame
 {
-    border-color : dimgrey;
+    border-color : wheat;
     border-radius : 10px;
-    border-style : groove;
-    border-width : 3px;
+    border-style : solid;
+    border-width : 1px;
+}
+
+.entry
+{
+    background : black;
+    color : white;
+    border : solid;
+    border-color : wheat;
+    border-radius : 10px;
+    border-width : 1px;
+    box-shadow : none;
+}
+
+.entry#data-logger-error-entry
+{
+    color : red;
 }

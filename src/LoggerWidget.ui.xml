@@ -68,8 +68,9 @@
                         <child>
                             <object class="GtkLabel" id="data-logger-count-label-1">
                                 <property name="hexpand">FALSE</property>
-                                <property name="label">Count</property>
+                                <property name="label">Success Count</property>
                                 <property name="vexpand">FALSE</property>
+                                <property name="xalign">0.0</property>
                             </object>
                             <packing>
                                 <property name="left-attach">0</property>
@@ -90,6 +91,36 @@
                             <packing>
                                 <property name="left-attach">1</property>
                                 <property name="top-attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="data-logger-error-label-1">
+                                <property name="hexpand">FALSE</property>
+                                <property name="label">Failure Count</property>
+                                <property name="vexpand">FALSE</property>
+                                <property name="xalign">0.0</property>
+                            </object>
+                            <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">1</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <object class="GtkEntry" id="data-logger-error-entry">
+                                <property name="editable">FALSE</property>
+                                <property name="hexpand">FALSE</property>
+                                <property name="text">0</property>
+                                <property name="vexpand">FALSE</property>
+                                <property name="width-request">100</property>
+                                <property name="xalign">1.0</property>
+                            </object>
+                            <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">1</property>
                                 <property name="width">1</property>
                                 <property name="height">1</property>
                             </packing>
