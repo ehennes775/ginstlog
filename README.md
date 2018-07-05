@@ -8,7 +8,7 @@ The following screenshot shows the application in development:
 
 ![Development Screenshot](docs/ScreenShot.png)
 
-The following screenshot shows the data logger portion of the application:
+The following screenshot shows the data logger portion of the application. The enable switch allows the user to enable and disable logging. All other widgets show the status of logging.
 
 ![Development Screenshot](docs/DataLogger.png)
 
