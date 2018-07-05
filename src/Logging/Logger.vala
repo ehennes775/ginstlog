@@ -9,6 +9,20 @@ namespace ginstlog.Logging
     public class Logger : Object
     {
         /**
+         * Counter of the number of records written
+         */
+        public int count
+        {
+            get
+            {
+                return_val_if_fail(m_worker != null, 0);
+
+                return m_worker.count;
+            }
+        }
+
+
+        /**
          * Enable or disable logging
          */
         public bool enable

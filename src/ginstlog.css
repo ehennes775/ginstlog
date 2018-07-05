@@ -47,3 +47,18 @@
     background : darkgreen;
     border-radius : 10px;
 }
+
+.logger
+{
+    background : dimgrey;
+    border-radius : 10px;
+    color : wheat;
+}
+
+.logger .frame
+{
+    border-color : dimgrey;
+    border-radius : 10px;
+    border-style : groove;
+    border-width : 3px;
+}

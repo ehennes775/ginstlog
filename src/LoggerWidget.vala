@@ -29,17 +29,19 @@ namespace ginstlog
 
                 if (b_logger != null)
                 {
-                    m_enable_switch.sensitive = true;
                     b_logger.notify["enable"].connect(on_notify_enable);
                     b_logger.notify_property("enable");
+
+                    return_if_fail(m_enable_switch != null);
+                    m_enable_switch.sensitive = true;
                 }
                 else
                 {
+                    return_if_fail(m_enable_switch != null);
                     m_enable_switch.sensitive = false;
                     m_enable_switch.active = false;
                 }
             }
-            default = null;
         }
 
 
@@ -50,6 +52,8 @@ namespace ginstlog
         {
             m_enable_switch.notify["active"].connect(on_notify_active);
             m_enable_switch.state_set.connect(on_state_set);
+
+            Timeout.add(500, on_timeout);
         }
 
 
@@ -62,7 +66,14 @@ namespace ginstlog
 
 
         /**
-         * The switch to enable and disable logging
+         *
+         */
+        [GtkChild(name="data-logger-count-entry")]
+        private Gtk.Entry m_count_entry;
+
+
+        /**
+         * The on/off switch to enable and disable logging
          */
         [GtkChild(name="data-logger-enable-switch")]
         private Gtk.Switch m_enable_switch;
@@ -93,6 +104,9 @@ namespace ginstlog
          *
          */
         private void on_notify_enable(ParamSpec param)
+
+            requires(m_enable_switch != null)
+
         {
             // TODO set this to a boolean that indicates the logger is running
             m_enable_switch.set_state(b_logger.enable);
@@ -105,6 +119,20 @@ namespace ginstlog
         private bool on_state_set(bool state)
         {
             return true;
+        }
+
+
+        /**
+         * Update the display periodically
+         */
+        private bool on_timeout()
+        {
+            if (b_logger != null)
+            {
+                m_count_entry.text = b_logger.count.to_string();
+            }
+
+            return Source.CONTINUE;
         }
     }
 }

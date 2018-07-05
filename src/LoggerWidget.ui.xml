@@ -1,24 +1,111 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <interface>
 	<template class="ginstlogLoggerWidget" parent="GtkGrid">
+        <property name="halign">0.5</property>
+        <property name="hexpand">TRUE</property>
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+        <property name="valign">0.5</property>
+        <property name="vexpand">TRUE</property>
         <style>
-            <class name="instrument-rack"/>
+            <class name="logger"/>
         </style>
         <child>
-            <object class="GtkGrid" id="data-logger-inner">
-                <property name="column-homogeneous">TRUE</property>
-                <property name="column-spacing">1</property>
-                <property name="vexpand">TRUE</property>
-                <style>
-                    <class name="instrument-rack"/>
-                </style>
+            <object class="GtkGrid" id="data-logger-enable-grid">
+                <property name="column-homogeneous">FALSE</property>
+                <property name="halign">GTK_ALIGN_CENTER</property>
+                <property name="hexpand">FALSE</property>
+                <property name="margin">10</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+                <property name="row-spacing">5</property>
+                <property name="row-homogeneous">FALSE</property>
+                <property name="valign">GTK_ALIGN_END</property>
+                <property name="vexpand">FALSE</property>
                 <child>
                     <object class="GtkLabel" id="data-logger-enable-label">
-                        <property name="label">Enable Logging</property>
+                        <property name="hexpand">FALSE</property>
+                        <property name="label">Enable</property>
+                        <property name="vexpand">FALSE</property>
+                        <attributes>
+                            <attribute name="scale" value="1.6"/>
+                        </attributes>
                     </object>
+                    <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                    </packing>
                 </child>
                 <child>
                     <object class="GtkSwitch" id="data-logger-enable-switch">
+                        <property name="hexpand">FALSE</property>
+                        <property name="vexpand">FALSE</property>
+                    </object>
+                    <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">1</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                    </packing>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkFrame" id="data-logger-status-frame">
+                <property name="label">Status</property>
+                <property name="margin">10</property>
+                <property name="label-xalign">0.5</property>
+                <property name="vexpand">FALSE</property>
+                <child>
+                    <object class="GtkGrid" id="data-logger-status-grid">
+                        <property name="column-spacing">5</property>
+                        <property name="hexpand">FALSE</property>
+                        <property name="margin">5</property>
+                        <property name="row-homogeneous">TRUE</property>
+                        <property name="row-spacing">5</property>
+                        <property name="valign">GTK_ALIGN_START</property>
+                        <property name="vexpand">FALSE</property>
+                        <child>
+                            <object class="GtkLabel" id="data-logger-count-label-1">
+                                <property name="hexpand">FALSE</property>
+                                <property name="label">Count</property>
+                                <property name="vexpand">FALSE</property>
+                            </object>
+                            <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <object class="GtkEntry" id="data-logger-count-entry">
+                                <property name="editable">FALSE</property>
+                                <property name="hexpand">FALSE</property>
+                                <property name="text">0</property>
+                                <property name="vexpand">FALSE</property>
+                                <property name="width-request">100</property>
+                                <property name="xalign">1.0</property>
+                            </object>
+                            <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">0</property>
+                                <property name="width">1</property>
+                                <property name="height">1</property>
+                            </packing>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+        <child>
+            <object class="GtkFrame" id="data-logger-unused-frame">
+                <property name="margin">10</property>
+                <child>
+                    <object class="GtkLabel" id="data-logger-unused-label">
+                        <property name="hexpand">TRUE</property>
+                        <property name="label">Data logger support incomplete.</property>
+                        <property name="vexpand">TRUE</property>
                     </object>
                 </child>
             </object>

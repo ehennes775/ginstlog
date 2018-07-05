@@ -8,13 +8,6 @@ namespace ginstlog
      */
     public class Program : Gtk.Application
     {
-        static construct
-        {
-            var t = typeof(LoggerWidget);
-            stdout.printf(@"Program $(t.name())\n");
-        }
-
-
         /**
          * Construct the program
          */

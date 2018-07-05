@@ -68,7 +68,7 @@ namespace ginstlog.Logging
 
             var name = triggger_path_context.node->name;
 
-            var trigger = new TimeoutTrigger(2000);
+            var trigger = new TimeoutTrigger(500);
 
             return trigger;
         }
