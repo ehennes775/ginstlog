@@ -22,9 +22,12 @@ ginstlog_SOURCES = \
 	Ea15/EaWorker.vala \
 	Ea15/ReadMeasurements.vala \
 	Ea15/ReadMeasurementsEa15.vala \
+	Logging/Entry.vala \
+	Logging/FailureEntry.vala \
 	Logging/Logger.vala \
 	Logging/LoggerFactory.vala \
 	Logging/LoggerWorker.vala \
+	Logging/SuccessEntry.vala \
 	Logging/TimeoutTrigger.vala \
 	Logging/Trigger.vala \
 	Series300/Model301Worker.vala \

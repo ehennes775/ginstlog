@@ -71,7 +71,7 @@ namespace ginstlog.Logging
         /**
          * The trigger for initiating a set of measurements
          */
-        private AsyncQueue<string> m_queue = new AsyncQueue<string>();
+        private AsyncQueue<Entry> m_queue = new AsyncQueue<Entry>();
 
 
         /**
@@ -97,7 +97,20 @@ namespace ginstlog.Logging
 
             while (running)
             {
-                m_queue.push("Measurements");
+                var time = get_real_time();
+
+                try
+                {
+                    var entry = new SuccessEntry(time);
+
+                    m_queue.push(entry);
+                }
+                catch (Error error)
+                {
+                    var entry = new FailureEntry(time, error);
+
+                    m_queue.push(entry);
+                }
 
                 running = m_trigger.wait();
             }
@@ -113,13 +126,13 @@ namespace ginstlog.Logging
          */
         private int write()
         {
-            var data = m_queue.pop();
+            var entry = m_queue.pop();
 
             while (true)
             {
                 AtomicInt.inc(ref m_count);
 
-                data = m_queue.pop();
+                entry = m_queue.pop();
             }
 
             return 0;
