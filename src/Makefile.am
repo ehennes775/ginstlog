@@ -30,6 +30,7 @@ ginstlog_SOURCES = \
 	Logging/SuccessEntry.vala \
 	Logging/TimeoutTrigger.vala \
 	Logging/Trigger.vala \
+	Logging/Writer.vala \
 	Series300/Model301Worker.vala \
 	Series300/Model301WorkerFactory.vala \
 	Series300/Model304Worker.vala \

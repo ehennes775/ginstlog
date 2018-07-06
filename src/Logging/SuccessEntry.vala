@@ -16,5 +16,14 @@ namespace ginstlog.Logging
         public SuccessEntry(int64 time)
         {
         }
+
+
+        /**
+         *
+         */
+        public override void write_to(Writer writer)
+        {
+            writer.write_success(this);
+        }
     }
 }

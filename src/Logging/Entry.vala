@@ -8,5 +8,9 @@ namespace ginstlog.Logging
      */
     public abstract class Entry : Object
     {
+        /**
+         *
+         */
+        public abstract void write_to(Writer writer);
     }
 }
