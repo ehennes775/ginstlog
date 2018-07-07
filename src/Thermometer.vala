@@ -52,6 +52,15 @@ namespace ginstlog
         /**
          *
          */
+        public override Measurement[] read() throws CommunicationError
+        {
+            return m_worker.read();
+        }
+
+
+        /**
+         *
+         */
         public void toggle_hold() throws Error
         {
             //m_serial_device.send_command(TOGGLE_HOLD_COMMAND);

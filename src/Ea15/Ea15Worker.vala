@@ -48,8 +48,23 @@ namespace ginstlog.Ea15
          */
         protected override Measurement[] read_measurements_inner(SerialDevice device) throws Error
         {
-            return m_read_command.execute(device);
+            m_mutex.@lock();
+
+            try
+            {
+                return m_read_command.execute(device);
+            }
+            finally
+            {
+                m_mutex.unlock();
+            }
         }
+
+
+        /**
+         *
+         */
+        private Mutex m_mutex = new Mutex();
 
 
         /**

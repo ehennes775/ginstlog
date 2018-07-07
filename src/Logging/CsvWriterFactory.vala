@@ -28,7 +28,7 @@ namespace ginstlog.Logging
                 CsvWriter.DEFAULT_SEPARATOR
                 );
 
-            return new CsvWriter(file, FileMode.CREATE, columns, separator);
+            return new CsvWriter(file, FileMode.REPLACE, columns, separator);
         }
 
 
@@ -57,8 +57,6 @@ namespace ginstlog.Logging
 
             try
             {
-                stdout.printf("Here1\n");
-
                 return_val_if_fail(
                     path_result != null,
                     null

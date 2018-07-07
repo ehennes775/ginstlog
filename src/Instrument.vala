@@ -36,5 +36,11 @@ namespace ginstlog
             construct;
             default = "Instrument";
         }
+
+
+        /**
+         *
+         */
+        public abstract Measurement[] read() throws CommunicationError;
     }
 }

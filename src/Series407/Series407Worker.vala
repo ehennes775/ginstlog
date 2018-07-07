@@ -33,6 +33,15 @@ namespace ginstlog.Series407
 
 
         /**
+         *
+         */
+        public override Measurement[] read() throws CommunicationError
+        {
+            return null;
+        }
+
+
+        /**
          * {@inheritDoc}
          */
         public override void start()

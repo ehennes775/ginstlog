@@ -39,6 +39,12 @@ namespace ginstlog
 
 
         /**
+         *
+         */
+        public abstract Measurement[] read() throws CommunicationError;
+
+
+        /**
          * Start the background task and thread
          */
         public abstract void start() throws CommunicationError;

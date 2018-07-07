@@ -53,6 +53,15 @@ namespace ginstlog.Ea15
         /**
          * {@inheritDoc}
          */
+        public override Measurement[] read() throws CommunicationError
+        {
+            return read_measurements_inner(m_serial_device);
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
         public override void start() throws CommunicationError
         {
             Idle.add(poll_measurement);
