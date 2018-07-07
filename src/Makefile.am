@@ -22,6 +22,9 @@ ginstlog_SOURCES = \
 	Ea15/EaWorker.vala \
 	Ea15/ReadMeasurements.vala \
 	Ea15/ReadMeasurementsEa15.vala \
+	Logging/CsvColumn.vala \
+	Logging/CsvWriter.vala \
+	Logging/CsvWriterFactory.vala \
 	Logging/Entry.vala \
 	Logging/FailureEntry.vala \
 	Logging/Logger.vala \

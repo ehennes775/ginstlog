@@ -153,6 +153,31 @@
                 <TimeoutTrigger id="0">
                 </TimeoutTrigger>
             </TriggerTable>
+            <WriterTable activeId="0">
+                <CsvWriter id="0">
+                    <Separator>,</Separator>
+                    <ColumnTable>
+                        <Column>
+                            <Name>mtime</Name>
+                        </Column>
+                        <Column>
+                            <Name>rtime</Name>
+                        </Column>
+                        <Column>
+                            <Name>T1</Name>
+                        </Column>
+                        <Column>
+                            <Name>T2</Name>
+                        </Column>
+                        <Column>
+                            <Name>T3</Name>
+                        </Column>
+                        <Column>
+                            <Name>T4</Name>
+                        </Column>
+                    </ColumnTable>
+                </CsvWriter>
+            </WriterTable>
         </Logger>
     </LoggerTable>
 </Configuration>

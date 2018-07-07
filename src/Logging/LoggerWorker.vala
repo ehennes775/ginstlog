@@ -44,12 +44,14 @@ namespace ginstlog.Logging
          * Initialize a new instance
          *
          * @param trigger The trigger for initiating a set of measurements
+         * @param writer
          */
-        public LoggerWorker(Trigger trigger) throws ConfigurationError
+        public LoggerWorker(Trigger trigger, Writer writer) throws ConfigurationError
         {
             m_log_thread = new Thread<int>("LoggerWorkerLogger", log);
             m_trigger = trigger;
             m_write_thread = new Thread<int>("LoggerWorkerWriter", write);
+            m_writer = writer;
         }
 
 
@@ -87,6 +89,12 @@ namespace ginstlog.Logging
 
 
         /**
+         *
+         */
+        private Writer m_writer;
+
+
+        /**
          * The thread function to read and log measurements
          *
          * @return A dummy integer
@@ -97,17 +105,18 @@ namespace ginstlog.Logging
 
             while (running)
             {
-                var time = get_real_time();
+                var mtime = get_monotonic_time();
+                var rtime = get_real_time();
 
                 try
                 {
-                    var entry = new SuccessEntry(time);
+                    var entry = new SuccessEntry(mtime, rtime);
 
                     m_queue.push(entry);
                 }
                 catch (Error error)
                 {
-                    var entry = new FailureEntry(time, error);
+                    var entry = new FailureEntry(mtime, rtime, error);
 
                     m_queue.push(entry);
                 }
@@ -120,7 +129,7 @@ namespace ginstlog.Logging
 
 
         /**
-         *
+         * A thread function to write entries to a log
          *
          * @return A dummy integer
          */
@@ -130,7 +139,16 @@ namespace ginstlog.Logging
 
             while (true)
             {
-                AtomicInt.inc(ref m_count);
+                try
+                {
+                    entry.write_to(m_writer);
+
+                    AtomicInt.inc(ref m_count);
+                }
+                catch (Error error)
+                {
+
+                }
 
                 entry = m_queue.pop();
             }

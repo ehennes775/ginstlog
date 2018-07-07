@@ -13,8 +13,12 @@ namespace ginstlog.Logging
          *
          * @param time
          */
-        public FailureEntry(int64 time, Error error)
+        public FailureEntry(int64 mtime, int64 rtime, Error error)
         {
+            Object(
+                mtime : mtime,
+                rtime : rtime
+                );
         }
 
 
