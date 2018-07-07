@@ -67,25 +67,49 @@ namespace ginstlog.Logging
         /**
          * {@inheritDoc}
          */
+        public override void cancel()
+        {
+            if (m_source != null)
+            {
+                m_source.destroy();
+                m_source = null;
+            }
+
+            AtomicInt.@set(ref m_cancel, 1);
+            m_cond.@signal();
+        }
+
+
+        /**
+         * {@inheritDoc}
+         */
         public override bool wait()
         {
             m_mutex.@lock();
 
             AtomicInt.set(ref m_count, 0);
 
-            var count = AtomicInt.get(ref m_count);
+            var cancel = AtomicInt.@get(ref m_cancel);
+            var count = AtomicInt.@get(ref m_count);
 
-            while (count == 0)
+            while ((cancel == 0) && (count == 0))
             {
                 m_cond.wait(m_mutex);
 
+                cancel = AtomicInt.@get(ref m_cancel);
                 count = AtomicInt.get(ref m_count);
             }
 
             m_mutex.unlock();
 
-            return true;
+            return (cancel <= 0);
         }
+
+
+        /**
+         *
+         */
+        private int m_cancel = 0;
 
 
         /**

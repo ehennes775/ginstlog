@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <InstrumentTable>
+        <!--
         <BkPrecision715 id="0">
             <Name>Dual Thermometer</Name>
             <PollInterval>1000000</PollInterval>
@@ -48,6 +49,7 @@
                 </TcpSerialServer>
             </DeviceTable>
         </BkPrecision725>
+        -->
         <OmegaHH309A id="2">
             <Name>Four Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
@@ -76,6 +78,7 @@
                 </TcpSerialServer>
             </DeviceTable>
         </OmegaHH309A>
+        <!--
         <BkPrecision710 id="3">
             <Name>Two Channel Thermometer</Name>
             <PollInterval>1000000</PollInterval>
@@ -146,6 +149,7 @@
                 </TcpSerialServer>
             </DeviceTable>
         </ExtechEA15>
+        -->
     </InstrumentTable>
     <LoggerTable activeId="0">
         <Logger id="0">

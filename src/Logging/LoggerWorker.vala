@@ -46,12 +46,19 @@ namespace ginstlog.Logging
          * @param trigger The trigger for initiating a set of measurements
          * @param writer
          */
-        public LoggerWorker(Trigger trigger, Writer writer) throws ConfigurationError
+        public LoggerWorker(Gee.List<Instrument> instruments, Trigger trigger, Writer writer) throws ConfigurationError
         {
+            m_instruments = instruments;
             m_log_thread = new Thread<int>("LoggerWorkerLogger", log);
             m_trigger = trigger;
             m_write_thread = new Thread<int>("LoggerWorkerWriter", write);
             m_writer = writer;
+        }
+
+
+        public void stop()
+        {
+            m_trigger.cancel();
         }
 
 
@@ -62,6 +69,14 @@ namespace ginstlog.Logging
          * for access.
          */
         private int m_count = 0;
+
+
+        /**
+         *
+         *
+         * TODO: this reference causes the program to continue execution.
+         */
+        private Gee.List<Instrument> m_instruments;
 
 
         /**
@@ -110,21 +125,45 @@ namespace ginstlog.Logging
 
                 try
                 {
-                    var entry = new SuccessEntry(mtime, rtime);
-
-                    m_queue.push(entry);
+                    m_queue.push(new SuccessEntry(
+                        mtime,
+                        rtime,
+                        read()
+                        ));
                 }
                 catch (Error error)
                 {
-                    var entry = new FailureEntry(mtime, rtime, error);
-
-                    m_queue.push(entry);
+                    m_queue.push(new FailureEntry(
+                        mtime,
+                        rtime,
+                        error
+                        ));
                 }
 
                 running = m_trigger.wait();
             }
 
+            m_queue.push(new CancelEntry());
+
             return 0;
+        }
+
+
+        /**
+         *
+         */
+        private Measurement[] read()
+        {
+            var measurements = new Gee.ArrayList<Measurement>();
+
+            foreach (var instrument in m_instruments)
+            {
+                measurements.add_all_array(
+                    instrument.read()
+                    );
+            }
+
+            return measurements.to_array();
         }
 
 
@@ -137,7 +176,7 @@ namespace ginstlog.Logging
         {
             var entry = m_queue.pop();
 
-            while (true)
+            while (entry.run)
             {
                 try
                 {

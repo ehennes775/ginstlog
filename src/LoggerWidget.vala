@@ -53,7 +53,14 @@ namespace ginstlog
             m_enable_switch.notify["active"].connect(on_notify_active);
             m_enable_switch.state_set.connect(on_state_set);
 
+            // Prevents program from exiting
             Timeout.add(500, on_timeout);
+        }
+
+
+        ~LoggerWidget()
+        {
+            stdout.printf("~LoggerWidget()\n");
         }
 
 

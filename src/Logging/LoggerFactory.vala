@@ -37,13 +37,13 @@ namespace ginstlog.Logging
          * @return
          * @throw
          */
-        public Logger create(Xml.XPath.Context path_context) throws ConfigurationError
+        public Logger create(Gee.List<Instrument> instruments, Xml.XPath.Context path_context) throws ConfigurationError
 
             requires(path_context.node != null)
             requires(path_context.node->name == ELEMENT_NAME)
 
         {
-            var worker = create_worker(path_context);
+            var worker = create_worker(instruments, path_context);
 
             return new Logger(worker);
         }
@@ -145,7 +145,7 @@ namespace ginstlog.Logging
          * @return
          * @throw
          */
-        private LoggerWorker create_worker(Xml.XPath.Context path_context) throws ConfigurationError
+        private LoggerWorker create_worker(Gee.List<Instrument> instruments, Xml.XPath.Context path_context) throws ConfigurationError
 
             requires(path_context.node != null)
             requires(path_context.node->name == ELEMENT_NAME)
@@ -156,7 +156,7 @@ namespace ginstlog.Logging
 
             stdout.printf("Creating worker %s\n", path_context.node->name);
 
-            return new LoggerWorker(trigger, writer);
+            return new LoggerWorker(instruments, trigger, writer);
         }
     }
 }

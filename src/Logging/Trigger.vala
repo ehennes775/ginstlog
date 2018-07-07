@@ -22,6 +22,15 @@ namespace ginstlog.Logging
 
 
         /**
+         * Remove reference counts by timeouts and threads so the object can be
+         * destroyed.
+         *
+         * After calling cancel, wait() will return false.
+         */
+        public abstract void cancel();
+
+
+        /**
          * Block until the trigger occurs
          *
          * This function should be called from the thread making the

@@ -9,14 +9,16 @@ namespace ginstlog.Logging
     public class SuccessEntry : Entry
     {
         /**
-         *
+         * Initialize the instance
          *
          * @param mtime
          * @param mtime
+         * @param measurements
          */
-        public SuccessEntry(int64 mtime, int64 rtime)
+        public SuccessEntry(int64 mtime, int64 rtime, Measurement[] measurements)
         {
             Object(
+                run : true,
                 mtime : mtime,
                 rtime : rtime
                 );

@@ -16,6 +16,7 @@ namespace ginstlog.Logging
         public FailureEntry(int64 mtime, int64 rtime, Error error)
         {
             Object(
+                run : true,
                 mtime : mtime,
                 rtime : rtime
                 );

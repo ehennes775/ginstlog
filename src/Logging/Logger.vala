@@ -58,6 +58,11 @@ namespace ginstlog.Logging
          */
         ~Logger()
         {
+            if (m_worker != null)
+            {
+                m_worker.stop();
+                m_worker = null;
+            }
         }
 
 

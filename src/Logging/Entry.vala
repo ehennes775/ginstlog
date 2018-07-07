@@ -9,6 +9,16 @@ namespace ginstlog.Logging
     public abstract class Entry : Object
     {
         /**
+         * Indicates the thread processing the entries should continue to run
+         */
+        public bool run
+        {
+            get;
+            construct;
+        }
+
+
+        /**
          * The monotonic time of the entry
          *
          * Contains the time in microseconds (probably since the machine

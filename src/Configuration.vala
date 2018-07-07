@@ -103,7 +103,7 @@ namespace ginstlog
         /**
          *
          */
-        public Logging.Logger create_logger() throws ConfigurationError
+        public Logging.Logger create_logger(Gee.List<Instrument> instruments) throws ConfigurationError
         {
             var path_context = new Xml.XPath.Context(m_document);
 
@@ -117,7 +117,7 @@ namespace ginstlog
                 @"/Configuration/LoggerTable/Logger[@id='$(active_id)']"
                 );
 
-            return s_logger_factory.create(path_context);
+            return s_logger_factory.create(instruments, path_context);
         }
 
 

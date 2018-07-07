@@ -86,7 +86,7 @@ namespace ginstlog
                     }
                 }
 
-                var logger = configuration.create_logger();
+                var logger = configuration.create_logger(instruments);
                 m_data_logger_widget.logger = logger;
             }
             catch (Error error)
