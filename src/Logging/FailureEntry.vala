@@ -23,7 +23,7 @@ namespace ginstlog.Logging
 
 
         /**
-         *
+         * {@inheritDoc}
          */
         public override void write_to(Writer writer)
         {

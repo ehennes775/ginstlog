@@ -155,6 +155,9 @@
             </TriggerTable>
             <WriterTable activeId="0">
                 <CsvWriter id="0">
+                    <FilePath>./output.csv</FilePath>
+                    <FileMode>REPLACE</FileMode>
+                    <Header>INCLUDE</Header>
                     <Separator>,</Separator>
                     <ColumnTable>
                         <Column>

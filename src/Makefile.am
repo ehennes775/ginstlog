@@ -27,6 +27,7 @@ ginstlog_SOURCES = \
 	Logging/CsvWriterFactory.vala \
 	Logging/Entry.vala \
 	Logging/FailureEntry.vala \
+	Logging/FileMode.vala \
 	Logging/Logger.vala \
 	Logging/LoggerFactory.vala \
 	Logging/LoggerWorker.vala \

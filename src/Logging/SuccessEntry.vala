@@ -30,8 +30,6 @@ namespace ginstlog.Logging
         {
             // temporary for development
 
-            stdout.printf(@"$(name)\n");
-
             if (name == "rtime")
             {
                 return rtime.to_string();

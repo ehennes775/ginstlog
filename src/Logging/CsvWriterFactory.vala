@@ -15,13 +15,20 @@ namespace ginstlog.Logging
         {
             var columns = create_columns(path_context);
 
+            var file_path = XmlUtility.get_required_string(
+                path_context,
+                "./FilePath"
+                );
+
+            var file = File.new_for_path(file_path);
+
             var separator = XmlUtility.get_optional_string(
                 path_context,
                 "./Separator",
                 CsvWriter.DEFAULT_SEPARATOR
                 );
 
-            return new CsvWriter(columns, separator);
+            return new CsvWriter(file, FileMode.CREATE, columns, separator);
         }
 
 
