@@ -10,6 +10,12 @@ namespace ginstlog
     public class LoggerWidget : Gtk.Grid, Gtk.Buildable
     {
         /**
+         *
+         */
+        public const uint POLL_INTERVAL = 500;
+
+
+        /**
          * The logger assocaited with this widget
          */
         public Logging.Logger? logger
@@ -53,8 +59,28 @@ namespace ginstlog
             m_enable_switch.notify["active"].connect(on_notify_active);
             m_enable_switch.state_set.connect(on_state_set);
 
-            // Prevents program from exiting
-            Timeout.add(500, on_timeout);
+            // Adds a strong reference and prevents program from exiting
+            m_source = new TimeoutSource(POLL_INTERVAL);
+            m_source.set_callback(on_timeout);
+            m_source.attach(null);
+
+            // Fake a weak reference for the TimeoutSource
+            this.weak_ref(on_weak_notify);
+            this.unref();
+        }
+
+
+        /**
+         * Destroy the TimeoutSource
+         */
+        private void on_weak_notify()
+        {
+            if (m_source != null)
+            {
+                this.@ref();
+                m_source.destroy();
+                m_source = null;
+            }
         }
 
 
@@ -62,6 +88,12 @@ namespace ginstlog
         {
             stdout.printf("~LoggerWidget()\n");
         }
+
+
+        /**
+         * The timeout source
+         */
+        private Source? m_source = null;
 
 
         /**
