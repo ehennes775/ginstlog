@@ -21,6 +21,9 @@
         <Error id="MISSING_CONFIGURATION">
             <Description>The application requires that a configuration file is specified on the command line.</Description>
         </Error>
+        <Error id="UKNOWN_CSV_COLUMN">
+            <Description>Uknown CSV column type</Description>
+        </Error>
         <Error id="UKNOWN_INSTRUMENT">
             <Description>Generic configuration error</Description>
         </Error>

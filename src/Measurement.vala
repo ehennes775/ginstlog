@@ -37,5 +37,14 @@ namespace ginstlog
            get;
            construct;
         }
+
+
+        /**
+         * Get a value from the measurment
+         *
+         * @param The name of the value to retrieve
+         * @rturn The value as a string
+         */
+        public abstract string get_value(string name);
     }
 }

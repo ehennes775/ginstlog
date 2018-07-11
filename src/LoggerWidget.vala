@@ -77,6 +77,7 @@ namespace ginstlog
         {
             if (m_source != null)
             {
+                // Make the fake weak reference from the TimeoutSource strong again
                 this.@ref();
                 m_source.destroy();
                 m_source = null;

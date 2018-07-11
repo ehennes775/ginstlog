@@ -116,12 +116,12 @@ namespace ginstlog.Logging
             var builder = new StringBuilder();
             var index = 0;
 
-            builder.append(entry.get_value(m_column[index++].name));
+            builder.append(m_column[index++].get_value(entry));
 
             while (index < m_column.length)
             {
                 builder.append(separator);
-                builder.append(entry.get_value(m_column[index++].name));
+                builder.append(m_column[index++].get_value(entry));
             }
 
             builder.append("\n");

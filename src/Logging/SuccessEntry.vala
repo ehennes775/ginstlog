@@ -22,11 +22,13 @@ namespace ginstlog.Logging
                 mtime : mtime,
                 rtime : rtime
                 );
+
+            m_measurements = measurements;
         }
 
 
         /**
-         *
+         * {@inheritDoc}
          */
         public string get_value(string name)
         {
@@ -42,7 +44,7 @@ namespace ginstlog.Logging
                 return mtime.to_string();
             }
 
-            return "0.0";
+            return m_measurements[0].get_value("");
         }
 
 
@@ -53,5 +55,11 @@ namespace ginstlog.Logging
         {
             writer.write_success(this);
         }
+
+
+        /**
+         *
+         */
+        private Measurement[] m_measurements;
     }
 }

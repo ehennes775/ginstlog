@@ -164,24 +164,32 @@
                     <Header>INCLUDE</Header>
                     <Separator>,</Separator>
                     <ColumnTable>
-                        <Column>
+                        <TimeColumn index="0">
                             <Name>mtime</Name>
-                        </Column>
-                        <Column>
+                        </TimeColumn>
+                        <TimeColumn index="1">
                             <Name>rtime</Name>
-                        </Column>
-                        <Column>
+                        </TimeColumn>
+                        <MeasurementColumn index="2">
                             <Name>T1</Name>
-                        </Column>
-                        <Column>
+                            <InstrumentId>2</InstrumentId>
+                            <ChannelIndex>0</ChannelIndex>
+                        </MeasurementColumn>
+                        <MeasurementColumn index="3">
                             <Name>T2</Name>
-                        </Column>
-                        <Column>
+                            <InstrumentId>2</InstrumentId>
+                            <ChannelIndex>1</ChannelIndex>
+                        </MeasurementColumn>
+                        <MeasurementColumn index="4">
                             <Name>T3</Name>
-                        </Column>
-                        <Column>
+                            <InstrumentId>2</InstrumentId>
+                            <ChannelIndex>2</ChannelIndex>
+                        </MeasurementColumn>
+                        <MeasurementColumn index="5">
                             <Name>T4</Name>
-                        </Column>
+                            <InstrumentId>2</InstrumentId>
+                            <ChannelIndex>3</ChannelIndex>
+                        </MeasurementColumn>
                     </ColumnTable>
                 </CsvWriter>
             </WriterTable>

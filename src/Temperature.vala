@@ -61,6 +61,23 @@ namespace ginstlog
                 units : units,
                 thermocouple_type : type
                 );
+
+            m_temperature = temperature;
         }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override string get_value(string name)
+        {
+            return m_temperature;
+        }
+
+
+        /**
+         *
+         */
+        private string m_temperature;
     }
 }

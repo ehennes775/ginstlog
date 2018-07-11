@@ -37,12 +37,22 @@ namespace ginstlog.Logging
          */
         private static CsvColumn create_column(Xml.XPath.Context path_context) throws ConfigurationError
         {
-            var name = XmlUtility.get_required_string(
-                path_context,
-                "./Name"
-                );
+            var element_name = path_context.node->name;
 
-            return new CsvColumn(name);
+            if (element_name == "MeasurementColumn")
+            {
+                return create_measurement_column(path_context);
+            }
+            else if (element_name == "TimeColumn")
+            {
+                return create_time_column(path_context);
+            }
+            else
+            {
+                throw new ConfigurationError.UKNOWN_CSV_COLUMN(
+                    @"Uknown column type '$(element_name)'"
+                    );
+            }
         }
 
 
@@ -52,7 +62,7 @@ namespace ginstlog.Logging
         private static CsvColumn[] create_columns(Xml.XPath.Context path_context) throws ConfigurationError
         {
             var path_result = path_context.eval_expression(
-                @"./ColumnTable/Column"
+                @"./ColumnTable/*[@index]"
                 );
 
             try
@@ -91,6 +101,54 @@ namespace ginstlog.Logging
             {
                 delete path_result;
             }
+        }
+
+
+        /**
+         *
+         */
+        private static CsvColumn create_measurement_column(Xml.XPath.Context path_context) throws ConfigurationError
+        {
+            var column_index = XmlUtility.get_required_int(
+                path_context,
+                "./@index"
+                );
+
+            var name = XmlUtility.get_required_string(
+                path_context,
+                "./Name"
+                );
+
+            var instrument_id = XmlUtility.get_required_string(
+                path_context,
+                "./InstrumentId"
+                );
+
+            var channel_index = XmlUtility.get_required_int(
+                path_context,
+                "./ChannelIndex"
+                );
+
+            return new CsvMeasurementColumn(column_index, name, instrument_id, channel_index);
+        }
+
+
+        /**
+         *
+         */
+        private static CsvColumn create_time_column(Xml.XPath.Context path_context) throws ConfigurationError
+        {
+            var column_index = XmlUtility.get_required_int(
+                path_context,
+                "./@index"
+                );
+
+            var name = XmlUtility.get_required_string(
+                path_context,
+                "./Name"
+                );
+
+            return new CsvTimeColumn(column_index, name);
         }
     }
 }

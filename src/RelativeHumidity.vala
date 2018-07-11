@@ -33,5 +33,15 @@ namespace ginstlog
                 readout_value : @"$(relative_humidity) %RH"
                 );
         }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override string get_value(string name)
+        {
+            return "0.0";
+        }
+
     }
 }

@@ -28,6 +28,16 @@ namespace ginstlog
 
 
         /**
+         *
+         */
+        public string id
+        {
+            get;
+            construct;
+        }
+
+
+        /**
          * Provides a user friendly name for the instrument
          */
         public string name

@@ -22,5 +22,14 @@ namespace ginstlog
                 readout_value : readout
                 );
         }
+
+
+        /**
+         * {@inheritDoc}
+         */
+        public override string get_value(string name)
+        {
+            return "0.0";
+        }
     }
 }
