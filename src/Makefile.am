@@ -25,6 +25,7 @@ ginstlog_SOURCES = \
 	Logging/CancelEntry.vala \
 	Logging/CsvColumn.vala \
 	Logging/CsvTimeColumn.vala \
+	Logging/CsvTimestampColumn.vala \
 	Logging/CsvMeasurementColumn.vala \
 	Logging/CsvWriter.vala \
 	Logging/CsvWriterFactory.vala \

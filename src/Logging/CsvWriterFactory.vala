@@ -47,6 +47,10 @@ namespace ginstlog.Logging
             {
                 return create_time_column(path_context);
             }
+            else if (element_name == "TimestampColumn")
+            {
+                return create_timestamp_column(path_context);
+            }
             else
             {
                 throw new ConfigurationError.UKNOWN_CSV_COLUMN(
@@ -149,6 +153,25 @@ namespace ginstlog.Logging
                 );
 
             return new CsvTimeColumn(column_index, name);
+        }
+
+
+        /**
+         *
+         */
+        private static CsvColumn create_timestamp_column(Xml.XPath.Context path_context) throws ConfigurationError
+        {
+            var column_index = XmlUtility.get_required_int(
+                path_context,
+                "./@index"
+                );
+
+            var name = XmlUtility.get_required_string(
+                path_context,
+                "./Name"
+                );
+
+            return new CsvTimestampColumn(column_index, name);
         }
     }
 }

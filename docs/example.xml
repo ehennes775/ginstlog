@@ -170,22 +170,25 @@
                         <TimeColumn index="1">
                             <Name>rtime</Name>
                         </TimeColumn>
-                        <MeasurementColumn index="2">
+                        <TimestampColumn index="2">
+                            <Name>rtime</Name>
+                        </TimestampColumn>
+                        <MeasurementColumn index="3">
                             <Name>T1</Name>
                             <InstrumentId>2</InstrumentId>
                             <ChannelIndex>0</ChannelIndex>
                         </MeasurementColumn>
-                        <MeasurementColumn index="3">
+                        <MeasurementColumn index="4">
                             <Name>T2</Name>
                             <InstrumentId>2</InstrumentId>
                             <ChannelIndex>1</ChannelIndex>
                         </MeasurementColumn>
-                        <MeasurementColumn index="4">
+                        <MeasurementColumn index="5">
                             <Name>T3</Name>
                             <InstrumentId>2</InstrumentId>
                             <ChannelIndex>2</ChannelIndex>
                         </MeasurementColumn>
-                        <MeasurementColumn index="5">
+                        <MeasurementColumn index="6">
                             <Name>T4</Name>
                             <InstrumentId>2</InstrumentId>
                             <ChannelIndex>3</ChannelIndex>
